@@ -1,0 +1,120 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Donation {
+  id                    String   @id @default(cuid())
+  reference             String   @unique
+  amount                Float
+  status                DonationStatus
+  phoneNumber           String
+  name                  String?
+  email                 String?
+  frequency             DonationFrequency
+  mpesaReceiptNumber    String?
+  mpesaCheckoutRequestId String?
+  mpesaMerchantRequestId String?
+  mpesaTransactionDate  DateTime?
+  mpesaResultCode       String?  // M-Pesa result code
+  mpesaResultDesc       String?  // M-Pesa result description
+  mpesaCallbackMetadata Json?    // Store full callback metadata
+  mpesaAccountBalance   String?  // Account balance after transaction
+  mpesaTransactionType  String?  // Transaction type (Paybill, Till, etc.)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  donor                 Donor?   @relation(fields: [donorId], references: [id])
+  donorId               String?
+
+  @@index([reference])
+  @@index([phoneNumber])
+  @@index([status])
+  @@index([mpesaReceiptNumber])
+  @@index([mpesaCheckoutRequestId])
+  @@index([mpesaTransactionDate])
+  @@index([createdAt])
+}
+
+model Donor {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  phoneNumber   String
+  mpesaAccountType String? // Personal or Business
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  donations     Donation[]
+  subscriptions Subscription[]
+
+  @@index([phoneNumber])
+}
+
+model Subscription {
+  id            String    @id @default(cuid())
+  status        SubscriptionStatus
+  frequency     DonationFrequency
+  amount        Float
+  phoneNumber   String
+  startDate     DateTime  @default(now())
+  endDate       DateTime?
+  lastPaymentAt DateTime?
+  nextPaymentAt DateTime?
+  mpesaCheckoutRequestId String? // For tracking recurring payment requests
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  donor         Donor     @relation(fields: [donorId], references: [id])
+  donorId       String
+
+  @@index([phoneNumber])
+  @@index([status])
+  @@index([nextPaymentAt])
+  @@index([mpesaCheckoutRequestId])
+}
+
+model Admin {
+  id               String    @id @default(cuid())
+  email            String    @unique
+  password         String
+  name             String
+  resetToken       String?
+  resetTokenExpiry DateTime?
+  mfaEnabled       Boolean   @default(false)
+  mfaSecret        String?
+  mfaBackupCodes   String[]  // Array of backup codes
+  mfaRememberToken String?   // Token for remembering device
+  mfaRememberExpiry DateTime? // Expiry date for remember token
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+enum DonationStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+  CANCELLED
+  EXPIRED
+}
+
+enum DonationFrequency {
+  ONE_TIME
+  MONTHLY
+  QUARTERLY
+  YEARLY
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAUSED
+  CANCELLED
+  COMPLETED
+  FAILED
+  EXPIRED
+} 

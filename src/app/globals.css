@@ -1,0 +1,534 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #1e40af;
+  --primary-dark: #1e3a8a;
+  --accent: #fbbf24;
+  --accent-dark: #f59e0b;
+  --background: #ffffff;
+  --background-alt: #f8fafc;
+  --text: #1e293b;
+  --text-light: #64748b;
+  --success: #10b981;
+  --error: #ef4444;
+  --warning: #f59e0b;
+  --info: #3b82f6;
+  
+  /* New gradient colors */
+  --gradient-start: #1e40af;
+  --gradient-middle: #000000;
+  --gradient-end: #fbbf24;
+}
+
+@layer base {
+  body {
+    @apply bg-black text-white antialiased font-sans;
+    font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight text-white;
+    font-family: var(--font-playfair), Georgia, serif;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold leading-tight;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl font-semibold leading-snug;
+  }
+
+  h4 {
+    @apply text-xl font-semibold tracking-tight leading-snug;
+  }
+
+  p {
+    @apply leading-relaxed text-white;
+    font-size: 1.125rem;
+  }
+
+  a {
+    @apply text-white hover:text-accent transition-colors duration-200 font-medium;
+  }
+
+  /* Typography Utilities */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+  }
+
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Font Weights */
+  .font-thin {
+    font-weight: 100;
+  }
+
+  .font-extralight {
+    font-weight: 200;
+  }
+
+  .font-light {
+    font-weight: 300;
+  }
+
+  .font-normal {
+    font-weight: 400;
+  }
+
+  .font-medium {
+    font-weight: 500;
+  }
+
+  .font-semibold {
+    font-weight: 600;
+  }
+
+  .font-bold {
+    font-weight: 700;
+  }
+
+  .font-extrabold {
+    font-weight: 800;
+  }
+
+  .font-black {
+    font-weight: 900;
+  }
+}
+
+@layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary via-black to-accent text-white py-2 px-4 rounded-lg hover:from-primary-dark hover:via-black hover:to-accent-dark transition-all duration-300;
+  }
+
+  .btn-secondary {
+    @apply bg-gradient-to-r from-accent via-black to-primary text-white py-2 px-4 rounded-lg hover:from-accent-dark hover:via-black hover:to-primary-dark transition-all duration-300;
+  }
+
+  .btn-accent {
+    @apply bg-gradient-to-r from-accent to-primary text-white py-2 px-4 rounded-lg hover:from-accent-dark hover:to-primary-dark transition-all duration-300;
+  }
+
+  .btn-outline {
+    @apply border-2 border-primary text-white py-2 px-4 rounded-lg hover:bg-primary hover:text-white transition-all duration-300;
+  }
+
+  .card {
+    @apply bg-black/50 backdrop-blur-sm rounded-xl shadow-lg border border-white/10;
+  }
+
+  .card::before {
+    @apply content-[''] absolute inset-0 bg-gradient-to-r from-primary/10 via-black/10 to-accent/10 opacity-0 transition-opacity duration-300;
+  }
+
+  .card:hover::before {
+    @apply opacity-100;
+  }
+
+  .card-hover {
+    @apply transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative overflow-hidden;
+  }
+
+  .card-hover::after {
+    @apply content-[''] absolute inset-0 bg-gradient-to-r from-primary/20 via-black/20 to-accent/20 opacity-0 transition-opacity duration-300;
+  }
+
+  .card-hover:hover::after {
+    @apply opacity-100;
+  }
+
+  .section {
+    @apply py-16 md:py-24 relative overflow-hidden;
+  }
+
+  .section::before {
+    @apply content-[''] absolute inset-0 bg-gradient-to-b from-primary/5 via-black/5 to-accent/5 opacity-50;
+  }
+
+  .section-alt {
+    @apply bg-gradient-to-r from-primary via-black to-accent;
+  }
+
+  .section-alt::before {
+    @apply content-[''] absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-30;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-white to-accent;
+  }
+
+  .gradient-text-alt {
+    @apply bg-clip-text text-transparent bg-gradient-to-b from-primary via-white to-accent;
+  }
+
+  .gradient-text-hover {
+    @apply transition-all duration-300 hover:bg-clip-text hover:text-transparent hover:bg-gradient-to-r hover:from-primary hover:via-white hover:to-accent;
+  }
+
+  .gradient-bg {
+    @apply bg-gradient-to-r from-primary via-black to-accent;
+  }
+
+  .gradient-bg-alt {
+    @apply bg-gradient-to-b from-primary via-black to-accent;
+  }
+
+  .gradient-bg-diagonal {
+    @apply bg-gradient-to-br from-primary via-black to-accent;
+  }
+
+  .gradient-border {
+    @apply border-2 border-transparent bg-gradient-to-r from-primary via-black to-accent bg-clip-border;
+  }
+
+  .gradient-border-hover {
+    @apply transition-all duration-300 hover:border-2 hover:border-transparent hover:bg-gradient-to-r hover:from-primary hover:via-black hover:to-accent hover:bg-clip-border;
+  }
+
+  .btn-gradient {
+    @apply bg-gradient-to-r from-primary via-black to-accent text-white hover:from-primary-dark hover:via-black hover:to-accent-dark transition-all duration-300;
+  }
+
+  .btn-gradient-alt {
+    @apply bg-gradient-to-b from-primary via-black to-accent text-white hover:from-primary-dark hover:via-black hover:to-accent-dark transition-all duration-300;
+  }
+
+  .gradient-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent;
+  }
+
+  .gradient-overlay::after {
+    @apply content-[''] absolute inset-0 bg-gradient-to-t from-primary/80 via-black/50 to-accent/30;
+  }
+
+  .gradient-list {
+    @apply space-y-2;
+  }
+
+  .gradient-list li {
+    @apply flex items-center text-white;
+  }
+
+  .gradient-list li::before {
+    @apply content-[''] w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent mr-2;
+  }
+
+  .gradient-divider {
+    @apply h-px bg-gradient-to-r from-primary via-black to-accent;
+  }
+
+  .gradient-badge {
+    @apply px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-primary to-accent text-white;
+  }
+
+  .gradient-badge-alt {
+    @apply px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-b from-primary to-accent text-white;
+  }
+
+  .gradient-badge-hover {
+    @apply transition-all duration-300 hover:bg-gradient-to-r hover:from-primary hover:to-accent hover:text-white;
+  }
+
+  .gradient-progress {
+    @apply h-2 rounded-full overflow-hidden bg-gray-200;
+  }
+
+  .gradient-progress-bar {
+    @apply h-2 rounded-full bg-gradient-to-r from-primary via-black to-accent;
+  }
+
+  .team-card {
+    @apply bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden relative;
+  }
+
+  .team-card::before {
+    @apply content-[''] absolute inset-0 bg-gradient-to-r from-primary/10 via-black/10 to-accent/10 opacity-0 transition-opacity duration-300;
+  }
+
+  .team-card:hover::before {
+    @apply opacity-100;
+  }
+
+  .team-image {
+    @apply w-full h-64 object-cover rounded-t-2xl transition-transform duration-300;
+  }
+
+  .team-card:hover .team-image {
+    @apply scale-105;
+  }
+
+  .team-info {
+    @apply p-6 space-y-3 relative;
+  }
+
+  .team-name {
+    @apply text-xl font-semibold gradient-text;
+  }
+
+  .team-role {
+    @apply text-primary font-medium;
+  }
+
+  .team-bio {
+    @apply text-text-light text-sm leading-relaxed;
+  }
+
+  .hover-card {
+    @apply relative overflow-hidden rounded-2xl transition-all duration-300;
+  }
+
+  .hover-card::before {
+    @apply content-[''] absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-300;
+  }
+
+  .hover-card:hover::before {
+    @apply opacity-100;
+  }
+
+  .glass-effect {
+    @apply bg-white/80 backdrop-blur-lg border border-white/20;
+  }
+
+  .gradient-section {
+    @apply bg-gradient-to-r from-primary via-black to-accent text-white relative overflow-hidden;
+  }
+
+  .gradient-section::before {
+    @apply content-[''] absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-30;
+  }
+
+  .gradient-section-alt {
+    @apply bg-gradient-to-r from-accent via-black to-primary text-white relative overflow-hidden;
+  }
+
+  .gradient-section-alt::before {
+    @apply content-[''] absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-30;
+  }
+
+  .gradient-overlay-alt {
+    @apply absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-transparent;
+  }
+
+  .gradient-overlay-diagonal {
+    @apply absolute inset-0 bg-gradient-to-br from-black/60 via-black/20 to-transparent;
+  }
+
+  .gradient-shadow {
+    @apply shadow-lg shadow-primary/20;
+  }
+
+  .gradient-shadow-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:shadow-primary/20;
+  }
+
+  .gradient-divider-alt {
+    @apply h-px bg-gradient-to-b from-primary via-black to-accent;
+  }
+
+  .gradient-divider-diagonal {
+    @apply h-px bg-gradient-to-br from-primary via-black to-accent;
+  }
+
+  .gradient-divider-hover-alt {
+    @apply transition-all duration-300 hover:bg-gradient-to-b hover:from-primary hover:via-black hover:to-accent;
+  }
+
+  .gradient-divider-hover-diagonal {
+    @apply transition-all duration-300 hover:bg-gradient-to-br hover:from-primary hover:via-black hover:to-accent;
+  }
+
+  .gradient-divider-hover-vertical {
+    @apply transition-all duration-300 hover:bg-gradient-to-b hover:from-primary hover:via-black hover:to-accent;
+  }
+
+  .gradient-divider-hover-horizontal {
+    @apply transition-all duration-300 hover:bg-gradient-to-r hover:from-primary hover:via-black hover:to-accent;
+  }
+
+  .gradient-divider-hover-diagonal-alt {
+    @apply transition-all duration-300 hover:bg-gradient-to-tr hover:from-primary hover:via-black hover:to-accent;
+  }
+
+  .gradient-divider-hover-diagonal-reverse {
+    @apply transition-all duration-300 hover:bg-gradient-to-tl hover:from-primary hover:via-black hover:to-accent;
+  }
+
+  .gradient-divider-hover-diagonal-reverse-alt {
+    @apply transition-all duration-300 hover:bg-gradient-to-bl hover:from-primary hover:via-black hover:to-accent;
+  }
+
+  .gradient-divider-hover-diagonal-reverse-alt-2 {
+    @apply transition-all duration-300 hover:bg-gradient-to-br hover:from-primary hover:via-black hover:to-accent;
+  }
+
+  .gradient-divider-hover-diagonal-reverse-alt-3 {
+    @apply transition-all duration-300 hover:bg-gradient-to-tr hover:from-primary hover:via-black hover:to-accent;
+  }
+
+  .gradient-divider-hover-diagonal-reverse-alt-4 {
+    @apply transition-all duration-300 hover:bg-gradient-to-tl hover:from-primary hover:via-black hover:to-accent;
+  }
+
+  .gradient-divider-hover-diagonal-reverse-alt-5 {
+    @apply transition-all duration-300 hover:bg-gradient-to-bl hover:from-primary hover:via-black hover:to-accent;
+  }
+
+  .gradient-divider-hover-diagonal-reverse-alt-6 {
+    @apply transition-all duration-300 hover:bg-gradient-to-br hover:from-primary hover:via-black hover:to-accent;
+  }
+
+  .gradient-divider-hover-diagonal-reverse-alt-7 {
+    @apply transition-all duration-300 hover:bg-gradient-to-tr hover:from-primary hover:via-black hover:to-accent;
+  }
+
+  .gradient-divider-hover-diagonal-reverse-alt-8 {
+    @apply transition-all duration-300 hover:bg-gradient-to-tl hover:from-primary hover:via-black hover:to-accent;
+  }
+
+  .gradient-divider-hover-diagonal-reverse-alt-9 {
+    @apply transition-all duration-300 hover:bg-gradient-to-bl hover:from-primary hover:via-black hover:to-accent;
+  }
+
+  .gradient-divider-hover-diagonal-reverse-alt-10 {
+    @apply transition-all duration-300 hover:bg-gradient-to-br hover:from-primary hover:via-black hover:to-accent;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  .animate-fade-in-delay {
+    animation: fadeIn 0.5s ease-in 0.2s both;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+
+  .animate-slide-up-delay {
+    animation: slideUp 0.5s ease-out 0.2s both;
+  }
+
+  .animate-scale {
+    animation: scale 0.3s ease-out;
+  }
+
+  .animate-bounce-in {
+    animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes scale {
+    from {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes bounceIn {
+    0% {
+      transform: scale(0.3);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
+    70% {
+      transform: scale(0.9);
+      opacity: 0.9;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
+}
+
+/* Selection */
+::selection {
+  @apply bg-primary text-white;
+}
+
+/* Focus styles */
+:focus-visible {
+  @apply outline-none ring-2 ring-primary ring-offset-2;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+} 

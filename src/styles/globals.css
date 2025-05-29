@@ -1,0 +1,347 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary-color: #2563eb; /* Primary blue */
+    --secondary-color: #2563eb; /* Using primary blue for consistency */
+    --accent-color: #f59e0b; /* Accent yellow */
+    --text-color: #1f2937; /* Dark gray for text */
+    --light-bg: #f8fafc; /* Light background */
+    --white: #fff; /* White */
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+  }
+
+  .dark {
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+    --secondary: #94a3b8;
+    --accent: #fbbf24;
+    --background: #1f2937;
+    --foreground: #f3f4f6;
+    --error: #f87171;
+    --success: #4ade80;
+    --warning: #fbbf24;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl;
+  }
+
+  h5 {
+    @apply text-lg md:text-xl;
+  }
+
+  h6 {
+    @apply text-base md:text-lg;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary-dark focus:ring-primary;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-white hover:bg-secondary/90 focus:ring-secondary;
+  }
+
+  .btn-accent {
+    @apply bg-accent text-white hover:bg-accent/90 focus:ring-accent;
+  }
+
+  .input {
+    @apply w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-primary focus:border-primary dark:bg-gray-800 dark:border-gray-700 dark:text-white;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1;
+  }
+
+  .error-text {
+    @apply text-error text-sm mt-1;
+  }
+
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-6;
+  }
+
+  .section {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold text-center mb-8 dark:text-white;
+  }
+
+  .section-description {
+    @apply text-lg text-gray-600 dark:text-gray-300 text-center max-w-2xl mx-auto mb-12;
+  }
+
+  .spinner {
+    @apply animate-spin h-5 w-5 text-white;
+  }
+
+  /* Donation Amount Buttons */
+  .donation-amounts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .donation-amount {
+    padding: 0.75rem;
+    border: 2px solid var(--primary-color);
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+  }
+
+  .donation-amount.selected {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+    color: white;
+  }
+
+  /* Stripe Elements */
+  /* Payment Methods */
+  .payment-methods {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+    justify-content: center;
+  }
+
+  .payment-method {
+    padding: 10px 20px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .payment-method:hover,
+  .payment-method.selected {
+    border-color: var(--primary-color);
+    background-color: rgba(37, 99, 235, 0.1);
+  }
+
+  /* Progress Bar */
+  .progress-bar {
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--primary-color);
+      transition: width 0.5s ease;
+    }
+
+    .progress-text {
+      // ... existing code ...
+    }
+  }
+
+  /* Help Button */
+  .help-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--accent-color); /* Accent yellow */
+    color: var(--white);
+    padding: 12px 25px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+  }
+
+  .help-button:hover {
+    background-color: var(--accent-dark); /* Darker accent yellow */
+    transform: translateY(-2px);
+  }
+
+  /* Back to Top Button */
+  .back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 90px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    z-index: 999;
+  }
+
+  .back-to-top:hover {
+    background-color: var(--primary-dark); /* Darker primary blue */
+    transform: translateY(-3px);
+  }
+
+  /* Action Buttons */
+  .btn-donate {
+    background-color: var(--primary-color); /* Primary blue */
+  }
+
+  .btn-donate:hover {
+    background-color: var(--primary-dark); /* Darker primary blue */
+  }
+
+  .btn-join {
+    background-color: var(--accent-color);
+  }
+
+  .btn-join:hover {
+    background-color: var(--accent-dark); /* Darker accent yellow */
+  }
+
+  /* Form Enhancements */
+  .form-group {
+    position: relative;
+  }
+
+  .form-group .error-message {
+    color: #ef4444; /* Keeping red for error messages as it's a standard convention */
+    font-size: 0.9em;
+    margin-top: 5px;
+  }
+
+  .form-group.error input,
+  .form-group.error textarea {
+    border-color: #ef4444; /* Keeping red for error messages */
+  }
+
+  .form-group.error .error-message {
+    display: block;
+  }
+
+  .form-group .success-message {
+    color: #22c55e; /* Keeping green for success messages */
+    font-size: 0.9em;
+  }
+
+  /* Loading States */
+  .loading {
+    position: relative;
+    pointer-events: none;
+  }
+
+  .loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--white); /* White loading spinner */
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    // ... existing code ...
+  }
+
+  /* Accessibility Improvements */
+  .sr-only {
+    // ... existing code ...
+  }
+}
+
+@layer utilities {
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 dark:bg-gray-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500 dark:bg-gray-500;
+}
+
+/* Form Focus Styles */
+input:focus,
+textarea:focus,
+select:focus {
+  @apply outline-none ring-2 ring-primary ring-offset-2 dark:ring-offset-gray-800;
+}
+
+/* Custom Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out;
+} 

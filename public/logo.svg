@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="90" fill="#2563EB" fill-opacity="0.1"/>
+  
+  <!-- Hands Icon -->
+  <path d="M100 40C83.4315 40 70 53.4315 70 70V100C70 116.569 83.4315 130 100 130C116.569 130 130 116.569 130 100V70C130 53.4315 116.569 40 100 40Z" fill="#2563EB"/>
+  <path d="M85 70C85 62.268 91.268 56 99 56C106.732 56 113 62.268 113 70V100C113 107.732 106.732 114 99 114C91.268 114 85 107.732 85 100V70Z" fill="white"/>
+  
+  <!-- Heart Icon -->
+  <path d="M100 140C100 140 120 120 140 120C160 120 160 140 140 160C120 180 100 180 100 180C100 180 80 180 60 160C40 140 40 120 60 120C80 120 100 140 100 140Z" fill="#2563EB"/>
+  
+  <!-- Text -->
+  <text x="100" y="190" text-anchor="middle" font-family="Arial" font-size="12" fill="#2563EB">Hands of Help</text>
+</svg> 
