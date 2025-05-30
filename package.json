@@ -14,7 +14,9 @@
     "setup:env": "node scripts/setup-env.js",
     "test:mpesa": "node scripts/test-mpesa.js",
     "test:db": "node scripts/test-db.js",
-    "db:push": "prisma db push"
+    "db:push": "prisma db push",
+    "db:setup": "node scripts/setup-db.js",
+    "setup": "node scripts/setup-env.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
