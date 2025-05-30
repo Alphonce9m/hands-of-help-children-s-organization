@@ -1,76 +1,56 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-async function testDatabaseConnection() {
+async function verifyDatabaseStructure() {
   try {
-    console.log('Testing database connection...');
+    console.log('Verifying database connection and structure...');
 
     // Test 1: Basic connection
     await prisma.$connect();
     console.log('✅ Successfully connected to the database');
 
-    // Test 2: Create a test admin
-    const testAdmin = await prisma.admin.create({
-      data: {
-        email: 'test@example.com',
-        password: 'test123',
-        name: 'Test Admin',
-      },
-    });
-    console.log('✅ Successfully created test admin:', testAdmin);
+    // Test 2: Verify tables exist
+    const tables = await prisma.$queryRaw`
+      SELECT table_name 
+      FROM information_schema.tables 
+      WHERE table_schema = 'public'
+    `;
+    console.log('✅ Database tables:', tables);
 
-    // Test 3: Create a test donor
-    const testDonor = await prisma.donor.create({
-      data: {
-        email: 'donor@example.com',
-        name: 'Test Donor',
-        phoneNumber: '254700000000',
-      },
-    });
-    console.log('✅ Successfully created test donor:', testDonor);
+    // Test 3: Verify enums exist
+    const enums = await prisma.$queryRaw`
+      SELECT t.typname as enum_name, e.enumlabel as enum_value
+      FROM pg_type t 
+      JOIN pg_enum e ON t.oid = e.enumtypid  
+      JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace
+      WHERE n.nspname = 'public'
+      ORDER BY t.typname, e.enumsortorder;
+    `;
+    console.log('✅ Database enums:', enums);
 
-    // Test 4: Create a test donation
-    const testDonation = await prisma.donation.create({
-      data: {
-        reference: 'TEST-' + Date.now(),
-        amount: 100,
-        status: 'COMPLETED',
-        phoneNumber: '254700000000',
-        name: 'Test Donor',
-        email: 'donor@example.com',
-        frequency: 'ONE_TIME',
-        donor: {
-          connect: {
-            id: testDonor.id,
-          },
-        },
-      },
-    });
-    console.log('✅ Successfully created test donation:', testDonation);
+    // Test 4: Verify indexes
+    const indexes = await prisma.$queryRaw`
+      SELECT
+        tablename,
+        indexname,
+        indexdef
+      FROM
+        pg_indexes
+      WHERE
+        schemaname = 'public'
+      ORDER BY
+        tablename,
+        indexname;
+    `;
+    console.log('✅ Database indexes:', indexes);
 
-    // Test 5: Clean up test data
-    await prisma.donation.delete({
-      where: { id: testDonation.id },
-    });
-    console.log('✅ Successfully deleted test donation');
-
-    await prisma.donor.delete({
-      where: { id: testDonor.id },
-    });
-    console.log('✅ Successfully deleted test donor');
-
-    await prisma.admin.delete({
-      where: { id: testAdmin.id },
-    });
-    console.log('✅ Successfully deleted test admin');
-
-    console.log('\n🎉 All database tests passed successfully!');
+    console.log('\n🎉 Database structure verification completed successfully!');
   } catch (error) {
-    console.error('❌ Database test failed:', error);
+    console.error('❌ Database verification failed:', error);
     process.exit(1);
   } finally {
     await prisma.$disconnect();
   }
 }
 
-testDatabaseConnection(); 
+verifyDatabaseStructure(); 

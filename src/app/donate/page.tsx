@@ -70,7 +70,7 @@ const DonatePage: FC = () => {
   ];
 
   const handlePaymentSuccess = (data: any) => {
-    setSubmitStatus('success');
+      setSubmitStatus('success');
     // Redirect to thank you page after a short delay
     setTimeout(() => {
       router.push(`/donate/thank-you?reference=${data.donationId}`);
@@ -78,7 +78,7 @@ const DonatePage: FC = () => {
   };
 
   const handlePaymentError = (error: any) => {
-    setSubmitStatus('error');
+      setSubmitStatus('error');
     console.error('Payment error:', error);
   };
 
@@ -216,26 +216,26 @@ const DonatePage: FC = () => {
               <h2 className="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-800">Make a Donation</h2>
               
               <div className="mb-8">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Select Amount
-                </label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {predefinedAmounts.map((amount) => (
-                    <button
-                      key={amount.value}
-                      type="button"
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Select Amount
+                  </label>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {predefinedAmounts.map((amount) => (
+                      <button
+                        key={amount.value}
+                        type="button"
                       onClick={() => setSelectedAmount(amount.value)}
-                      className={`p-4 text-center rounded-lg border-2 transition-colors duration-300 ${
+                        className={`p-4 text-center rounded-lg border-2 transition-colors duration-300 ${
                         selectedAmount === amount.value
-                          ? 'border-primary-600 bg-primary-600 text-white'
-                          : 'border-gray-300 hover:border-primary-600'
-                      }`}
-                    >
-                      {amount.label}
-                    </button>
-                  ))}
+                            ? 'border-primary-600 bg-primary-600 text-white'
+                            : 'border-gray-300 hover:border-primary-600'
+                        }`}
+                      >
+                        {amount.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
 
               <MpesaPayment
                 defaultAmount={selectedAmount}

@@ -23,8 +23,8 @@ export async function POST(request: Request) {
         subject,
         message,
         status: 'NEW',
-      },
-    });
+  },
+});
 
     // Send email notification
     try {
