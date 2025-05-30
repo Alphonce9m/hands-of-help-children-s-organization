@@ -20,12 +20,18 @@
   --gradient-start: #1e40af;
   --gradient-middle: #000000;
   --gradient-end: #fbbf24;
+
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 255, 255, 255;
 }
 
 @layer base {
   body {
     @apply bg-black text-white antialiased font-sans;
     font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+    color: rgb(var(--foreground-rgb));
+    background: rgb(var(--background-start-rgb));
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -531,4 +537,41 @@
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+}
+
+/* Override any text colors to be black */
+.text-gray-500,
+.text-gray-600,
+.text-gray-700,
+.text-gray-800,
+.text-gray-900,
+.text-text {
+  color: rgb(0, 0, 0) !important;
+}
+
+/* Keep primary color for specific elements */
+.text-primary {
+  color: rgb(var(--primary-rgb)) !important;
+}
+
+/* Keep white text for specific elements */
+.text-white {
+  color: rgb(255, 255, 255) !important;
+}
+
+/* Keep red text for error messages */
+.text-red-600 {
+  color: rgb(220, 38, 38) !important;
+}
+
+/* Keep green text for success messages */
+.text-green-500,
+.text-green-600 {
+  color: rgb(34, 197, 94) !important;
+}
+
+/* Keep yellow text for warning messages */
+.text-yellow-500,
+.text-yellow-600 {
+  color: rgb(234, 179, 8) !important;
 } 
