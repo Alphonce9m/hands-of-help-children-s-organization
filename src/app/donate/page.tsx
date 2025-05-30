@@ -7,6 +7,8 @@ import Container from '@/components/Container';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { ImpactStat } from '@/types/sections';
+import MpesaPayment from '@/components/MpesaPayment';
+import { useRouter } from 'next/navigation';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -23,7 +25,8 @@ const staggerContainer = {
 };
 
 const DonatePage: FC = () => {
-  const [donationAmount, setDonationAmount] = useState<string>('');
+  const router = useRouter();
+  const [selectedAmount, setSelectedAmount] = useState<number>(1000);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
@@ -33,10 +36,10 @@ const DonatePage: FC = () => {
   const [isOtherWaysHovered, setIsOtherWaysHovered] = useState(false);
 
   const predefinedAmounts = [
-    { value: '1000', label: 'KSH 1,000' },
-    { value: '2500', label: 'KSH 2,500' },
-    { value: '5000', label: 'KSH 5,000' },
-    { value: '10000', label: 'KSH 10,000' }
+    { value: 1000, label: 'KSH 1,000' },
+    { value: 2500, label: 'KSH 2,500' },
+    { value: 5000, label: 'KSH 5,000' },
+    { value: 10000, label: 'KSH 10,000' }
   ];
 
   const impactAreas: ImpactStat[] = [
@@ -66,22 +69,17 @@ const DonatePage: FC = () => {
     }
   ];
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
+  const handlePaymentSuccess = (data: any) => {
+    setSubmitStatus('success');
+    // Redirect to thank you page after a short delay
+    setTimeout(() => {
+      router.push(`/donate/thank-you?reference=${data.donationId}`);
+    }, 2000);
+  };
 
-    try {
-      // Here you would typically integrate with a payment gateway
-      // For now, we'll simulate a successful donation
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      setSubmitStatus('success');
-      setDonationAmount('');
-    } catch (error) {
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
+  const handlePaymentError = (error: any) => {
+    setSubmitStatus('error');
+    console.error('Payment error:', error);
   };
 
   return (
@@ -216,91 +214,46 @@ const DonatePage: FC = () => {
               className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-primary-100"
             >
               <h2 className="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-800">Make a Donation</h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Select Amount
-                  </label>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {predefinedAmounts.map((amount) => (
-                      <button
-                        key={amount.value}
-                        type="button"
-                        onClick={() => setDonationAmount(amount.value)}
-                        className={`p-4 text-center rounded-lg border-2 transition-colors duration-300 ${
-                          donationAmount === amount.value
-                            ? 'border-primary-600 bg-primary-600 text-white'
-                            : 'border-gray-300 hover:border-primary-600'
-                        }`}
-                      >
-                        {amount.label}
-                      </button>
-                    ))}
-                  </div>
+              
+              <div className="mb-8">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Select Amount
+                </label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {predefinedAmounts.map((amount) => (
+                    <button
+                      key={amount.value}
+                      type="button"
+                      onClick={() => setSelectedAmount(amount.value)}
+                      className={`p-4 text-center rounded-lg border-2 transition-colors duration-300 ${
+                        selectedAmount === amount.value
+                          ? 'border-primary-600 bg-primary-600 text-white'
+                          : 'border-gray-300 hover:border-primary-600'
+                      }`}
+                    >
+                      {amount.label}
+                    </button>
+                  ))}
                 </div>
-                <div>
-                  <label htmlFor="customAmount" className="block text-sm font-medium text-gray-700 mb-2">
-                    Custom Amount (KSH)
-                  </label>
-                  <input
-                    type="number"
-                    id="customAmount"
-                    value={donationAmount}
-                    onChange={(e) => setDonationAmount(e.target.value)}
-                    placeholder="Enter amount"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-all duration-300"
-                  />
+              </div>
+
+              <MpesaPayment
+                defaultAmount={selectedAmount}
+                onSuccess={handlePaymentSuccess}
+                onError={handlePaymentError}
+              />
+
+              {submitStatus === 'success' && (
+                <div className="mt-4 p-4 bg-green-50 text-green-700 rounded-lg">
+                  Payment initiated successfully! Please check your phone for the M-Pesa prompt.
                 </div>
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-all duration-300"
-                  />
+              )}
+
+              {submitStatus === 'error' && (
+                <div className="mt-4 p-4 bg-red-50 text-red-700 rounded-lg">
+                  There was an error processing your payment. Please try again.
                 </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-all duration-300"
-                  />
-                </div>
-                <div>
-                  <button
-                    type="submit"
-                    disabled={isSubmitting || !donationAmount}
-                    className="w-full px-8 py-4 bg-primary-600 text-white rounded-xl font-medium hover:bg-primary-700 transition-all duration-300 hover:shadow-lg hover:shadow-primary-200/50 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? 'Processing...' : 'Donate Now'}
-                  </button>
-                </div>
-                {submitStatus === 'success' && (
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="text-green-700 text-center mt-4 p-4 bg-green-50 rounded-lg border border-green-200"
-                  >
-                    Thank you for your donation! Your support makes a real difference in our community.
-                  </motion.div>
-                )}
-                {submitStatus === 'error' && (
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="text-red-700 text-center mt-4 p-4 bg-red-50 rounded-lg border border-red-200"
-                  >
-                    Sorry, there was an error processing your donation. Please try again.
-                  </motion.div>
-                )}
-              </form>
+              )}
             </motion.div>
           </div>
         </Container>

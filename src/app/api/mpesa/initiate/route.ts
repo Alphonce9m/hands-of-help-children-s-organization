@@ -3,6 +3,7 @@ import axios from 'axios';
 import { generateReference } from '@/utils/reference';
 import { prisma } from '@/lib/prisma';
 import { formatPhoneNumber } from '@/lib/utils';
+import { generateAccessToken, initiateSTKPush } from '@/lib/mpesa';
 
 // Debug logging
 console.log('M-Pesa API Configuration:');
@@ -79,16 +80,29 @@ async function getAccessToken() {
 
 // Simple test endpoint
 export async function GET() {
-  return NextResponse.json({ message: 'API is working' });
+  try {
+    return NextResponse.json({ message: 'API is working' });
+  } catch (error) {
+    console.error('GET request error:', error);
+    return NextResponse.json(
+      { message: 'Internal server error' },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST(request: Request) {
   try {
+    console.log('Received POST request to /api/mpesa/initiate');
+    
     const body = await request.json();
+    console.log('Request body:', body);
+    
     const { phoneNumber, amount, name, email } = body;
 
     // Validate required fields
     if (!phoneNumber || !amount) {
+      console.error('Missing required fields:', { phoneNumber, amount });
       return NextResponse.json(
         { message: 'Phone number and amount are required' },
         { status: 400 }
@@ -97,6 +111,7 @@ export async function POST(request: Request) {
 
     // Format phone number
     const formattedPhone = formatPhoneNumber(phoneNumber);
+    console.log('Formatted phone number:', formattedPhone);
 
     // Create donation record
     const donation = await prisma.donation.create({
@@ -110,29 +125,60 @@ export async function POST(request: Request) {
         frequency: 'ONE_TIME',
       },
     });
+    console.log('Created donation record:', donation);
 
-    // TODO: Implement actual M-Pesa API call here
-    // For now, we'll simulate a successful response
-    const response = {
-      success: true,
-      message: 'Payment initiated successfully',
-      data: {
-        checkoutRequestId: `REQ-${Date.now()}`,
-        merchantRequestId: `MER-${Date.now()}`,
-        donationId: donation.id,
-      },
-    };
+    // Generate M-Pesa access token
+    const accessToken = await generateAccessToken();
+    console.log('Generated access token');
+
+    // Get callback URL
+    const callbackUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/mpesa/callback`;
+    console.log('Callback URL:', callbackUrl);
+
+    // Initiate STK Push
+    const stkResponse = await initiateSTKPush({
+      accessToken,
+      phoneNumber: formattedPhone,
+      amount: Number(amount),
+      callbackUrl,
+    });
+    console.log('STK Push response:', stkResponse);
+
+    if (!stkResponse.success) {
+      // Update donation status to failed
+      await prisma.donation.update({
+        where: { id: donation.id },
+        data: {
+          status: 'FAILED',
+          mpesaResultDesc: stkResponse.message,
+          mpesaResultCode: stkResponse.errorCode,
+        },
+      });
+
+      return NextResponse.json(
+        { message: stkResponse.message },
+        { status: 400 }
+      );
+    }
 
     // Update donation with M-Pesa request IDs
     await prisma.donation.update({
       where: { id: donation.id },
       data: {
-        mpesaCheckoutRequestId: response.data.checkoutRequestId,
-        mpesaMerchantRequestId: response.data.merchantRequestId,
+        mpesaCheckoutRequestId: stkResponse.CheckoutRequestID,
+        mpesaMerchantRequestId: `MER-${Date.now()}`,
       },
     });
 
-    return NextResponse.json(response);
+    return NextResponse.json({
+      success: true,
+      message: 'Payment initiated successfully',
+      data: {
+        checkoutRequestId: stkResponse.CheckoutRequestID,
+        merchantRequestId: `MER-${Date.now()}`,
+        donationId: donation.id,
+      },
+    });
   } catch (error: any) {
     console.error('M-Pesa payment initiation error:', error);
     return NextResponse.json(

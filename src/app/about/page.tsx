@@ -65,7 +65,7 @@ export default function AboutPage() {
           <section className="prose prose-lg max-w-none">
             <h2 className="gradient-text">Our Story</h2>
             <p>
-              Founded in [Year], Hands of Help has grown from a small community initiative to a 
+              Founded in 2015, Hands of Help has grown from a small community initiative to a 
               comprehensive organization serving the needs of children and young adults in Kasabuni, 
               Nairobi. Our journey has been marked by continuous growth and adaptation to meet the 
               evolving needs of our community.

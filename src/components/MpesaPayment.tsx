@@ -59,6 +59,8 @@ const MpesaPayment: FC<MpesaPaymentProps> = ({
       setIsLoading(true);
       setError(null);
 
+      console.log('Submitting payment data:', data);
+
       const response = await fetch('/api/mpesa/initiate', {
         method: 'POST',
         headers: {
@@ -67,7 +69,17 @@ const MpesaPayment: FC<MpesaPaymentProps> = ({
         body: JSON.stringify(data),
       });
 
-      const result = await response.json();
+      console.log('Response status:', response.status);
+      const responseText = await response.text();
+      console.log('Response text:', responseText);
+
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch (e) {
+        console.error('Failed to parse response as JSON:', e);
+        throw new Error('Invalid response from server');
+      }
 
       if (!response.ok) {
         throw new Error(result.message || 'Failed to initiate payment');
@@ -76,6 +88,7 @@ const MpesaPayment: FC<MpesaPaymentProps> = ({
       setSuccess(true);
       onSuccess?.(result);
     } catch (err: any) {
+      console.error('Payment error:', err);
       setError(err.message || 'An error occurred while processing your payment');
       onError?.(err);
     } finally {

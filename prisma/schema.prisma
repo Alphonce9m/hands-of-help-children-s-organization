@@ -94,6 +94,17 @@ model Admin {
   updatedAt        DateTime  @updatedAt
 }
 
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String   @db.Text
+  status    String   @default("NEW") // NEW, READ, RESPONDED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum DonationStatus {
   PENDING
   COMPLETED

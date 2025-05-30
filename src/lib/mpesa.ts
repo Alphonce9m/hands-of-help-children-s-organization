@@ -1,7 +1,9 @@
 import axios from 'axios';
 import crypto from 'crypto';
 
-const BASE_URL = 'https://sandbox.safaricom.co.ke';
+const BASE_URL = process.env.NODE_ENV === 'production'
+  ? 'https://api.safaricom.co.ke'
+  : 'https://sandbox.safaricom.co.ke';
 
 interface STKPushParams {
   accessToken: string;
@@ -14,6 +16,7 @@ interface STKPushResponse {
   success: boolean;
   CheckoutRequestID?: string;
   message?: string;
+  errorCode?: string;
 }
 
 export async function generateAccessToken(): Promise<string> {
@@ -28,10 +31,18 @@ export async function generateAccessToken(): Promise<string> {
       },
     });
 
+    if (!response.data.access_token) {
+      throw new Error('No access token received from M-Pesa');
+    }
+
     return response.data.access_token;
-  } catch (error) {
-    console.error('Error generating access token:', error);
-    throw new Error('Failed to generate access token');
+  } catch (error: any) {
+    console.error('Error generating access token:', error.response?.data || error.message);
+    throw new Error(
+      error.response?.data?.errorMessage || 
+      error.response?.data?.error_description || 
+      'Failed to generate access token'
+    );
   }
 }
 
@@ -42,6 +53,15 @@ export async function initiateSTKPush({
   callbackUrl,
 }: STKPushParams): Promise<STKPushResponse> {
   try {
+    // Validate inputs
+    if (!phoneNumber || !amount || !callbackUrl) {
+      throw new Error('Missing required parameters');
+    }
+
+    if (amount < 1 || amount > 150000) {
+      throw new Error('Amount must be between KES 1 and KES 150,000');
+    }
+
     const timestamp = new Date().toISOString().replace(/[^0-9]/g, '').slice(0, -3);
     const password = generatePassword(
       process.env.MPESA_SHORTCODE!,
@@ -59,9 +79,14 @@ export async function initiateSTKPush({
       PartyB: process.env.MPESA_SHORTCODE,
       PhoneNumber: phoneNumber,
       CallBackURL: callbackUrl,
-      AccountReference: 'Hands of Help',
-      TransactionDesc: 'Donation to Hands of Help',
+      AccountReference: process.env.MPESA_ACCOUNT_REFERENCE || 'Hands of Help',
+      TransactionDesc: process.env.MPESA_TRANSACTION_DESC || 'Donation to Hands of Help',
     };
+
+    console.log('Initiating STK Push with request:', {
+      ...stkPushRequest,
+      Password: '[REDACTED]',
+    });
 
     const response = await axios.post(
       `${BASE_URL}/mpesa/stkpush/v1/processrequest`,
@@ -74,6 +99,8 @@ export async function initiateSTKPush({
       }
     );
 
+    console.log('STK Push response:', response.data);
+
     if (response.data.ResponseCode === '0') {
       return {
         success: true,
@@ -84,13 +111,17 @@ export async function initiateSTKPush({
       return {
         success: false,
         message: response.data.ResponseDescription || 'Failed to initiate payment',
+        errorCode: response.data.ResponseCode,
       };
     }
-  } catch (error) {
-    console.error('Error initiating STK Push:', error);
+  } catch (error: any) {
+    console.error('Error initiating STK Push:', error.response?.data || error.message);
     return {
       success: false,
-      message: 'Failed to initiate payment',
+      message: error.response?.data?.ResponseDescription || 
+               error.response?.data?.errorMessage || 
+               'Failed to initiate payment',
+      errorCode: error.response?.data?.ResponseCode,
     };
   }
 }
