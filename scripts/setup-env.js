@@ -4,7 +4,7 @@ const path = require('path');
 // Environment Configuration
 const envVars = {
   // Database
-  DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/hands_of_help',
+  DATABASE_URL: 'postgresql://postgres:Xi2W&?6K5U!u.@m@xvoypjkpindgvyowyvwc.supabase.co:5432/postgres',
   
   // M-Pesa Configuration
   MPESA_CONSUMER_KEY: 'TgKc9ikVJZwiuf1GiNSldFCz9VyM2FLdHxJQSIyEewjrqABS',
