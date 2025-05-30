@@ -2,7 +2,7 @@ import { PrismaClient, Prisma, DonationStatus, DonationFrequency } from '@prisma
 
 const prisma = new PrismaClient();
 
-type PaymentMethod = 'CREDIT_CARD' | 'MPESA';
+type PaymentMethod = 'CREDIT_CARD';
 
 interface PaymentStats {
   totalAmount: number;
@@ -103,15 +103,11 @@ export async function getPaymentStats(timeRange?: TimeRange): Promise<PaymentSta
 
   const donorMap = new Map(donors.map((d: { id: string; name: string }) => [d.id, d.name]));
 
-  // Since we don't have payment method in our schema, we'll use MPESA as default
+  // Since we don't have payment method in our schema, we'll use CREDIT_CARD as default
   const byPaymentMethod = {
-    MPESA: {
+    CREDIT_CARD: {
       count: totalDonations,
       amount: totalAmount._sum.amount || 0,
-    },
-    CREDIT_CARD: {
-      count: 0,
-      amount: 0,
     },
   };
 
@@ -164,15 +160,11 @@ export async function getMonthlyStats(year: number) {
     _count: true,
   });
 
-  // Since we don't have payment method in our schema, we'll use MPESA as default
+  // Since we don't have payment method in our schema, we'll use CREDIT_CARD as default
   return {
-    MPESA: {
+    CREDIT_CARD: {
       totalAmount: stats.reduce((sum, curr) => sum + (curr._sum.amount || 0), 0),
       count: stats.reduce((sum, curr) => sum + curr._count, 0),
-    },
-    CREDIT_CARD: {
-      totalAmount: 0,
-      count: 0,
     },
   };
 }

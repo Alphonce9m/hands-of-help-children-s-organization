@@ -8,12 +8,13 @@ import Card from '@/components/Card';
 import Button from '@/components/Button';
 
 interface DonationDetails {
-  amount: number;
   reference: string;
-  date: string;
-  type: 'one-time' | 'monthly';
-  status: 'pending' | 'completed' | 'failed';
-  mpesaReceiptNumber?: string;
+  amount: number;
+  status: string;
+  name?: string;
+  email?: string;
+  phoneNumber: string;
+  createdAt: string;
 }
 
 const ThankYouPage: FC = () => {
@@ -113,28 +114,12 @@ const ThankYouPage: FC = () => {
                   </div>
                   <div className="flex justify-between py-2 border-b">
                     <span className="text-gray-600">Date</span>
-                    <span className="font-semibold">{donationDetails.date}</span>
+                    <span className="font-semibold">{donationDetails.createdAt}</span>
                   </div>
                   <div className="flex justify-between py-2 border-b">
                     <span className="text-gray-600">Type</span>
-                    <span className="font-semibold capitalize">{donationDetails.type}</span>
+                    <span className="font-semibold capitalize">{donationDetails.status}</span>
                   </div>
-                  <div className="flex justify-between py-2 border-b">
-                    <span className="text-gray-600">Status</span>
-                    <span className={`font-semibold capitalize ${
-                      donationDetails.status === 'completed' ? 'text-green-600' :
-                      donationDetails.status === 'failed' ? 'text-red-600' :
-                      'text-yellow-600'
-                    }`}>
-                      {donationDetails.status}
-                    </span>
-                  </div>
-                  {donationDetails.mpesaReceiptNumber && (
-                    <div className="flex justify-between py-2">
-                      <span className="text-gray-600">M-Pesa Receipt</span>
-                      <span className="font-semibold">{donationDetails.mpesaReceiptNumber}</span>
-                    </div>
-                  )}
                 </div>
               )}
 

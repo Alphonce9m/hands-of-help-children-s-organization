@@ -7,7 +7,6 @@ import Container from '@/components/Container';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { ImpactStat } from '@/types/sections';
-import MpesaPayment from '@/components/MpesaPayment';
 import { useRouter } from 'next/navigation';
 
 const fadeInUp = {
@@ -236,12 +235,6 @@ const DonatePage: FC = () => {
                     ))}
                   </div>
                 </div>
-
-              <MpesaPayment
-                defaultAmount={selectedAmount}
-                onSuccess={handlePaymentSuccess}
-                onError={handlePaymentError}
-              />
 
               {submitStatus === 'success' && (
                 <div className="mt-4 p-4 bg-green-50 text-green-700 rounded-lg">

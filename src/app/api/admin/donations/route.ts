@@ -18,17 +18,17 @@ export async function GET() {
     }
 
     const donations = await prisma.donation.findMany({
-      include: {
-        donor: {
-          select: {
-            name: true,
-            email: true,
-          },
-        },
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        reference: true,
+        amount: true,
+        status: true,
+        name: true,
+        email: true,
+        phoneNumber: true,
+        createdAt: true
+      }
     });
 
     const formattedDonations = donations.map((donation) => ({
@@ -37,10 +37,7 @@ export async function GET() {
       amount: donation.amount,
       phoneNumber: donation.phoneNumber,
       status: donation.status,
-      mpesaReceiptNumber: donation.mpesaReceiptNumber,
-      mpesaTransactionDate: donation.mpesaTransactionDate,
       createdAt: donation.createdAt,
-      donor: donation.donor,
     }));
 
     return NextResponse.json({ donations: formattedDonations });

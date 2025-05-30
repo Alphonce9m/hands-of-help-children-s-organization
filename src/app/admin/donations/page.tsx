@@ -10,11 +10,10 @@ interface Donation {
   id: string;
   reference: string;
   amount: number;
-  phoneNumber: string;
-  type: string;
   status: string;
-  mpesaReceiptNumber?: string;
-  transactionDate?: string;
+  name?: string;
+  email?: string;
+  phoneNumber: string;
   createdAt: string;
 }
 
@@ -175,9 +174,6 @@ const AdminDonationsPage: FC = () => {
                       Phone
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Type
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Status
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -196,9 +192,6 @@ const AdminDonationsPage: FC = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {donation.phoneNumber}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
-                        {donation.type}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span
