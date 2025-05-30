@@ -1,23 +1,11 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { prisma } from '@/lib/prisma';
+import { Donation, Donor, DonationStatus } from '@prisma/client';
 
-interface DonationWithDonor {
-  id: string;
-  reference: string;
-  amount: number;
-  phoneNumber: string;
-  type: string;
-  status: string;
-  mpesaReceiptNumber: string | null;
-  transactionDate: Date | null;
-  createdAt: Date;
-  updatedAt: Date;
-  donor: {
-    name: string;
-    email: string;
-  } | null;
-}
+type DonationWithDonor = Donation & {
+  donor: Pick<Donor, 'name' | 'email'> | null;
+};
 
 export async function GET() {
   try {
@@ -43,17 +31,16 @@ export async function GET() {
       },
     });
 
-    const formattedDonations = donations.map((result: DonationWithDonor) => ({
-      id: result.id,
-      reference: result.reference,
-      amount: result.amount,
-      phoneNumber: result.phoneNumber,
-      type: result.type,
-      status: result.status,
-      mpesaReceiptNumber: result.mpesaReceiptNumber,
-      transactionDate: result.transactionDate,
-      createdAt: result.createdAt,
-      donor: result.donor,
+    const formattedDonations = donations.map((donation) => ({
+      id: donation.id,
+      reference: donation.reference,
+      amount: donation.amount,
+      phoneNumber: donation.phoneNumber,
+      status: donation.status,
+      mpesaReceiptNumber: donation.mpesaReceiptNumber,
+      mpesaTransactionDate: donation.mpesaTransactionDate,
+      createdAt: donation.createdAt,
+      donor: donation.donor,
     }));
 
     return NextResponse.json({ donations: formattedDonations });
