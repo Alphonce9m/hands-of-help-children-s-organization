@@ -1,79 +1,17 @@
 'use client';
 
-import { FC, useEffect, useState, Suspense } from 'react';
+import { FC, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
 import Card from '@/components/Card';
 import Button from '@/components/Button';
 
-interface DonationDetails {
-  reference: string;
-  amount: number;
-  status: string;
-  name?: string;
-  email?: string;
-  phoneNumber: string;
-  createdAt: string;
-}
-
 const ThankYouContent: FC = () => {
   const searchParams = useSearchParams();
-  const [donationDetails, setDonationDetails] = useState<DonationDetails | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const reference = searchParams?.get('reference');
-    if (reference) {
-      // Fetch donation details from API
-      fetch(`/api/donations/${reference}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success) {
-            setDonationDetails(data.data);
-          } else {
-            setError(data.message || 'Failed to fetch donation details');
-          }
-          setIsLoading(false);
-        })
-        .catch((err) => {
-          console.error('Error fetching donation details:', err);
-          setError('Failed to fetch donation details');
-          setIsLoading(false);
-        });
-    } else {
-      setError('No reference number provided');
-      setIsLoading(false);
-    }
-  }, [searchParams]);
-
-  if (isLoading) {
-    return (
-      <Section className="py-16">
-        <Container>
-          <div className="text-center">
-            <p>Loading...</p>
-          </div>
-        </Container>
-      </Section>
-    );
-  }
-
-  if (error) {
-    return (
-      <Section className="py-16">
-        <Container>
-          <div className="text-center">
-            <p className="text-red-600">{error}</p>
-            <Button href="/donate" className="mt-4">
-              Try Again
-            </Button>
-          </div>
-        </Container>
-      </Section>
-    );
-  }
+  const reference = searchParams?.get('reference');
+  const amount = searchParams?.get('amount');
+  const status = searchParams?.get('status');
 
   return (
     <>
@@ -102,26 +40,30 @@ const ThankYouContent: FC = () => {
           <div className="max-w-2xl mx-auto">
             <Card className="p-8">
               <h2 className="text-2xl font-bold mb-6">Donation Details</h2>
-              {donationDetails && (
-                <div className="space-y-4">
+              <div className="space-y-4">
+                {amount && (
                   <div className="flex justify-between py-2 border-b">
                     <span className="text-gray-600">Amount</span>
-                    <span className="font-semibold">KSH {donationDetails.amount.toLocaleString()}</span>
+                    <span className="font-semibold">KSH {parseInt(amount).toLocaleString()}</span>
                   </div>
+                )}
+                {reference && (
                   <div className="flex justify-between py-2 border-b">
                     <span className="text-gray-600">Reference Number</span>
-                    <span className="font-semibold">{donationDetails.reference}</span>
+                    <span className="font-semibold">{reference}</span>
                   </div>
-                  <div className="flex justify-between py-2 border-b">
-                    <span className="text-gray-600">Date</span>
-                    <span className="font-semibold">{donationDetails.createdAt}</span>
-                  </div>
-                  <div className="flex justify-between py-2 border-b">
-                    <span className="text-gray-600">Type</span>
-                    <span className="font-semibold capitalize">{donationDetails.status}</span>
-                  </div>
+                )}
+                <div className="flex justify-between py-2 border-b">
+                  <span className="text-gray-600">Date</span>
+                  <span className="font-semibold">{new Date().toLocaleDateString()}</span>
                 </div>
-              )}
+                {status && (
+                  <div className="flex justify-between py-2 border-b">
+                    <span className="text-gray-600">Status</span>
+                    <span className="font-semibold capitalize">{status}</span>
+                  </div>
+                )}
+              </div>
 
               <div className="mt-8 space-y-4">
                 <Button href="/" className="w-full">
