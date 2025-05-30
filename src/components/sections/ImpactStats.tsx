@@ -47,11 +47,11 @@ const defaultStats: ImpactStat[] = [
   }
 ];
 
-const Counter = ({ value, duration = 2 }: { value: string; duration?: number }) => {
+const Counter = ({ value, duration = 2 }: { value: string | undefined; duration?: number }) => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
   const [count, setCount] = useState(0);
-  const numericValue = parseInt(value.replace(/,/g, ''));
+  const numericValue = parseInt((value ?? '0').replace(/,/g, ''));
 
   useEffect(() => {
     if (isInView) {
