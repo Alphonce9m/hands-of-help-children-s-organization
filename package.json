@@ -7,7 +7,9 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "setup:env": "node scripts/setup-env.js",
+    "test:mpesa": "node scripts/test-mpesa.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
