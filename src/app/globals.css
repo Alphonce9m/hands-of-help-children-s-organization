@@ -607,4 +607,9 @@ html {
 
 .story-title:hover {
   color: #1e3a8a !important; /* Darker blue on hover */
+}
+
+/* Gradient background for pages */
+.page-gradient-background {
+  background-image: linear-gradient(to right, var(--primary), var(--gradient-middle), var(--accent));
 } 

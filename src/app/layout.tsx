@@ -88,7 +88,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-      <body className="min-h-screen flex flex-col bg-background text-text">
+      <body className="min-h-screen flex flex-col bg-background text-text page-gradient-background">
         <AccessibilityProvider>
           <Toaster />
           <Providers>
