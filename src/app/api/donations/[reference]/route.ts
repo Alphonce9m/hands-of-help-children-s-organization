@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { DonationStatus, DonationFrequency } from '@prisma/client';
 
 export async function GET(
   request: Request,
@@ -32,9 +33,10 @@ export async function GET(
         amount: donation.amount,
         reference: donation.reference,
         date: donation.createdAt.toLocaleDateString(),
-        type: donation.type,
+        frequency: donation.frequency,
         status: donation.status,
         mpesaReceiptNumber: donation.mpesaReceiptNumber,
+        mpesaTransactionDate: donation.mpesaTransactionDate,
       },
     });
   } catch (error) {
