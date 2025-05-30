@@ -587,4 +587,14 @@ html {
 .donation-amount:hover,
 .donation-option:hover {
   color: #1e3a8a !important; /* Darker blue on hover */
+}
+
+/* Mission section text colors */
+.mission-title,
+.mission-description {
+  color: #1e40af !important; /* Using the primary blue color */
+}
+
+.mission-title:hover {
+  color: #1e3a8a !important; /* Darker blue on hover */
 } 
