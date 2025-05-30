@@ -597,4 +597,14 @@ html {
 
 .mission-title:hover {
   color: #1e3a8a !important; /* Darker blue on hover */
+}
+
+/* Story section text colors */
+.story-title,
+.story-description {
+  color: #1e40af !important; /* Using the primary blue color */
+}
+
+.story-title:hover {
+  color: #1e3a8a !important; /* Darker blue on hover */
 } 
