@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, useEffect, useState, useCallback } from 'react';
+import { useSession } from 'next-auth/react';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
 import Card from '@/components/Card';
@@ -26,6 +27,7 @@ interface DonationStats {
 }
 
 const AdminDonationsPage: FC = () => {
+  const { data: session, status } = useSession();
   const [donations, setDonations] = useState<Donation[]>([]);
   const [stats, setStats] = useState<DonationStats>({
     totalAmount: 0,
@@ -58,19 +60,33 @@ const AdminDonationsPage: FC = () => {
   }, [filter]);
 
   useEffect(() => {
-    fetchDonations();
-  }, [fetchDonations]);
+    if (status === 'authenticated') {
+      fetchDonations();
+    }
+  }, [fetchDonations, status]);
 
   const handleFilterChange = (newFilter: string) => {
     setFilter(newFilter);
   };
+
+  if (status === 'loading') {
+    return (
+      <Section className="py-16">
+        <Container>
+          <div className="text-center">
+            <p>Loading...</p>
+          </div>
+        </Container>
+      </Section>
+    );
+  }
 
   if (isLoading) {
     return (
       <Section className="py-16">
         <Container>
           <div className="text-center">
-            <p>Loading...</p>
+            <p>Loading donations...</p>
           </div>
         </Container>
       </Section>

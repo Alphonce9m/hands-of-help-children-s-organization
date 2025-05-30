@@ -21,7 +21,7 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
     );
   }
 
-  if (status === 'unauthenticated') {
+  if (!session) {
     router.push('/admin/login');
     return null;
   }
@@ -59,18 +59,16 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
                 </Link>
               </div>
             </div>
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <span className="text-sm text-gray-500 mr-4">
-                  Welcome, {session?.user?.name}
-                </span>
-                <button
-                  onClick={() => signOut({ callbackUrl: '/admin/login' })}
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-                >
-                  Logout
-                </button>
-              </div>
+            <div className="flex-shrink-0">
+              <span className="text-sm text-gray-500 mr-4">
+                Welcome, {session.user?.name}
+              </span>
+              <button
+                onClick={() => signOut({ callbackUrl: '/admin/login' })}
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+              >
+                Logout
+              </button>
             </div>
           </div>
         </div>

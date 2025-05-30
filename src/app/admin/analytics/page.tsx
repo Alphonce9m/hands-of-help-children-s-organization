@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
 import Card from '@/components/Card';
@@ -34,31 +35,32 @@ interface AnalyticsData {
   dailyDonations: {
     labels: string[];
     amounts: number[];
-    counts: number[];
   };
   monthlyDonations: {
     labels: string[];
     amounts: number[];
-    counts: number[];
   };
-  donationTypes: {
+  typeDistribution: {
     labels: string[];
-    data: number[];
+    values: number[];
   };
   statusDistribution: {
     labels: string[];
-    data: number[];
+    values: number[];
   };
 }
 
 const AdminAnalyticsPage: FC = () => {
+  const { data: session, status } = useSession();
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchAnalytics();
-  }, []);
+    if (status === 'authenticated') {
+      fetchAnalytics();
+    }
+  }, [status]);
 
   const fetchAnalytics = async () => {
     try {
@@ -78,12 +80,24 @@ const AdminAnalyticsPage: FC = () => {
     }
   };
 
-  if (isLoading) {
+  if (status === 'loading') {
     return (
       <Section className="py-16">
         <Container>
           <div className="text-center">
             <p>Loading...</p>
+          </div>
+        </Container>
+      </Section>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <Section className="py-16">
+        <Container>
+          <div className="text-center">
+            <p>Loading analytics...</p>
           </div>
         </Container>
       </Section>
@@ -132,13 +146,14 @@ const AdminAnalyticsPage: FC = () => {
   };
 
   const typeChartData = {
-    labels: data.donationTypes.labels,
+    labels: data.typeDistribution.labels,
     datasets: [
       {
-        data: data.donationTypes.data,
+        data: data.typeDistribution.values,
         backgroundColor: [
           'rgba(59, 130, 246, 0.5)',
           'rgba(16, 185, 129, 0.5)',
+          'rgba(245, 158, 11, 0.5)',
         ],
       },
     ],
@@ -148,7 +163,7 @@ const AdminAnalyticsPage: FC = () => {
     labels: data.statusDistribution.labels,
     datasets: [
       {
-        data: data.statusDistribution.data,
+        data: data.statusDistribution.values,
         backgroundColor: [
           'rgba(16, 185, 129, 0.5)',
           'rgba(245, 158, 11, 0.5)',

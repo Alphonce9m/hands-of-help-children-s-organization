@@ -4,6 +4,7 @@ import './globals.css'
 // import Layout from '@/components/Layout' // Remove this import
 import { Toaster } from 'react-hot-toast'
 import { AccessibilityProvider } from '@/contexts/AccessibilityContext'
+import { Providers } from './providers'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -88,7 +89,9 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-background text-text">
         <AccessibilityProvider>
           <Toaster />
-          {children}
+          <Providers>
+            {children}
+          </Providers>
         </AccessibilityProvider>
       </body>
     </html>
