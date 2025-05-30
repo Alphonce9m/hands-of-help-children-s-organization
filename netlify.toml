@@ -1,10 +1,12 @@
 [build]
   command = "npm run db:push && npm run build"
   publish = ".next"
+  environment = { NODE_VERSION = "16.20.2", NEXT_TELEMETRY_DISABLED = "1", DATABASE_URL = "postgresql://postgres:Xi2W%26%3F6K5U%21u.%40m@xvoypjkpindgvyowyvwc.supabase.co:5432/postgres" }
 
 [build.environment]
-  NODE_VERSION = "18.18.0"
+  NODE_VERSION = "16.20.2"
   NEXT_TELEMETRY_DISABLED = "1"
+  DATABASE_URL = "postgresql://postgres:Xi2W%26%3F6K5U%21u.%40m@xvoypjkpindgvyowyvwc.supabase.co:5432/postgres"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs" 
