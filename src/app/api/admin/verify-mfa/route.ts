@@ -6,7 +6,8 @@ import { randomBytes } from 'crypto';
 import { cookies } from 'next/headers';
 import { headers } from 'next/headers';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize Resend with fallback for missing API key
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 const REMEMBER_DEVICE_DAYS = 30;
 
 const getDeviceInfo = () => {
@@ -23,6 +24,11 @@ const getDeviceInfo = () => {
 };
 
 const sendNewDeviceEmail = async (admin: any, deviceInfo: any) => {
+  if (!resend) {
+    console.warn('Resend API key not configured. Skipping email notification.');
+    return;
+  }
+  
   await resend.emails.send({
     from: 'Hands of Help <noreply@handsofhelp.org>',
     to: admin.email,
@@ -180,36 +186,37 @@ export async function GET(req: Request) {
       },
     });
 
-    // Send verification email
-    await resend.emails.send({
-      from: 'Hands of Help <noreply@handsofhelp.org>',
-      to: admin.email,
-      subject: 'Your Verification Code',
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #333;">Your Verification Code</h2>
-          <p>Hello ${admin.name},</p>
-          <p>Your verification code is:</p>
-          <div style="text-align: center; margin: 30px 0;">
-            <div style="background-color: #f3f4f6; padding: 20px; border-radius: 4px; font-size: 24px; letter-spacing: 4px;">
-              ${verificationCode}
+    // Send verification email if Resend is configured
+    if (resend) {
+      await resend.emails.send({
+        from: 'Hands of Help <noreply@handsofhelp.org>',
+        to: admin.email,
+        subject: 'Your Verification Code',
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #333;">Your Verification Code</h2>
+            <p>Hello ${admin.name},</p>
+            <p>Your verification code is:</p>
+            <div style="text-align: center; margin: 30px 0;">
+              <div style="background-color: #f3f4f6; padding: 20px; border-radius: 4px; font-size: 24px; letter-spacing: 4px;">
+                ${verificationCode}
+              </div>
             </div>
+            <p>This code will expire in 10 minutes.</p>
+            <p>If you didn't request this code, please ignore this email.</p>
+            <p>Best regards,<br>Hands of Help Team</p>
           </div>
-          <p>This code will expire in 10 minutes.</p>
-          <p>If you didn't request this code, please ignore this email.</p>
-          <p>Best regards,<br>Hands of Help Team</p>
-        </div>
-      `,
-    });
+        `,
+      });
+    } else {
+      console.warn('Resend API key not configured. Skipping verification email.');
+    }
 
-    return NextResponse.json(
-      { message: 'Verification code sent' },
-      { status: 200 }
-    );
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error sending verification code:', error);
+    console.error('Error generating verification code:', error);
     return NextResponse.json(
-      { message: 'Failed to send verification code' },
+      { message: 'Failed to generate verification code' },
       { status: 500 }
     );
   }
