@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState, useCallback } from 'react';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
 import Card from '@/components/Card';
@@ -39,11 +39,7 @@ const AdminDonationsPage: FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<string>('all');
 
-  useEffect(() => {
-    fetchDonations();
-  }, [filter]);
-
-  const fetchDonations = async () => {
+  const fetchDonations = useCallback(async () => {
     try {
       const response = await fetch(`/api/admin/donations?filter=${filter}`);
       const data = await response.json();
@@ -60,7 +56,11 @@ const AdminDonationsPage: FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [filter]);
+
+  useEffect(() => {
+    fetchDonations();
+  }, [fetchDonations]);
 
   const handleFilterChange = (newFilter: string) => {
     setFilter(newFilter);

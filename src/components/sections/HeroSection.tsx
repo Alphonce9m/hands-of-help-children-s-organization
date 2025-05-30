@@ -178,7 +178,7 @@ const HeroSection = () => {
     }, 5000); // Change image every 5 seconds
 
     return () => clearInterval(interval);
-  }, []);
+  }, [heroImages.length]);
 
   return (
     <Section 
