@@ -574,4 +574,17 @@ html {
 .text-yellow-500,
 .text-yellow-600 {
   color: rgb(234, 179, 8) !important;
+}
+
+/* Donation section text colors */
+.donation-amount,
+.donation-title,
+.donation-subtitle,
+.donation-option {
+  color: #1e40af !important; /* Using the primary blue color */
+}
+
+.donation-amount:hover,
+.donation-option:hover {
+  color: #1e3a8a !important; /* Darker blue on hover */
 } 
