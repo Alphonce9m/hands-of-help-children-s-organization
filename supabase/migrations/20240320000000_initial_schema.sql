@@ -9,7 +9,6 @@ CREATE TABLE "Donor" (
     "email" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "phoneNumber" TEXT NOT NULL,
-    "mpesaAccountType" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -26,15 +25,6 @@ CREATE TABLE "Donation" (
     "name" TEXT,
     "email" TEXT,
     "frequency" "DonationFrequency" NOT NULL,
-    "mpesaReceiptNumber" TEXT,
-    "mpesaCheckoutRequestId" TEXT,
-    "mpesaMerchantRequestId" TEXT,
-    "mpesaTransactionDate" TIMESTAMP(3),
-    "mpesaResultCode" TEXT,
-    "mpesaResultDesc" TEXT,
-    "mpesaCallbackMetadata" JSONB,
-    "mpesaAccountBalance" TEXT,
-    "mpesaTransactionType" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "donorId" TEXT,
@@ -53,7 +43,6 @@ CREATE TABLE "Subscription" (
     "endDate" TIMESTAMP(3),
     "lastPaymentAt" TIMESTAMP(3),
     "nextPaymentAt" TIMESTAMP(3),
-    "mpesaCheckoutRequestId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "donorId" TEXT NOT NULL,
@@ -101,15 +90,11 @@ CREATE INDEX "Donor_phoneNumber_idx" ON "Donor"("phoneNumber");
 CREATE UNIQUE INDEX "Donation_reference_key" ON "Donation"("reference");
 CREATE INDEX "Donation_phoneNumber_idx" ON "Donation"("phoneNumber");
 CREATE INDEX "Donation_status_idx" ON "Donation"("status");
-CREATE INDEX "Donation_mpesaReceiptNumber_idx" ON "Donation"("mpesaReceiptNumber");
-CREATE INDEX "Donation_mpesaCheckoutRequestId_idx" ON "Donation"("mpesaCheckoutRequestId");
-CREATE INDEX "Donation_mpesaTransactionDate_idx" ON "Donation"("mpesaTransactionDate");
 CREATE INDEX "Donation_createdAt_idx" ON "Donation"("createdAt");
 
 CREATE INDEX "Subscription_phoneNumber_idx" ON "Subscription"("phoneNumber");
 CREATE INDEX "Subscription_status_idx" ON "Subscription"("status");
 CREATE INDEX "Subscription_nextPaymentAt_idx" ON "Subscription"("nextPaymentAt");
-CREATE INDEX "Subscription_mpesaCheckoutRequestId_idx" ON "Subscription"("mpesaCheckoutRequestId");
 
 CREATE UNIQUE INDEX "Admin_email_key" ON "Admin"("email");
 

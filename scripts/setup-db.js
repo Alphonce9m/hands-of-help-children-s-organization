@@ -22,8 +22,7 @@ async function main() {
       data: {
         email: 'test@example.com',
         name: 'Test Donor',
-        phoneNumber: '254700000000',
-        mpesaAccountType: 'Personal'
+        phoneNumber: '254700000000'
       }
     });
     console.log('Created test donor:', donor.email);
@@ -38,12 +37,6 @@ async function main() {
         name: 'Test Donor',
         email: 'test@example.com',
         frequency: 'ONE_TIME',
-        mpesaReceiptNumber: 'TEST123456',
-        mpesaCheckoutRequestId: 'ws_CO_123456',
-        mpesaMerchantRequestId: '12345-67890',
-        mpesaTransactionDate: new Date(),
-        mpesaResultCode: '0',
-        mpesaResultDesc: 'Success',
         donorId: donor.id
       }
     });

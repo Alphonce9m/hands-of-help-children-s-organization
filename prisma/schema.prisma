@@ -11,46 +11,33 @@ datasource db {
 }
 
 model Donation {
-  id                    String   @id @default(cuid())
-  reference             String   @unique
-  amount                Float
-  status                DonationStatus
-  phoneNumber           String
-  name                  String?
-  email                 String?
-  frequency             DonationFrequency
-  mpesaReceiptNumber    String?
-  mpesaCheckoutRequestId String?
-  mpesaMerchantRequestId String?
-  mpesaTransactionDate  DateTime?
-  mpesaResultCode       String?  // M-Pesa result code
-  mpesaResultDesc       String?  // M-Pesa result description
-  mpesaCallbackMetadata Json?    // Store full callback metadata
-  mpesaAccountBalance   String?  // Account balance after transaction
-  mpesaTransactionType  String?  // Transaction type (Paybill, Till, etc.)
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
-  donor                 Donor?   @relation(fields: [donorId], references: [id])
-  donorId               String?
+  id        String   @id @default(cuid())
+  reference String   @unique
+  amount    Float
+  status    DonationStatus
+  phoneNumber String
+  name      String?
+  email     String?
+  frequency DonationFrequency
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  donor     Donor?   @relation(fields: [donorId], references: [id])
+  donorId   String?
 
   @@index([reference])
   @@index([phoneNumber])
   @@index([status])
-  @@index([mpesaReceiptNumber])
-  @@index([mpesaCheckoutRequestId])
-  @@index([mpesaTransactionDate])
   @@index([createdAt])
 }
 
 model Donor {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  name          String
-  phoneNumber   String
-  mpesaAccountType String? // Personal or Business
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  donations     Donation[]
+  id          String    @id @default(cuid())
+  email       String    @unique
+  name        String
+  phoneNumber String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  donations   Donation[]
   subscriptions Subscription[]
 
   @@index([phoneNumber])
@@ -66,7 +53,6 @@ model Subscription {
   endDate       DateTime?
   lastPaymentAt DateTime?
   nextPaymentAt DateTime?
-  mpesaCheckoutRequestId String? // For tracking recurring payment requests
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   donor         Donor     @relation(fields: [donorId], references: [id])
@@ -75,7 +61,6 @@ model Subscription {
   @@index([phoneNumber])
   @@index([status])
   @@index([nextPaymentAt])
-  @@index([mpesaCheckoutRequestId])
 }
 
 model Admin {
