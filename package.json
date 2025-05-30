@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && prisma db push && next build",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
-    "@prisma/client": "^5.10.2",
+    "@prisma/client": "^6.8.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/dotenv": "^6.1.1",
     "@types/nodemailer": "^6.4.14",
@@ -44,7 +44,7 @@
     "eslint-config-next": "14.1.0",
     "ignore-loader": "^0.1.2",
     "postcss": "^8.4.35",
-    "prisma": "^5.10.2",
+    "prisma": "^6.8.2",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.3.3"
   }
