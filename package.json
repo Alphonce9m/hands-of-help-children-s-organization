@@ -7,12 +7,13 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && prisma db push && next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
     "setup:env": "node scripts/setup-env.js",
-    "test:mpesa": "node scripts/test-mpesa.js"
+    "test:mpesa": "node scripts/test-mpesa.js",
+    "db:push": "prisma db push"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
