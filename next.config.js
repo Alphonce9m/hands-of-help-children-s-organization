@@ -10,6 +10,14 @@ const nextConfig = {
       },
     ],
   },
+  webpack: (config, { isServer }) => {
+    // Exclude scripts directory from build
+    config.module.rules.push({
+      test: /scripts\/.*\.ts$/,
+      use: 'ignore-loader'
+    });
+    return config;
+  }
 }
 
 module.exports = nextConfig 
