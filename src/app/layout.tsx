@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
 // import Layout from '@/components/Layout' // Remove this import
@@ -18,7 +18,14 @@ const playfair = Playfair_Display({
   variable: '--font-playfair',
 })
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+}
+
 export const metadata: Metadata = {
+  metadataBase: new URL('https://handsofhelp.org'),
   title: 'Hands of Help - Making a Difference in Communities',
   description: 'Join us in our mission to transform lives and empower communities through education, healthcare, and sustainable development initiatives.',
   keywords: 'charity, non-profit, community development, education, healthcare, volunteering, Kenya',
@@ -57,11 +64,6 @@ export const metadata: Metadata = {
     description: 'Join us in our mission to transform lives and empower communities through education, healthcare, and sustainable development initiatives.',
     creator: '@handsofhelp',
     images: ['/og-image.jpg'],
-  },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
   },
   robots: {
     index: true,

@@ -9,6 +9,7 @@ const nextConfig = {
         hostname: '**',
       },
     ],
+    unoptimized: true,
   },
   webpack: (config, { isServer }) => {
     // Exclude scripts directory from build
@@ -17,7 +18,9 @@ const nextConfig = {
       use: 'ignore-loader'
     });
     return config;
-  }
+  },
+  output: 'export',
+  trailingSlash: true,
 }
 
 module.exports = nextConfig 

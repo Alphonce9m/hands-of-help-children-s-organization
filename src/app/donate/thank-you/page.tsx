@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
@@ -17,7 +17,7 @@ interface DonationDetails {
   createdAt: string;
 }
 
-const ThankYouPage: FC = () => {
+const ThankYouContent: FC = () => {
   const searchParams = useSearchParams();
   const [donationDetails, setDonationDetails] = useState<DonationDetails | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -178,6 +178,22 @@ const ThankYouPage: FC = () => {
         </Container>
       </Section>
     </>
+  );
+};
+
+const ThankYouPage: FC = () => {
+  return (
+    <Suspense fallback={
+      <Section className="py-16">
+        <Container>
+          <div className="text-center">
+            <p>Loading...</p>
+          </div>
+        </Container>
+      </Section>
+    }>
+      <ThankYouContent />
+    </Suspense>
   );
 };
 
