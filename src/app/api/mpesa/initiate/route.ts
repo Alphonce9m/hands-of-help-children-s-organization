@@ -18,22 +18,24 @@ const MPESA_PASSKEY = process.env.MPESA_PASSKEY;
 const MPESA_SHORTCODE = process.env.MPESA_SHORTCODE;
 const MPESA_ENV = process.env.MPESA_ENV || 'sandbox';
 
-// Validate required environment variables
-if (!MPESA_CONSUMER_KEY || !MPESA_CONSUMER_SECRET || !MPESA_PASSKEY || !MPESA_SHORTCODE) {
-  console.error('Missing M-Pesa environment variables:', {
-    CONSUMER_KEY: MPESA_CONSUMER_KEY ? 'Set' : 'Missing',
-    CONSUMER_SECRET: MPESA_CONSUMER_SECRET ? 'Set' : 'Missing',
-    PASSKEY: MPESA_PASSKEY ? 'Set' : 'Missing',
-    SHORTCODE: MPESA_SHORTCODE ? 'Set' : 'Missing'
-  });
-  throw new Error('M-Pesa configuration is incomplete');
+// Validate required environment variables only at runtime
+function validateMpesaConfig() {
+  if (!MPESA_CONSUMER_KEY || !MPESA_CONSUMER_SECRET || !MPESA_PASSKEY || !MPESA_SHORTCODE) {
+    console.error('Missing M-Pesa environment variables:', {
+      CONSUMER_KEY: MPESA_CONSUMER_KEY ? 'Set' : 'Missing',
+      CONSUMER_SECRET: MPESA_CONSUMER_SECRET ? 'Set' : 'Missing',
+      PASSKEY: MPESA_PASSKEY ? 'Set' : 'Missing',
+      SHORTCODE: MPESA_SHORTCODE ? 'Set' : 'Missing'
+    });
+    throw new Error('M-Pesa configuration is incomplete');
+  }
 }
 
 // Type assertion after validation
-const CONSUMER_KEY: string = MPESA_CONSUMER_KEY;
-const CONSUMER_SECRET: string = MPESA_CONSUMER_SECRET;
-const PASSKEY: string = MPESA_PASSKEY;
-const SHORTCODE: string = MPESA_SHORTCODE;
+const CONSUMER_KEY: string = MPESA_CONSUMER_KEY || '';
+const CONSUMER_SECRET: string = MPESA_CONSUMER_SECRET || '';
+const PASSKEY: string = MPESA_PASSKEY || '';
+const SHORTCODE: string = MPESA_SHORTCODE || '';
 
 // M-Pesa API endpoints
 const MPESA_AUTH_URL = MPESA_ENV === 'sandbox'
@@ -58,14 +60,15 @@ const generateTimestamp = () => {
 
 // Generate password for M-Pesa API
 const generatePassword = (timestamp: string) => {
-  const str = `${MPESA_SHORTCODE}${MPESA_PASSKEY}${timestamp}`;
+  const str = `${SHORTCODE}${PASSKEY}${timestamp}`;
   return Buffer.from(str).toString('base64');
 };
 
 // Get M-Pesa access token
 async function getAccessToken() {
   try {
-    const auth = Buffer.from(`${MPESA_CONSUMER_KEY}:${MPESA_CONSUMER_SECRET}`).toString('base64');
+    validateMpesaConfig(); // Validate at runtime
+    const auth = Buffer.from(`${CONSUMER_KEY}:${CONSUMER_SECRET}`).toString('base64');
     const response = await axios.get(MPESA_AUTH_URL, {
       headers: {
         Authorization: `Basic ${auth}`,
@@ -93,6 +96,8 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    validateMpesaConfig(); // Validate at runtime
+    
     console.log('Received POST request to /api/mpesa/initiate');
     
     const body = await request.json();
