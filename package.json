@@ -7,10 +7,10 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate",
+    "postinstall": "if [ ! -z \"$CI\" ]; then echo \"Skipping Prisma generation in CI\"; else prisma generate; fi",
     "setup:env": "node scripts/setup-env.js",
     "test:mpesa": "node scripts/test-mpesa.js",
     "test:db": "node scripts/test-db.js",
