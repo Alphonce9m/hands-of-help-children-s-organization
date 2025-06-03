@@ -3,7 +3,7 @@ import axios from 'axios';
 import { generateReference } from '@/utils/reference';
 import { prisma } from '@/lib/prisma';
 import { formatPhoneNumber } from '@/lib/utils';
-import { generateAccessToken, initiateSTKPush } from '@/lib/mpesa';
+import { generateAccessToken, initiatePayment } from '@/lib/mpesa';
 
 // Debug logging
 console.log('M-Pesa API Configuration:');
@@ -140,28 +140,33 @@ export async function POST(request: Request) {
     const callbackUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/mpesa/callback`;
     console.log('Callback URL:', callbackUrl);
 
-    // Initiate STK Push
-    const stkResponse = await initiateSTKPush({
-      accessToken,
-      phoneNumber: formattedPhone,
-      amount: Number(amount),
-      callbackUrl,
-    });
-    console.log('STK Push response:', stkResponse);
+    // Generate reference
+    const reference = generateReference();
 
-    if (!stkResponse.success) {
+    // Initiate payment
+    const result = await initiatePayment({
+      amount: Number(amount),
+      phoneNumber: formattedPhone,
+      reference: reference,
+      callbackUrl: callbackUrl,
+      description: 'Donation to Hands of Help',
+      paymentMethod: 'paybill'
+    });
+    console.log('Payment initiation result:', result);
+
+    if (!result.success) {
       // Update donation status to failed
       await prisma.donation.update({
         where: { id: donation.id },
         data: {
           status: 'FAILED',
-          mpesaResultDesc: stkResponse.message,
-          mpesaResultCode: stkResponse.errorCode,
+          mpesaResultDesc: result.message || 'Payment failed',
+          transactionId: result.transactionId || result.merchantRequestId,
         },
       });
 
       return NextResponse.json(
-        { message: stkResponse.message },
+        { message: result.message },
         { status: 400 }
       );
     }
@@ -170,7 +175,7 @@ export async function POST(request: Request) {
     await prisma.donation.update({
       where: { id: donation.id },
       data: {
-        mpesaCheckoutRequestId: stkResponse.CheckoutRequestID,
+        mpesaCheckoutRequestId: result.checkoutRequestId,
         mpesaMerchantRequestId: `MER-${Date.now()}`,
       },
     });
@@ -179,7 +184,7 @@ export async function POST(request: Request) {
       success: true,
       message: 'Payment initiated successfully',
       data: {
-        checkoutRequestId: stkResponse.CheckoutRequestID,
+        checkoutRequestId: result.checkoutRequestId,
         merchantRequestId: `MER-${Date.now()}`,
         donationId: donation.id,
       },

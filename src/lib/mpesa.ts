@@ -34,6 +34,7 @@ export type PaymentResponse = {
   success: boolean;
   transactionId?: string;
   merchantRequestId?: string;
+  checkoutRequestId?: string;
   message?: string;
   errorCode?: string;
   retryCount?: number;
