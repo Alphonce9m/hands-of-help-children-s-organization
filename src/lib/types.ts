@@ -1,6 +1,8 @@
 export type DonationStatus = 'PENDING' | 'COMPLETED' | 'FAILED' | 'REFUNDED' | 'CANCELLED' | 'EXPIRED';
 export type DonationFrequency = 'ONE_TIME' | 'MONTHLY' | 'QUARTERLY' | 'YEARLY';
 export type SubscriptionStatus = 'ACTIVE' | 'PAUSED' | 'CANCELLED' | 'COMPLETED' | 'FAILED' | 'EXPIRED';
+export type PaymentStatus = DonationStatus;
+export type PaymentFrequency = DonationFrequency;
 
 export interface Donation {
   id: string;
@@ -12,8 +14,15 @@ export interface Donation {
   reference: string;
   transactionId?: string;
   receiptNumber?: string;
+  mpesaReceiptNumber?: string;
+  mpesaTransactionDate?: Date;
+  phoneNumber?: string;
   createdAt: Date;
   updatedAt: Date;
+  donor?: {
+    name: string;
+    email: string;
+  };
 }
 
 export interface Payment {
