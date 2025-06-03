@@ -1,7 +1,7 @@
 import { classNames } from '@/lib/classNames';
 
 export function cn(...classes: string[]): string {
-  return classes.filter(Boolean).join(' ');
+  return classNames(...classes);
 }
 
 export function formatPhoneNumber(phone: string): string {

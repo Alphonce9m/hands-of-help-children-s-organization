@@ -2,7 +2,7 @@
 
 import { FC, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import { Button as RadixButton } from '@radix-ui/react-button';
+import { Button } from '@/components/ui/button';
 import { Share2 } from 'lucide-react';
 import { ShareOptions } from '@/types/share';
 import { cn } from '@/lib/utils';
@@ -50,40 +50,43 @@ const ShareDialog: FC<ShareDialogProps> = ({ isOpen, onClose, message, hashtags 
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <RadixButton
+              <Button
                 className={cn(
                   'w-full justify-center border rounded-md px-4 py-2 text-sm font-medium transition-colors',
                   selectedOption === 'copy' ? 'bg-primary text-primary-foreground' : 'bg-background text-foreground hover:bg-muted'
                 )}
                 onClick={() => setSelectedOption('copy')}
+                variant="default"
               >
                 <Share2 className="mr-2 h-4 w-4" />
                 Copy to Clipboard
-              </RadixButton>
-              <RadixButton
+              </Button>
+              <Button
                 className={cn(
                   'w-full justify-center border rounded-md px-4 py-2 text-sm font-medium transition-colors',
                   selectedOption === 'whatsapp' ? 'bg-primary text-primary-foreground' : 'bg-background text-foreground hover:bg-muted'
                 )}
                 onClick={() => setSelectedOption('whatsapp')}
+                variant="default"
               >
                 <Share2 className="mr-2 h-4 w-4" />
                 WhatsApp
-              </RadixButton>
-              <RadixButton
+              </Button>
+              <Button
                 className={cn(
                   'w-full justify-center border rounded-md px-4 py-2 text-sm font-medium transition-colors',
                   selectedOption === 'twitter' ? 'bg-primary text-primary-foreground' : 'bg-background text-foreground hover:bg-muted'
                 )}
                 onClick={() => setSelectedOption('twitter')}
+                variant="default"
               >
                 <Share2 className="mr-2 h-4 w-4" />
                 Twitter
-              </RadixButton>
+              </Button>
             </div>
           </div>
           <div className="mt-4 flex justify-end">
-            <RadixButton onClick={handleShare}>Share</RadixButton>
+            <Button onClick={handleShare}>Share</Button>
           </div>
         </Dialog.Content>
       </Dialog.Portal>

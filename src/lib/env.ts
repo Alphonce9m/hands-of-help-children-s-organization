@@ -30,6 +30,20 @@ const envSchema = z.object({
   MPESA_VERIFY_SIGNATURE: z.boolean().default(true),
   // Logging
   MPESA_LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
+  // Supabase Configuration
+  SUPABASE_ANON_KEY: z.string(),
+  // Mpanga Configuration
+  MPANGA_MERCHANT_ID: z.string(),
+  MPANGA_API_KEY: z.string(),
+  MPANGA_API_SECRET: z.string(),
+  MPANGA_ENVIRONMENT: z.enum(['sandbox', 'production']).default('sandbox'),
+  MPANGA_SHORTCODE: z.string(),
+  MPANGA_TIMESTAMP: z.string(),
+  MPANGA_PASSKEY: z.string(),
+  MPANGA_PASSWORD: z.string(),
+  MPANGA_CALLBACK_PATH: z.string().default('/api/mpanga/callback'),
+  MPANGA_VERIFY_SIGNATURE: z.boolean().default(true),
+  MPANGA_LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info')
 });
 
 export const env = envSchema.parse(process.env);
