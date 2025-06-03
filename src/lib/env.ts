@@ -9,7 +9,7 @@ const envSchema = z.object({
   MPESA_API_KEY: z.string().default('TgKc9ikVJZwiuf1GiNSldFCz9VyM2FLdHxJQSIyEewjrqABS'),
   MPESA_API_SECRET: z.string().default('PYr4oOZ9H7uIfz4gB5UIDdu3ujqSIPlMkOtxAKsjwWtIxe3GGGCOYMq9gZD1HSfR'),
   MPESA_ENVIRONMENT: z.enum(['sandbox', 'production']).default('sandbox'),
-  MPESA_PAYBILL_NUMBER: z.string().default('723065707'),
+  MPESA_PAYBILL_NUMBER: z.string().default('720551576'),
   MPESA_TILL_NUMBER: z.string().default('9955363'),
   MPESA_ACCOUNT_NUMBER: z.string().default('40049632'),
   MPESA_BUSINESS_NAME: z.string().default('HANDS OF HELP CHILDRENS'),
