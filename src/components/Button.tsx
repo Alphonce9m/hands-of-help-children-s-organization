@@ -1,43 +1,41 @@
 'use client';
 
-import { FC, ButtonHTMLAttributes } from 'react';
-import Link from 'next/link';
+import { FC } from 'react';
+import { cn } from '@/lib/utils';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  href?: string;
-  variant?: 'primary' | 'secondary' | 'outline';
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'outline' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
   className?: string;
 }
 
 const Button: FC<ButtonProps> = ({
   children,
-  href,
   variant = 'primary',
+  size = 'md',
   className = '',
   ...props
 }) => {
   const variants = {
-    primary: 'bg-primary text-white hover:bg-primary-dark',
-    secondary: 'bg-secondary text-white hover:bg-secondary-dark',
-    outline: 'border-2 border-primary text-primary hover:bg-primary hover:text-white'
+    primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
+    outline: 'border border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground',
+    ghost: 'hover:bg-accent hover:text-accent-foreground',
   };
 
-  const baseClasses = 'inline-flex items-center justify-center px-6 py-3 rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2';
-
-  if (href) {
-    return (
-      <Link
-        href={href}
-        className={`${baseClasses} ${variants[variant]} ${className}`}
-      >
-        {children}
-      </Link>
-    );
-  }
+  const sizes = {
+    sm: 'h-9 rounded-md px-3',
+    md: 'h-10 rounded-md px-4 py-2',
+    lg: 'h-11 rounded-md px-8',
+  };
 
   return (
     <button
-      className={`${baseClasses} ${variants[variant]} ${className}`}
+      className={cn(
+        'inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+        variants[variant],
+        sizes[size],
+        className
+      )}
       {...props}
     >
       {children}

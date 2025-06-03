@@ -1,10 +1,9 @@
-import type { Metadata, Viewport } from 'next'
+import type { Metadata } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
 // import Layout from '@/components/Layout' // Remove this import
 import { Toaster } from 'react-hot-toast'
 import { AccessibilityProvider } from '@/contexts/AccessibilityContext'
-import { Providers } from './providers'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -18,14 +17,7 @@ const playfair = Playfair_Display({
   variable: '--font-playfair',
 })
 
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-}
-
 export const metadata: Metadata = {
-  metadataBase: new URL('https://handsofhelp.org'),
   title: 'Hands of Help - Making a Difference in Communities',
   description: 'Join us in our mission to transform lives and empower communities through education, healthcare, and sustainable development initiatives.',
   keywords: 'charity, non-profit, community development, education, healthcare, volunteering, Kenya',
@@ -65,6 +57,11 @@ export const metadata: Metadata = {
     creator: '@handsofhelp',
     images: ['/og-image.jpg'],
   },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+  },
   robots: {
     index: true,
     follow: true,
@@ -88,12 +85,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-      <body className="min-h-screen flex flex-col bg-background text-text page-gradient-background">
+      <body className="min-h-screen flex flex-col bg-background text-text">
         <AccessibilityProvider>
           <Toaster />
-          <Providers>
-            {children}
-          </Providers>
+          {children}
         </AccessibilityProvider>
       </body>
     </html>

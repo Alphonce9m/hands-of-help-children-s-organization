@@ -10,34 +10,73 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum DonationStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+  CANCELLED
+  EXPIRED
+}
+
+enum DonationFrequency {
+  ONE_TIME
+  MONTHLY
+  QUARTERLY
+  YEARLY
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAUSED
+  CANCELLED
+  COMPLETED
+  FAILED
+  EXPIRED
+}
+
+// Donation model with explicit M-Pesa fields
 model Donation {
-  id        String   @id @default(cuid())
-  reference String   @unique
-  amount    Float
-  status    DonationStatus
-  phoneNumber String
-  name      String?
-  email     String?
-  frequency DonationFrequency
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  donor     Donor?   @relation(fields: [donorId], references: [id])
-  donorId   String?
+  id                    String   @id @default(cuid())
+  reference             String   @unique
+  amount                Float
+  status                DonationStatus
+  phoneNumber           String
+  name                  String?
+  email                 String?
+  frequency             DonationFrequency
+  transactionId         String?    // Platform transaction ID
+  receiptNumber         String?    // Payment receipt number
+  merchantRequestId     String?    // Merchant request ID
+  transactionDate       DateTime?  // Transaction date
+  resultCode           String?    // Result code
+  resultDescription     String?    // Result description
+  callbackMetadata      Json?      // Callback metadata
+  accountBalance        String?    // Account balance
+  transactionType       String?    // Transaction type
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  donor                 Donor?   @relation(fields: [donorId], references: [id])
+  donorId               String?
 
   @@index([reference])
   @@index([phoneNumber])
   @@index([status])
+  @@index([transactionId])
+  @@index([receiptNumber])
+  @@index([transactionDate])
   @@index([createdAt])
 }
 
 model Donor {
-  id          String    @id @default(cuid())
-  email       String    @unique
-  name        String
-  phoneNumber String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  donations   Donation[]
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  phoneNumber   String
+  mpesaAccountType String? // Personal or Business
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  donations     Donation[]
   subscriptions Subscription[]
 
   @@index([phoneNumber])
@@ -53,6 +92,7 @@ model Subscription {
   endDate       DateTime?
   lastPaymentAt DateTime?
   nextPaymentAt DateTime?
+  mpesaCheckoutRequestId String? // For tracking recurring payment requests
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   donor         Donor     @relation(fields: [donorId], references: [id])
@@ -61,6 +101,7 @@ model Subscription {
   @@index([phoneNumber])
   @@index([status])
   @@index([nextPaymentAt])
+  @@index([mpesaCheckoutRequestId])
 }
 
 model Admin {
@@ -88,29 +129,4 @@ model ContactMessage {
   status    String   @default("NEW") // NEW, READ, RESPONDED
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-enum DonationStatus {
-  PENDING
-  COMPLETED
-  FAILED
-  REFUNDED
-  CANCELLED
-  EXPIRED
-}
-
-enum DonationFrequency {
-  ONE_TIME
-  MONTHLY
-  QUARTERLY
-  YEARLY
-}
-
-enum SubscriptionStatus {
-  ACTIVE
-  PAUSED
-  CANCELLED
-  COMPLETED
-  FAILED
-  EXPIRED
 } 

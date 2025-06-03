@@ -3,8 +3,8 @@
 import { FC, ReactNode, TouchEvent } from 'react';
 
 interface CardProps {
-  children: ReactNode;
   className?: string;
+  children: ReactNode;
   variant?: 'default' | 'elevated' | 'outlined';
   onClick?: () => void;
   onTouchStart?: (e: TouchEvent) => void;
@@ -13,10 +13,10 @@ interface CardProps {
   onTouchCancel?: () => void;
 }
 
-const Card: FC<CardProps> = ({ 
-  children, 
-  className = '', 
-  variant = 'default', 
+const Card: FC<CardProps> = ({
+  className = '',
+  children,
+  variant = 'default',
   onClick,
   onTouchStart,
   onTouchMove,

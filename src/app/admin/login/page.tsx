@@ -1,23 +1,22 @@
 'use client';
 
 import { FC, useState } from 'react';
-import { useSession, signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
 import Card from '@/components/Card';
 
-const LoginPage: FC = () => {
-  const { data: session, status } = useSession();
+const AdminLoginPage: FC = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
+    setError('');
     setIsLoading(true);
 
     try {
@@ -30,101 +29,70 @@ const LoginPage: FC = () => {
       if (result?.error) {
         setError(result.error);
       } else {
-        router.push('/admin');
+        router.push('/admin/dashboard');
       }
     } catch (err) {
-      console.error('Error signing in:', err);
-      setError('Failed to sign in');
+      setError('An error occurred during login');
     } finally {
       setIsLoading(false);
     }
   };
 
-  if (status === 'loading') {
-    return (
-      <Section className="py-16">
-        <Container>
-          <div className="text-center">
-            <p>Loading...</p>
-          </div>
-        </Container>
-      </Section>
-    );
-  }
-
-  if (status === 'authenticated') {
-    router.push('/admin');
-    return null;
-  }
-
   return (
     <Section className="py-16">
       <Container>
-        <Card className="max-w-md mx-auto">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-2xl font-bold">Admin Login</h2>
-          </div>
-          <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <div className="max-w-md mx-auto">
+          <Card className="p-8">
+            <h1 className="text-2xl font-bold text-center mb-8">Admin Login</h1>
+            
             {error && (
-              <div className="p-4 bg-red-50 text-red-600 rounded-md">
+              <div className="mb-4 p-4 bg-red-50 text-red-600 rounded-md">
                 {error}
               </div>
             )}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                required
-              />
-            </div>
-            <div>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary"
+                  required
+                />
+              </div>
+
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary"
+                  required
+                />
+              </div>
+
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                className="w-full py-3 px-4 bg-primary text-white rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? 'Signing in...' : 'Sign in'}
+                {isLoading ? 'Logging in...' : 'Login'}
               </button>
-            </div>
-            <div className="text-center">
-              <button
-                type="button"
-                onClick={() => router.push('/admin/reset-password')}
-                className="text-sm text-primary hover:text-primary-dark focus:outline-none focus:underline"
-              >
-                Forgot your password?
-              </button>
-            </div>
-          </form>
-        </Card>
+            </form>
+          </Card>
+        </div>
       </Container>
     </Section>
   );
 };
 
-export default LoginPage; 
+export default AdminLoginPage; 

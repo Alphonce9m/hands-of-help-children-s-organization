@@ -1,18 +1,10 @@
 [build]
-  command = "npm run build"
+  command = "npm run db:push && npm run build"
   publish = ".next"
 
 [build.environment]
+  NODE_VERSION = "18.18.0"
   NEXT_TELEMETRY_DISABLED = "1"
-  NODE_VERSION = "18"
 
 [[plugins]]
-  package = "@netlify/plugin-nextjs"
-
-# Handle client-side routing
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = true
-  conditions = {Path = ["/*"]} 
+  package = "@netlify/plugin-nextjs" 

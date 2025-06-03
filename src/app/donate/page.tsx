@@ -7,6 +7,7 @@ import Container from '@/components/Container';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { ImpactStat } from '@/types/sections';
+import { PaymentButton } from '@/components/mpanga/PaymentButton';
 import { useRouter } from 'next/navigation';
 
 const fadeInUp = {
@@ -23,6 +24,14 @@ const staggerContainer = {
   }
 };
 
+const paymentMethods = [
+  {
+    id: 'mpesa',
+    name: 'M-Pesa',
+    icon: '/icons/mpesa.svg'
+  }
+];
+
 const DonatePage: FC = () => {
   const router = useRouter();
   const [selectedAmount, setSelectedAmount] = useState<number>(1000);
@@ -38,7 +47,9 @@ const DonatePage: FC = () => {
     { value: 1000, label: 'KSH 1,000' },
     { value: 2500, label: 'KSH 2,500' },
     { value: 5000, label: 'KSH 5,000' },
-    { value: 10000, label: 'KSH 10,000' }
+    { value: 10000, label: 'KSH 10,000' },
+    { value: 25000, label: 'KSH 25,000' },
+    { value: 50000, label: 'KSH 50,000' }
   ];
 
   const impactAreas: ImpactStat[] = [
@@ -69,7 +80,7 @@ const DonatePage: FC = () => {
   ];
 
   const handlePaymentSuccess = (data: any) => {
-      setSubmitStatus('success');
+    setSubmitStatus('success');
     // Redirect to thank you page after a short delay
     setTimeout(() => {
       router.push(`/donate/thank-you?reference=${data.donationId}`);
@@ -77,7 +88,7 @@ const DonatePage: FC = () => {
   };
 
   const handlePaymentError = (error: any) => {
-      setSubmitStatus('error');
+    setSubmitStatus('error');
     console.error('Payment error:', error);
   };
 
@@ -215,26 +226,60 @@ const DonatePage: FC = () => {
               <h2 className="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-800">Make a Donation</h2>
               
               <div className="mb-8">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Select Amount
-                  </label>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {predefinedAmounts.map((amount) => (
-                      <button
-                        key={amount.value}
-                        type="button"
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Select Amount
+                </label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {predefinedAmounts.map((amount) => (
+                    <button
+                      key={amount.value}
+                      type="button"
                       onClick={() => setSelectedAmount(amount.value)}
-                        className={`p-4 text-center rounded-lg border-2 transition-colors duration-300 ${
+                      className={`p-4 text-center rounded-lg border-2 transition-colors duration-300 ${
                         selectedAmount === amount.value
-                            ? 'border-primary-600 bg-primary-600 text-white'
-                            : 'border-gray-300 hover:border-primary-600'
-                        }`}
-                      >
-                        {amount.label}
-                      </button>
-                    ))}
-                  </div>
+                          ? 'border-primary-600 bg-primary-600 text-white'
+                          : 'border-gray-300 hover:border-primary-600'
+                      }`}
+                    >
+                      {amount.label}
+                    </button>
+                  ))}
                 </div>
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Payment Method
+                </label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {paymentMethods.map((method) => (
+                    <div
+                      key={method.id}
+                      className="p-4 border rounded-lg hover:border-primary-600 transition-colors duration-300"
+                    >
+                      <div className="flex items-center">
+                        <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center mr-4">
+                          <Image
+                            src={method.icon}
+                            alt={method.name}
+                            width={32}
+                            height={32}
+                            className="object-contain"
+                          />
+                        </div>
+                        <span className="font-medium text-gray-700">{method.name}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <PaymentButton
+                amount={selectedAmount}
+                onSuccess={handlePaymentSuccess}
+                onError={handlePaymentError}
+                className="w-full"
+              />
 
               {submitStatus === 'success' && (
                 <div className="mt-4 p-4 bg-green-50 text-green-700 rounded-lg">

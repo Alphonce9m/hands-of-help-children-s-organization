@@ -4,7 +4,14 @@ const path = require('path');
 // Environment Configuration
 const envVars = {
   // Database
-  DATABASE_URL: 'postgresql://postgres:Xi2W%26%3F6K5U%21u.%40m@xvoypjkpindgvyowyvwc.supabase.co:5432/postgres',
+  DATABASE_URL: 'postgresql://postgres:0723065707@xvoypjkpindgvyowyvwc.supabase.co:5432/postgres',
+  
+  // M-Pesa Configuration
+  MPESA_CONSUMER_KEY: 'TgKc9ikVJZwiuf1GiNSldFCz9VyM2FLdHxJQSIyEewjrqABS',
+  MPESA_CONSUMER_SECRET: 'PYr4oOZ9H7uIfz4gB5UIDdu3ujqSIPlMkOtxAKsjwWtIxe3GGGCOYMq9gZD1HSfR',
+  MPESA_PASSKEY: '072307Mdaki#Alphonce',
+  MPESA_SHORTCODE: '9955363',
+  MPESA_ENV: 'sandbox',
   
   // App Configuration
   NEXT_PUBLIC_APP_URL: 'https://courageous-marigold-a5dbf3.netlify.app',

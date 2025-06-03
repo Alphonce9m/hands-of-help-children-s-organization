@@ -1,25 +1,31 @@
 'use client';
 
-import { forwardRef } from 'react';
-import { SectionProps } from '@/types/sections';
+import { forwardRef, FC, ReactNode, MouseEvent } from 'react';
 
-const Section = forwardRef<HTMLDivElement, SectionProps & {
-  onMouseEnter?: () => void;
-  onMouseLeave?: () => void;
-}>(({ children, className = '', onMouseEnter, onMouseLeave, ...props }, ref) => {
+interface SectionProps {
+  className?: string;
+  children: ReactNode;
+  onMouseEnter?: (e: MouseEvent) => void;
+  onMouseLeave?: (e: MouseEvent) => void;
+}
+
+const Section: FC<SectionProps> = ({
+  className = '',
+  children,
+  onMouseEnter,
+  onMouseLeave,
+}) => {
   return (
     <section
-      ref={ref}
-      className={className}
+      className={`py-12 ${className}`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      {...props}
     >
       {children}
     </section>
   );
-});
+};
 
 Section.displayName = 'Section';
 
-export default Section; 
+export default Section;

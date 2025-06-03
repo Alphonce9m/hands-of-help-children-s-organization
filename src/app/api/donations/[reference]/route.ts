@@ -30,14 +30,14 @@ export async function GET(
     return NextResponse.json({
       success: true,
       data: {
-        reference: donation.reference,
         amount: donation.amount,
+        reference: donation.reference,
+        date: donation.createdAt.toLocaleDateString(),
+        frequency: donation.frequency,
         status: donation.status,
-        name: donation.name,
-        email: donation.email,
-        phoneNumber: donation.phoneNumber,
-        createdAt: donation.createdAt
-      }
+        mpesaReceiptNumber: donation.mpesaReceiptNumber,
+        mpesaTransactionDate: donation.mpesaTransactionDate,
+      },
     });
   } catch (error) {
     console.error('Error fetching donation:', error);

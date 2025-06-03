@@ -1,7 +1,6 @@
 'use client';
 
 import { FC, useEffect, useState, useCallback } from 'react';
-import { useSession } from 'next-auth/react';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
 import Card from '@/components/Card';
@@ -11,10 +10,11 @@ interface Donation {
   id: string;
   reference: string;
   amount: number;
-  status: string;
-  name?: string;
-  email?: string;
   phoneNumber: string;
+  type: string;
+  status: string;
+  mpesaReceiptNumber?: string;
+  transactionDate?: string;
   createdAt: string;
 }
 
@@ -27,7 +27,6 @@ interface DonationStats {
 }
 
 const AdminDonationsPage: FC = () => {
-  const { data: session, status } = useSession();
   const [donations, setDonations] = useState<Donation[]>([]);
   const [stats, setStats] = useState<DonationStats>({
     totalAmount: 0,
@@ -60,33 +59,19 @@ const AdminDonationsPage: FC = () => {
   }, [filter]);
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      fetchDonations();
-    }
-  }, [fetchDonations, status]);
+    fetchDonations();
+  }, [fetchDonations]);
 
   const handleFilterChange = (newFilter: string) => {
     setFilter(newFilter);
   };
-
-  if (status === 'loading') {
-    return (
-      <Section className="py-16">
-        <Container>
-          <div className="text-center">
-            <p>Loading...</p>
-          </div>
-        </Container>
-      </Section>
-    );
-  }
 
   if (isLoading) {
     return (
       <Section className="py-16">
         <Container>
           <div className="text-center">
-            <p>Loading donations...</p>
+            <p>Loading...</p>
           </div>
         </Container>
       </Section>
@@ -190,6 +175,9 @@ const AdminDonationsPage: FC = () => {
                       Phone
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Type
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Status
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -208,6 +196,9 @@ const AdminDonationsPage: FC = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {donation.phoneNumber}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
+                        {donation.type}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span

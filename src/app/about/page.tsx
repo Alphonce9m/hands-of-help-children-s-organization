@@ -7,6 +7,7 @@ import Section from '@/components/Section';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import TeamSection from '@/components/sections/TeamSection';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -71,6 +72,7 @@ export default function AboutPage() {
               evolving needs of our community.
             </p>
           </section>
+          <TeamSection className="mt-16" />
         </div>
       </Container>
     </Layout>

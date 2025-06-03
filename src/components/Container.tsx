@@ -1,21 +1,21 @@
 'use client';
 
-import { FC, ReactNode } from 'react';
+import { FC } from 'react';
 
 interface ContainerProps {
-  children: ReactNode;
   className?: string;
+  children: React.ReactNode;
 }
 
 const Container: FC<ContainerProps> = ({
+  className = '',
   children,
-  className = ''
 }) => {
   return (
-    <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ${className}`}>
+    <div className={`container mx-auto px-4 ${className}`}>
       {children}
     </div>
   );
 };
 
-export default Container; 
+export default Container;

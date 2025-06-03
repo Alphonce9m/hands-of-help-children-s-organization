@@ -19,19 +19,19 @@ const defaultTeamMembers: TeamMember[] = [
   {
     name: 'Kennedy Otieno',
     role: 'Founder & Executive Director',
-    image: '/images/team/team-1.jpg',
+    image: '/LEADERS/kennedy.jpg',
     bio: 'With over 15 years of experience in community development, Kennedy leads our organization with passion and vision.'
   },
   {
     name: 'Eden Mwikali',
     role: 'Program Director',
-    image: '/images/team/team-2.jpg',
+    image: '/LEADERS/eden.jpg',
     bio: 'Eden oversees all our educational programs and ensures we deliver high-quality services to our community.'
   },
   {
     name: 'Alphonce Mdaki',
     role: 'Community Outreach Coordinator',
-    image: '/images/team/team-3.jpg',
+    image: '/LEADERS/alphonce.jpg',
     bio: 'Alphonce works closely with local communities to identify needs and develop effective outreach programs.'
   }
 ];
