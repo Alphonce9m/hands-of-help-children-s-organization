@@ -37,8 +37,8 @@ export async function GET() {
       amount: donation.amount,
       phoneNumber: donation.phoneNumber,
       status: donation.status,
-      mpesaReceiptNumber: donation.mpesaReceiptNumber,
-      mpesaTransactionDate: donation.mpesaTransactionDate,
+      receiptNumber: donation.receiptNumber,
+      transactionDate: donation.transactionDate,
       createdAt: donation.createdAt,
       donor: donation.donor,
     }));

@@ -14,8 +14,8 @@ export interface Donation {
   reference: string;
   transactionId?: string;
   receiptNumber?: string;
-  mpesaReceiptNumber?: string;
-  mpesaTransactionDate?: Date;
+  merchantRequestId?: string;
+  transactionDate?: Date;
   phoneNumber?: string;
   createdAt: Date;
   updatedAt: Date;
