@@ -18,7 +18,7 @@ interface DonationDetails {
   date: string;
   type: 'one-time' | 'monthly';
   status: 'pending' | 'completed' | 'failed';
-  mpesaReceiptNumber?: string;
+
   impactAreas?: string[];
 }
 
@@ -89,7 +89,7 @@ export default function ThankYouPage() {
     return null;
   }
 
-  const { amount, reference, date, type, status, mpesaReceiptNumber, impactAreas } = donationDetails;
+  const { amount, reference, date, type, status, impactAreas } = donationDetails;
 
   return (
     <motion.div
@@ -121,11 +121,6 @@ export default function ThankYouPage() {
                   <p className="mt-2 text-gray-600">Date: {formatDate(new Date(date))}</p>
                   <p className="mt-2 text-gray-600">Type: {type === 'monthly' ? 'Monthly Donation' : 'One-time Donation'}</p>
                   <p className="mt-2 text-gray-600">Status: {status}</p>
-                  {mpesaReceiptNumber && (
-                    <p className="mt-2 text-gray-600">
-                      M-Pesa Receipt: {mpesaReceiptNumber}
-                    </p>
-                  )}
                 </div>
 
                 {impactAreas && impactAreas.length > 0 && (

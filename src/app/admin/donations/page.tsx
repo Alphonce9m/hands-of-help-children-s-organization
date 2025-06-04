@@ -13,7 +13,7 @@ interface Donation {
   phoneNumber: string;
   type: string;
   status: string;
-  mpesaReceiptNumber?: string;
+
   transactionDate?: string;
   createdAt: string;
 }

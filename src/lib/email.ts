@@ -64,7 +64,7 @@ export async function sendDonationConfirmationEmail(
     reference: string;
     type: string;
     date: string;
-    mpesaReceiptNumber?: string;
+
   }
 ) {
   const html = `
@@ -76,7 +76,7 @@ export async function sendDonationConfirmationEmail(
         <p style="margin: 10px 0;"><strong>Reference:</strong> ${data.reference}</p>
         <p style="margin: 10px 0;"><strong>Type:</strong> ${data.type}</p>
         <p style="margin: 10px 0;"><strong>Date:</strong> ${data.date}</p>
-        ${data.mpesaReceiptNumber ? `<p style="margin: 10px 0;"><strong>M-Pesa Receipt:</strong> ${data.mpesaReceiptNumber}</p>` : ''}
+
       </div>
       
       <p style="color: #1f2937;">Thank you for your generosity and support!</p>

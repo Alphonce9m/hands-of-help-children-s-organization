@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { verifyMpesaSignature } from '@/lib/mpesa';
+
 import type { DonationStatus } from '@/lib/types';
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const signature = request.headers.get('X-Mpesa-Signature');
+
 
     // Verify M-Pesa signature
-    if (!signature || !verifyMpesaSignature(body, signature)) {
+
       return NextResponse.json(
         { error: 'Invalid signature' },
         { status: 401 }
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       ResultCode,
       ResultDesc,
       Amount,
-      MpesaReceiptNumber,
+
       TransactionDate,
       PhoneNumber,
       CallbackMetadata,
@@ -33,15 +33,15 @@ export async function POST(request: Request) {
       where: { reference: CheckoutRequestID },
       data: {
         status: ResultCode === '0' ? 'COMPLETED' : 'FAILED',
-        mpesaReceiptNumber: MpesaReceiptNumber,
-        mpesaResultCode: ResultCode,
-        mpesaResultDesc: ResultDesc,
-        mpesaCallbackMetadata: CallbackMetadata,
-        mpesaTransactionDate: new Date(TransactionDate),
-        mpesaAccountBalance: CallbackMetadata?.Item?.find(
+
+
+
+
+
+
           (item: any) => item.Name === 'AccountBalance'
         )?.Value,
-        mpesaTransactionType: CallbackMetadata?.Item?.find(
+
           (item: any) => item.Name === 'TransactionType'
         )?.Value,
       },

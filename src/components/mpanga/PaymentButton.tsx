@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { initiatePayment } from '@/lib/mpesa';
+
 import { ArrowRight, Loader2 } from 'lucide-react';
 
 interface PaymentButtonProps {
@@ -26,15 +26,8 @@ export const PaymentButton: React.FC<PaymentButtonProps> = ({
       // Create a unique reference for this payment
       const reference = `DON-${Date.now()}`;
       
-      // Initialize M-Pesa payment
-      const response = await initiatePayment({
-        amount,
-        phoneNumber: '', // This will be captured by M-Pesa STK push
-        reference,
-        callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/api/mpesa/callback`,
-        description: 'Donation to Hands of Help',
-        paymentMethod
-      });
+      // Payment logic removed. Add your new payment integration here if needed.
+      const response = null;
 
       if (response) {
         onSuccess({

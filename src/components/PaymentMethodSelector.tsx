@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-export type PaymentMethod = 'mpesa' | 'kcb' | 'equity' | 'cooperative';
+export type PaymentMethod = 'kcb' | 'equity' | 'cooperative';
 
 interface PaymentMethodSelectorProps {
   selectedMethod: PaymentMethod;
