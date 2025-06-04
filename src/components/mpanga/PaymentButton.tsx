@@ -31,8 +31,7 @@ export const PaymentButton: React.FC<PaymentButtonProps> = ({
 
       if (response) {
         onSuccess({
-          donationId: reference,
-          transactionId: response.transactionId
+          donationId: reference
         });
       } else {
         onError({
