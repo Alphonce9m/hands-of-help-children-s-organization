@@ -6,13 +6,6 @@ interface LogData {
   data?: Record<string, any>;
 }
 
-export const logger = {
-  log(level: string, data: LogData) {
-    if (env.MPESA_LOG_LEVEL === 'debug' || level === 'error') {
-      console.log(`[${new Date().toISOString()}] [M-Pesa] ${level.toUpperCase()}:`, {
-        ...data,
-        environment: env.MPESA_ENVIRONMENT
-      });
-    }
-  }
-};
+// M-PESA logger logic is disabled. This file is intentionally left blank to avoid TypeScript errors.
+// All previous M-PESA code has been commented out or removed for deployment stability.
+export {};

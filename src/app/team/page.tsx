@@ -15,44 +15,44 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Kennedy Otieno',
     position: 'Executive Director',
-    image: '/images/team/team-1.jpg',
+    image: '/LEADERS/KENNEDY.jpg',
     bio: 'Leading the organization with over 15 years of experience in community development and non-profit management.'
   },
   {
     name: 'Elishifa Muthoni',
     position: 'Assistant Executive Director',
-    image: '/images/team/team-2.jpg',
+    image: '/LEADERS/ELISHIFA.jpg',
     bio: 'Supporting organizational leadership with expertise in program development and community engagement.'
   },
   {
     name: 'Claris Oprah',
     position: 'Head of Operations',
-    image: '/images/team/team-3.jpg',
+    image: '/LEADERS/CLARRIS.jpg',
     bio: 'Overseeing day-to-day operations and ensuring efficient program delivery across all initiatives.'
+  },
+  {
+    name: 'Eden Mwikali',
+    position: 'Head of Administration',
+    image: '/LEADERS/EDEN.jpg',
+    bio: 'Ensuring organizational effectiveness and smooth administrative operations across all departments.'
   },
   {
     name: 'Alphonse Mudaki',
     position: 'IT & Business Development Manager',
-    image: '/images/team/team-4.jpg',
+    image: '/LEADERS/ALPHONCE.jpg',
     bio: 'Driving technological innovation and business growth strategies for sustainable impact.'
   },
   {
     name: 'Macy Tarus',
     position: 'Assistant Operations Lead & Resource Mobilization',
-    image: '/images/team/team-5.jpg',
+    image: '/LEADERS/MACY.jpg',
     bio: 'Managing resource mobilization efforts and supporting operational excellence.'
   },
   {
     name: 'David Ochieng',
     position: 'Programs Lead',
-    image: '/images/team/team-6.jpg',
+    image: '/LEADERS/DAVID.jpg',
     bio: 'Leading program development and implementation across all community initiatives.'
-  },
-  {
-    name: 'Martha',
-    position: 'Operations Coordinator',
-    image: '/images/team/team-7.jpg',
-    bio: 'Coordinating operational activities and ensuring smooth program execution across all departments.'
   }
 ];
 
@@ -65,7 +65,8 @@ export default function TeamPage() {
       heroImage="/images/IMG-20250515-WA0045.jpg"
     >
       <Container>
-        <div className="py-16">
+        <div className="py-16 relative">
+          <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary via-black to-accent opacity-80" />
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-white mb-4">
               Meet Our Leadership

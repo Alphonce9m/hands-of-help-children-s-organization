@@ -35,8 +35,7 @@ export async function GET(
         date: donation.createdAt.toLocaleDateString(),
         frequency: donation.frequency,
         status: donation.status,
-        mpesaReceiptNumber: donation.mpesaReceiptNumber,
-        mpesaTransactionDate: donation.mpesaTransactionDate,
+
       },
     });
   } catch (error) {

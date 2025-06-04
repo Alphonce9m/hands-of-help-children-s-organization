@@ -31,48 +31,53 @@ export default function AboutPage() {
       showHero={true}
       heroTitle="About Hands of Help"
       heroSubtitle="Empowering communities through education and support"
-      heroImage="/images/IMG-20250515-WA0044.jpg"
+      heroImage="/gallery/IMG-20250528-WA0018.jpg"
     >
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary via-black to-accent opacity-80" />
       <Container>
         <div className="py-16 space-y-12">
-          <section className="prose prose-lg max-w-none">
-            <h2 className="gradient-text">Our Mission</h2>
-            <p>
-              Hands of Help Children's Organization is dedicated to creating a future of opportunity 
-              for children and young adults through education, digital literacy, and community support.
-            </p>
-          </section>
+          <div className="card bg-white/80 backdrop-blur-md rounded-2xl shadow-lg p-8 text-primary">
+            <section className="prose prose-lg max-w-none">
+              <h2 className="gradient-text">Our Mission</h2>
+              <p className="text-primary">
+                Hands of Help Children's Organization is dedicated to creating a future of opportunity 
+                for children and young adults through education, digital literacy, and community support.
+              </p>
+            </section>
+          </div>
 
-          <section className="grid md:grid-cols-2 gap-8">
-            <div className="card p-6">
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="card bg-white/80 backdrop-blur-md rounded-2xl shadow-lg p-8 text-primary">
               <h3 className="gradient-text mb-4">Our Vision</h3>
-              <p>
+              <p className="text-primary">
                 To be a leading force in community development, empowering individuals through 
                 education and creating sustainable opportunities for growth.
               </p>
             </div>
-            <div className="card p-6">
+            <div className="card bg-white/80 backdrop-blur-md rounded-2xl shadow-lg p-8 text-primary">
               <h3 className="gradient-text mb-4">Our Values</h3>
-              <ul className="gradient-list">
-                <li>Education and Empowerment</li>
-                <li>Community Development</li>
-                <li>Sustainability</li>
-                <li>Innovation</li>
-                <li>Inclusivity</li>
+              <ul className="list-disc list-inside text-primary space-y-1">
+                <li className="text-primary">Education and Empowerment</li>
+                <li className="text-primary">Community Development</li>
+                <li className="text-primary">Sustainability</li>
+                <li className="text-primary">Innovation</li>
+                <li className="text-primary">Inclusivity</li>
               </ul>
             </div>
-          </section>
+          </div>
 
-          <section className="prose prose-lg max-w-none">
-            <h2 className="gradient-text">Our Story</h2>
-            <p>
-              Founded in 2015, Hands of Help has grown from a small community initiative to a 
-              comprehensive organization serving the needs of children and young adults in Kasabuni, 
-              Nairobi. Our journey has been marked by continuous growth and adaptation to meet the 
-              evolving needs of our community.
-            </p>
-          </section>
-          <TeamSection className="mt-16" />
+          <div className="card bg-white/80 backdrop-blur-md rounded-2xl shadow-lg p-8 text-primary">
+            <section className="prose prose-lg max-w-none">
+              <h2 className="gradient-text">Our Story</h2>
+              <p className="text-primary">
+                Founded in 2015, Hands of Help has grown from a small community initiative to a 
+                comprehensive organization serving the needs of children and young adults in Kasabuni, 
+                Nairobi. Our journey has been marked by continuous growth and adaptation to meet the 
+                evolving needs of our community.
+              </p>
+            </section>
+          </div>
+
         </div>
       </Container>
     </Layout>

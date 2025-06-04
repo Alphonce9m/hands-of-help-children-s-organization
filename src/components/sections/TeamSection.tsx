@@ -38,7 +38,7 @@ const defaultTeamMembers: TeamMember[] = [
 
 const TeamSection: FC<TeamSectionProps> = ({ className = '' }) => {
   return (
-    <Section className={`py-20 bg-gray-50 ${className}`}>
+    <Section className={`py-20 text-primary ${className}`}>
       <Container>
         <div className="text-center max-w-3xl mx-auto mb-12">
           <motion.h2 
@@ -46,7 +46,7 @@ const TeamSection: FC<TeamSectionProps> = ({ className = '' }) => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold mb-6"
+            className="text-3xl font-bold mb-6 text-primary"
           >
             Our Leadership Team
           </motion.h2>
@@ -55,7 +55,7 @@ const TeamSection: FC<TeamSectionProps> = ({ className = '' }) => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-gray-600"
+            className="text-primary"
           >
             Meet the dedicated individuals working to make a difference in our community.
           </motion.p>
@@ -69,7 +69,7 @@ const TeamSection: FC<TeamSectionProps> = ({ className = '' }) => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+              className="rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-primary"
             >
               <div className="relative h-64">
                 <Image
@@ -82,7 +82,7 @@ const TeamSection: FC<TeamSectionProps> = ({ className = '' }) => {
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-2">{member.name}</h3>
                 <p className="text-primary font-medium mb-4">{member.role}</p>
-                <p className="text-gray-600">{member.bio}</p>
+                <p className="text-primary">{member.bio}</p>
               </div>
             </motion.div>
           ))}

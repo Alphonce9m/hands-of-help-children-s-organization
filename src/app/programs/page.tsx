@@ -35,7 +35,7 @@ export default function ProgramsPage() {
       showHero={true}
       heroTitle="Our Programs"
       heroSubtitle="Empowering communities through education and support"
-      heroImage="/programs-hero.jpg"
+      heroImage="/gallery/IMG-20250604-WA0003.jpg"
     >
       <Container>
         <div className="py-16 space-y-12">

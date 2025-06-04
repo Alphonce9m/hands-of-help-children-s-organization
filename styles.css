@@ -1,13 +1,62 @@
 :root {
-  --primary-color: #2c3e50;
-  --secondary-color: #27ae60;
-  --accent-color: #3498db;
-  --text-color: #333;
-  --light-bg: #f4f4f4;
+  --primary-color: #1e3a8a; /* blue */
+  --secondary-color: #ffd600; /* yellow */
+  --accent-color: #23272b; /* black */
+  --text-color: #111; /* black */
+  --heading-color: #1e3a8a; /* blue */
+  --light-bg: #fff; /* white */
   --white: #fff;
   --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   --transition: all 0.3s ease;
 }
+
+body {
+  color: #111;
+  background: var(--light-bg);
+}
+
+/* Black text on white/light backgrounds */
+main, .container, .content, .section, .donation-form, .form-group, .custom-amount, .form-success, .form-error {
+  color: #111 !important;
+  background: var(--white);
+  color: var(--text-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111 !important;
+}
+
+/* White text on colored backgrounds */
+header, nav, .desktop-nav, .mobile-nav, .btn, .btn-primary, .btn.selected, .btn:focus, .btn:active, .btn:hover {
+  color: #fff !important;
+}
+
+/* Black text on yellow buttons for contrast */
+.btn.cta, .btn-yellow {
+  background: var(--secondary-color);
+  color: #111 !important;
+  border: 2px solid var(--secondary-color);
+}
+
+/* Remove duplicate/old rules below this point */
+
+
+.btn.selected, .btn-primary, .btn:focus {
+  background-color: var(--secondary-color);
+  color: var(--text-color) !important;
+}
+
+.form-error {
+  color: #b00020;
+  background: #fff;
+  color: var(--text-color);
+}
+
+.form-success {
+  color: var(--secondary-color);
+  background: #e6f9ed;
+}
+
 
 * {
   margin: 0;
@@ -20,6 +69,7 @@ body {
   line-height: 1.6;
   color: var(--text-color);
   background-color: var(--white);
+  color: var(--text-color);
 }
 
 .container {
@@ -29,6 +79,15 @@ body {
 }
 
 /* Header Styles */
+
+.logo, img.logo {
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border: 2px solid var(--primary-color);
+  box-shadow: 0 2px 8px rgba(30,58,138,0.08);
+}
 header {
   background-color: var(--primary-color);
   padding: 20px 0;
@@ -72,6 +131,11 @@ nav a:hover {
 
 /* Button Styles */
 .btn {
+  font-size: 1.1em;
+  min-width: 120px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(44,62,80,0.06);
+
   display: inline-block;
   padding: 12px 25px;
   border: none;
@@ -85,12 +149,15 @@ nav a:hover {
 /* Section Styles */
 section {
   padding: 80px 0;
+  color: #111 !important;
+  background: var(--white);
+  color: var(--text-color);
 }
 
 section h2 {
   text-align: center;
   margin-bottom: 40px;
-  color: var(--primary-color);
+  color: var(--primary-color) !important;
   font-size: 2em;
 }
 
@@ -104,6 +171,8 @@ section h2 {
 
 .impact-item {
   background: var(--white);
+  color: var(--text-color);
+  color: #111 !important;
   padding: 30px;
   border-radius: 8px;
   box-shadow: var(--shadow);
@@ -136,6 +205,7 @@ section h2 {
 
 .story-card {
   background: var(--white);
+  color: var(--text-color);
   padding: 30px;
   border-radius: 8px;
   box-shadow: var(--shadow);
@@ -155,6 +225,7 @@ section h2 {
 
 .event-item {
   background: var(--white);
+  color: var(--text-color);
   padding: 20px;
   margin-bottom: 15px;
   border-radius: 8px;
@@ -185,6 +256,7 @@ section h2 {
 
 .blog-card {
   background: var(--white);
+  color: var(--text-color);
   padding: 30px;
   border-radius: 8px;
   box-shadow: var(--shadow);
@@ -201,6 +273,7 @@ section h2 {
   max-width: 600px;
   margin: 0 auto;
   background: var(--white);
+  color: var(--text-color);
   padding: 30px;
   border-radius: 8px;
   box-shadow: var(--shadow);
@@ -403,6 +476,7 @@ html {
 
 .modal-content {
   background-color: var(--white);
+  color: var(--text-color);
   padding: 30px;
   border-radius: 8px;
   max-width: 500px;
@@ -636,7 +710,8 @@ html {
 .progress-bar {
   width: 100%;
   height: 10px;
-  background-color: #eee;
+  background-color: #fff;
+  color: var(--text-color);
   border-radius: 5px;
   margin: 20px 0;
   overflow: hidden;
@@ -775,6 +850,7 @@ html {
 
 .modal-content {
     background: white;
+  color: var(--text-color);
     padding: 2rem;
     border-radius: 8px;
     width: 90%;
@@ -808,6 +884,7 @@ html {
     border: 2px solid #ddd;
     border-radius: 4px;
     background: white;
+  color: var(--text-color);
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -824,6 +901,7 @@ html {
     border: 1px solid #ddd;
     border-radius: 4px;
     background: white;
+  color: var(--text-color);
 }
 
 /* Notifications */
@@ -874,11 +952,14 @@ html {
         top: 100%;
         right: 0;
         background: white;
+  color: var(--text-color);
         padding: 1rem;
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     
     .modal-content {
+        background: white;
+  color: var(--text-color);
         width: 95%;
         margin: 1rem;
     }

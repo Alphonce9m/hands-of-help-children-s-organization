@@ -6,7 +6,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 
 const ImpactPage = () => {
   return (
-    <Layout heroTitle="Our Impact" heroSubtitle="See how your support is making a difference.">
+    <Layout heroTitle="Our Impact" heroSubtitle="See how your support is making a difference." heroImage="/gallery/IMG-20250604-WA0004.jpg">
       <ErrorBoundary>
         <ImpactSection />
       </ErrorBoundary>

@@ -58,6 +58,7 @@ const socialLinks = [
 const navigationLinks = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/about' },
+  { name: 'Team', href: '/team' },
   { name: 'Programs', href: '/programs' },
   { name: 'Gallery', href: '/gallery' },
   { name: 'Blog', href: '/blog' },

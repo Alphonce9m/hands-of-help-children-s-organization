@@ -293,6 +293,20 @@
 }
 
 @layer utilities {
+
+/* FORCE ALL TEXT VISIBLE AND HIGH CONTRAST */
+body, div, section, main, article, aside, header, footer, nav, p, span, h1, h2, h3, h4, h5, h6, ul, ol, li, a, label, input, textarea, button, strong, em, b, i, th, td, dt, dd, blockquote, pre, code, .prose, .prose *, .prose-lg, .prose-lg *, .prose-xl, .prose-xl * {
+  color: #111 !important;
+  text-shadow: none !important;
+}
+
+
+/* Force black text for all prose sections and children, regardless of mode */
+.prose, .prose *, .prose-lg, .prose-lg *, .prose-xl, .prose-xl * {
+  color: #111 !important;
+  background: transparent !important;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
