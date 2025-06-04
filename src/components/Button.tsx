@@ -28,13 +28,13 @@ const Button: React.FC<ButtonProps> = (props) => {
     ...rest
   } = props as any;
 
-  const variants = {
+  const variants: Record<NonNullable<BaseButtonProps['variant']>, string> = {
     primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
     outline: 'border border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground',
     ghost: 'hover:bg-accent hover:text-accent-foreground',
   };
 
-  const sizes = {
+  const sizes: Record<NonNullable<BaseButtonProps['size']>, string> = {
     sm: 'h-9 rounded-md px-3',
     md: 'h-10 rounded-md px-4 py-2',
     lg: 'h-11 rounded-md px-8',
@@ -47,8 +47,8 @@ const Button: React.FC<ButtonProps> = (props) => {
         href={href}
         className={cn(
           'inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
-          variants[variant],
-          sizes[size],
+          variants[variant as keyof typeof variants],
+          sizes[size as keyof typeof sizes],
           className
         )}
         {...anchorProps}
@@ -62,8 +62,8 @@ const Button: React.FC<ButtonProps> = (props) => {
     <button
       className={cn(
         'inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
-        variants[variant],
-        sizes[size],
+        variants[variant as keyof typeof variants],
+        sizes[size as keyof typeof sizes],
         className
       )}
       {...rest}
@@ -72,48 +72,5 @@ const Button: React.FC<ButtonProps> = (props) => {
     </button>
   );
 };
-  const variants = {
-    primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
-    outline: 'border border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground',
-    ghost: 'hover:bg-accent hover:text-accent-foreground',
-  };
 
-  const sizes = {
-    sm: 'h-9 rounded-md px-3',
-    md: 'h-10 rounded-md px-4 py-2',
-    lg: 'h-11 rounded-md px-8',
-  };
-
-  if (href) {
-    return (
-      <a
-        href={href}
-        className={cn(
-          'inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
-          variants[variant],
-          sizes[size],
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </a>
-    );
-  }
-
-  return (
-    <button
-      className={cn(
-        'inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
-        variants[variant],
-        sizes[size],
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-};
-
-export default Button; 
+export default Button;
