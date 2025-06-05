@@ -1,16 +1,13 @@
 'use client';
 
 import ImpactSection from '@/components/sections/ImpactSection';
-import ErrorBoundary from '@/components/ErrorBoundary';
 
 const ImpactPage = () => {
   return (
-    
-      <ErrorBoundary>
-        <ImpactSection />
-      </ErrorBoundary>
-    
+    <div>
+      <ImpactSection />
+    </div>
   );
 };
 
-export default ImpactPage; 
+export default ImpactPage;

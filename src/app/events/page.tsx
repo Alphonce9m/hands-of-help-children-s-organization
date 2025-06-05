@@ -1,11 +1,9 @@
 'use client';
 
-import { FC, useState } from 'react';
-
+import { useState } from 'react';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
 import Card from '@/components/Card';
-
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
@@ -23,31 +21,19 @@ interface Event {
   registered?: number;
 }
 
-const EventsPage: FC = () => {
+export default function EventsPage() {
   const [activeSection, setActiveSection] = useState<string>('upcoming');
-  const [selectedMonth, setSelectedMonth] = useState<string>('all');
+  const [selectedMonth, setSelectedMonth] = useState<string>('All');
 
   const sections = [
-    { id: 'home', label: 'Home', href: '/' },
     { id: 'upcoming', label: 'Upcoming' },
     { id: 'past', label: 'Past Events' },
     { id: 'register', label: 'Register' }
   ];
 
   const months = [
-    'All',
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
+    'All', 'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
   const events: Event[] = [
@@ -91,44 +77,58 @@ const EventsPage: FC = () => {
   ];
 
   const filteredEvents = events.filter(event => {
+    if (selectedMonth === 'All') return true;
     const eventDate = new Date(event.date);
     const eventMonth = months[eventDate.getMonth() + 1];
-    return (selectedMonth === 'All' || eventMonth === selectedMonth) &&
-           (activeSection === 'upcoming' ? event.type === 'upcoming' : event.type === 'past');
+    return eventMonth === selectedMonth;
+  }).filter(event => {
+    return activeSection === 'upcoming' ? event.type === 'upcoming' : event.type === 'past';
   });
 
   return (
-    
-      <QuickNavigation
-        sections={sections}
-        activeSection={activeSection}
-        onSectionChange={setActiveSection}
-      />
-
-      {/* Month Filter */}
-      <Section className="py-8 bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
+      <Section className="py-12">
         <Container>
-          <div className="flex flex-wrap gap-4 justify-center">
-            {months.map(month => (
+          <h1 className="text-4xl font-bold text-center mb-8 text-primary">Our Events</h1>
+          
+          {/* Event Navigation */}
+          <div className="flex flex-wrap gap-4 justify-center mb-8">
+            {sections.map(section => (
               <button
-                key={month}
-                onClick={() => setSelectedMonth(month)}
+                key={section.id}
+                onClick={() => setActiveSection(section.id)}
                 className={`px-4 py-2 rounded-full transition-colors ${
-                  selectedMonth === month
+                  activeSection === section.id
                     ? 'bg-primary text-white'
                     : 'bg-white text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                {month}
+                {section.label}
               </button>
             ))}
           </div>
-        </Container>
-      </Section>
 
-      {/* Events Grid */}
-      <Section className="py-12">
-        <Container>
+          {/* Month Filter */}
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold mb-4 text-center">Filter by Month</h2>
+            <div className="flex flex-wrap gap-2 justify-center">
+              {months.map(month => (
+                <button
+                  key={month}
+                  onClick={() => setSelectedMonth(month)}
+                  className={`px-3 py-1 rounded-full text-sm transition-colors ${
+                    selectedMonth === month
+                      ? 'bg-primary text-white'
+                      : 'bg-white text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  {month}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Events Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredEvents.map((event, index) => (
               <motion.div
@@ -163,8 +163,8 @@ const EventsPage: FC = () => {
                     </div>
                     <h3 className="text-xl font-bold mb-2">{event.title}</h3>
                     <p className="text-gray-600 mb-4">{event.description}</p>
-                    <div className="flex items-center text-gray-600">
-                      <span className="text-primary">Location:</span>
+                    <div className="flex items-center text-gray-600 mb-4">
+                      <span className="text-primary">📍</span>
                       <span className="ml-2">{event.location}</span>
                     </div>
                     {event.type === 'upcoming' && event.registrationRequired && event.capacity && event.registered !== undefined && (
@@ -200,15 +200,11 @@ const EventsPage: FC = () => {
               </motion.div>
             ))}
           </div>
-        </Container>
-      </Section>
 
-      {/* Event Registration Form */}
-      {activeSection === 'register' && (
-        <Section className="py-12 bg-gray-50">
-          <Container>
-            <div className="max-w-2xl mx-auto">
-              <Card className="p-8">
+          {/* Registration Form */}
+          {activeSection === 'register' && (
+            <div className="mt-12">
+              <Card className="p-8 max-w-2xl mx-auto">
                 <h2 className="text-2xl font-bold mb-6">Register for an Event</h2>
                 <form className="space-y-6">
                   <div>
@@ -262,11 +258,9 @@ const EventsPage: FC = () => {
                 </form>
               </Card>
             </div>
-          </Container>
-        </Section>
-      )}
-    
+          )}
+        </Container>
+      </Section>
+    </div>
   );
-};
-
-export default EventsPage; 
+}

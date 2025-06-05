@@ -99,96 +99,94 @@ const FAQPage: FC = () => {
   };
 
   return (
-    
-      <QuickNavigation
-        sections={sections}
-        activeSection={activeSection}
-        onSectionChange={setActiveSection}
-      />
-
-      {/* FAQ Categories */}
-      <Section className="py-8 bg-gray-50">
-        <Container>
-          <div className="flex flex-wrap gap-4 justify-center">
-            {sections.filter(section => section.id !== 'home').map(section => (
-              <button
-                key={section.id}
-                onClick={() => setActiveSection(section.id)}
-                className={`px-4 py-2 rounded-full transition-colors ${
-                  activeSection === section.id
-                    ? 'bg-primary text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                {section.label}
-              </button>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      {/* FAQ List */}
-      <Section className="py-12">
-        <Container>
-          <div className="max-w-3xl mx-auto">
-            {faqs[activeSection as keyof typeof faqs].map((faq, index) => (
-              <motion.div
-                key={faq.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="mb-4"
-              >
+    <div className="py-12">
+      <Container>
+        <h1 className="text-4xl font-bold text-center mb-12 text-primary">Frequently Asked Questions</h1>
+        
+        {/* FAQ Categories */}
+        <Section className="py-8 bg-gray-50">
+          <Container>
+            <div className="flex flex-wrap gap-4 justify-center">
+              {sections.filter(section => section.id !== 'home').map(section => (
                 <button
-                  onClick={() => toggleQuestion(faq.id)}
-                  className="w-full text-left p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                  key={section.id}
+                  onClick={() => setActiveSection(section.id)}
+                  className={`px-4 py-2 rounded-full transition-colors ${
+                    activeSection === section.id
+                      ? 'bg-primary text-white'
+                      : 'bg-white text-gray-700 hover:bg-gray-100'
+                  }`}
                 >
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold">{faq.question}</h3>
-                    <span className="text-primary text-2xl">
-                      {expandedQuestions.includes(faq.id) ? '−' : '+'}
-                    </span>
-                  </div>
-                  <AnimatePresence>
-                    {expandedQuestions.includes(faq.id) && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden"
-                      >
-                        <p className="mt-4 text-gray-600">{faq.answer}</p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  {section.label}
                 </button>
-              </motion.div>
-            ))}
-          </div>
-        </Container>
-      </Section>
+              ))}
+            </div>
+          </Container>
+        </Section>
 
-      {/* Contact Section */}
-      <Section className="py-12 bg-gray-50">
-        <Container>
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-2xl font-bold mb-4">Still Have Questions?</h2>
-            <p className="text-gray-600 mb-6">
-              If you couldn't find the answer you were looking for, feel free to contact us directly.
-            </p>
-            <button
-              onClick={() => window.location.href = '/contact'}
-              className="px-6 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary-dark transition-colors"
-            >
-              Contact Us
-            </button>
-          </div>
-        </Container>
-      </Section>
-    
+        {/* FAQ List */}
+        <Section className="py-12">
+          <Container>
+            <div className="max-w-3xl mx-auto">
+              {faqs[activeSection as keyof typeof faqs].map((faq, index) => (
+                <motion.div
+                  key={faq.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="mb-4"
+                >
+                  <button
+                    onClick={() => toggleQuestion(faq.id)}
+                    className="w-full text-left p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                  >
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold">{faq.question}</h3>
+                      <span className="text-primary text-2xl">
+                        {expandedQuestions.includes(faq.id) ? '−' : '+'}
+                      </span>
+                    </div>
+                    <AnimatePresence>
+                      {expandedQuestions.includes(faq.id) && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden"
+                        >
+                          <p className="mt-4 text-gray-600">{faq.answer}</p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </button>
+                </motion.div>
+              ))}
+            </div>
+          </Container>
+        </Section>
+
+        {/* Contact Section */}
+        <Section className="py-12 bg-gray-50">
+          <Container>
+            <div className="max-w-2xl mx-auto text-center">
+              <h2 className="text-2xl font-bold mb-4">Still Have Questions?</h2>
+              <p className="text-gray-600 mb-6">
+                If you couldn't find the answer you were looking for, feel free to contact us directly.
+              </p>
+              <button
+                onClick={() => window.location.href = '/contact'}
+                className="px-6 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary-dark transition-colors"
+              >
+                Contact Us
+              </button>
+            </div>
+          </Container>
+        </Section>
+      </Container>
+    </div>
   );
 };
 
-export default FAQPage; 
+export default FAQPage;
