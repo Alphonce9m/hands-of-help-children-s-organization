@@ -1,8 +1,8 @@
 'use client';
 
-import { FC, useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { FC, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { login, isAuthenticated } from '@/lib/session';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
 import Card from '@/components/Card';
@@ -12,31 +12,58 @@ const AdminLoginPage: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Check if user is already authenticated
+  useEffect(() => {
+    const checkAuth = async () => {
+      const isAuth = await isAuthenticated();
+      if (isAuth) {
+        router.push('/admin/dashboard');
+      } else {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Basic validation
+    if (!email || !password) {
+      setError('Please enter both email and password');
+      return;
+    }
+
     setError('');
     setIsLoading(true);
 
     try {
-      const result = await signIn('credentials', {
-        email,
-        password,
-        redirect: false,
-      });
-
-      if (result?.error) {
-        setError(result.error);
-      } else {
-        router.push('/admin/dashboard');
-      }
+      // Use the session utility to handle login
+      await login(email.trim(), password.trim());
+      
+      // Redirect to dashboard on successful login
+      router.push('/admin/dashboard');
     } catch (err) {
-      setError('An error occurred during login');
+      console.error('Login error:', err);
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
+
+  // Show loading state while checking session
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-pulse">
+          <div className="h-8 w-48 bg-gray-200 rounded"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Section className="py-16">

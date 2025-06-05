@@ -1,29 +1,46 @@
 'use client';
 
-import { FC, ReactNode } from 'react';
-import { useSession, signOut } from 'next-auth/react';
+import { FC, ReactNode, useEffect, useState } from 'react';
+import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { isAuthenticated } from '@/lib/session';
 
 interface AdminLayoutProps {
   children: ReactNode;
 }
 
 const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
-  const { data: session, status } = useSession();
   const router = useRouter();
+  const { data: session } = useSession();
+  const [isLoading, setIsLoading] = useState(true);
 
-  if (status === 'loading') {
+  useEffect(() => {
+    const checkAuth = async () => {
+      const isAuth = await isAuthenticated();
+      if (!isAuth) {
+        router.push('/admin/login');
+      } else {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, [router]);
+
+  if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p>Loading...</p>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+              Loading...
+            </span>
+          </div>
+          <p className="mt-2 text-sm text-gray-600">Loading admin dashboard...</p>
+        </div>
       </div>
     );
-  }
-
-  if (status === 'unauthenticated') {
-    router.push('/admin/login');
-    return null;
   }
 
   return (
@@ -62,7 +79,7 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <span className="text-sm text-gray-500 mr-4">
-                  Welcome, {session?.user?.name}
+                  Welcome, {session?.user?.name || 'Admin'}
                 </span>
                 <button
                   onClick={() => signOut({ callbackUrl: '/admin/login' })}
