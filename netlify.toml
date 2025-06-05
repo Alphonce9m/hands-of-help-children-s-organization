@@ -4,8 +4,31 @@
 
 [build.environment]
   NODE_VERSION = "18.18.0"
+  NPM_FLAGS = "--legacy-peer-deps"
   NEXT_TELEMETRY_DISABLED = "1"
   PRISMA_SKIP_POSTINSTALL_GENERATE = "true"
+  NODE_OPTIONS = "--max_old_space_size=4096"
+
+[build.processing]
+  skip_processing = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+[build.processing.images]
+  compress = true
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+  
+  [plugins.inputs]
+    enableNextJs = true
+    enablePrerender = true
