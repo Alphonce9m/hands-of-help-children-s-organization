@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { forwardRef, useRef, useState, useImperativeHandle } from 'react';
 import Link from 'next/link';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
@@ -20,16 +20,29 @@ const defaultButtons = [
   }
 ];
 
-const CallToAction = ({ 
+interface CallToActionRef {
+  element: HTMLElement | null;
+  // Add any other methods you want to expose
+}
+
+const CallToAction = forwardRef<CallToActionRef, CallToActionProps>(({ 
   title, 
   description, 
   buttons = defaultButtons,
   className = '' 
-}: CallToActionProps) => {
-  const ref = useRef<HTMLDivElement>(null);
+}, ref) => {
+  const sectionRef = useRef<HTMLElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  
+  // Expose the ref methods
+  useImperativeHandle(ref, () => ({
+    get element() {
+      return sectionRef.current;
+    }
+  }));
+
   const { scrollYProgress } = useScroll({
-    target: ref,
+    target: sectionRef,
     offset: ['start end', 'end start']
   });
 
@@ -39,7 +52,7 @@ const CallToAction = ({
 
   return (
     <Section 
-      ref={ref} 
+      ref={sectionRef}
       className={`py-24 relative overflow-hidden ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -160,6 +173,8 @@ const CallToAction = ({
       </AnimatePresence>
     </Section>
   );
-};
+});
 
-export default CallToAction; 
+CallToAction.displayName = 'CallToAction';
+
+export default CallToAction;
