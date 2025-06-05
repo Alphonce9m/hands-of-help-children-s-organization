@@ -1,16 +1,24 @@
 "use client";
+import Image from 'next/image';
 
 export default function AutomatedDonationForm() {
   const mchangaUrl = "https://www.mchanga.africa/fundraiser/116090";
 
   return (
     <div className="max-w-lg mx-auto mb-12 p-8 bg-white rounded-xl shadow-2xl border border-primary-100 text-center">
-      <img 
-        src="/mchanga-logo.png" 
-        alt="Mchanga Logo" 
-        className="h-12 w-auto mx-auto mb-4" 
-        onError={(e) => (e.currentTarget.style.display = 'none')} 
-      />
+      <div className="relative h-12 w-48 mx-auto mb-4">
+        <Image
+          src="/mchanga-logo.png"
+          alt="Mchanga Logo"
+          fill
+          className="object-contain"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.style.display = 'none';
+          }}
+          priority
+        />
+      </div>
       <h2 className="text-2xl font-bold mb-3 text-primary">Donate via Mchanga</h2>
       <p className="mb-6 text-gray-700">
         Support our cause by making a secure donation through Mchanga. 
