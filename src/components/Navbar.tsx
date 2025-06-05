@@ -15,7 +15,6 @@ const Navbar = () => {
     { name: 'Programs', href: '/programs' },
     { name: 'Impact', href: '/impact' },
     { name: 'Contact', href: '/contact' },
-    { name: 'Newsletter', href: '/newsletter' },
   ];
 
   return (

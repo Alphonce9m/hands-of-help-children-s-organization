@@ -274,19 +274,6 @@ document.querySelectorAll('form').forEach(form => {
     form.appendChild(actionInput);
 });
 
-// Add newsletter signup form
-const newsletterForm = document.createElement('form');
-newsletterForm.id = 'newsletter-form';
-newsletterForm.className = 'newsletter-form';
-newsletterForm.innerHTML = `
-    <h3>Subscribe to Our Newsletter</h3>
-    <div class="form-group">
-        <input type="email" name="email" placeholder="Enter your email" required>
-        <button type="submit" class="btn">Subscribe</button>
-    </div>
-`;
-document.querySelector('footer .container').appendChild(newsletterForm);
-
 // Countdown Timer for Events
 function updateCountdowns() {
     const events = document.querySelectorAll('.event-date');
