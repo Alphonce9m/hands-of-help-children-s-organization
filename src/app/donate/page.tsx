@@ -1,200 +1,170 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import Layout from '@/components/Layout';
-import Section from '@/components/Section';
 import Container from '@/components/Container';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { ImpactStat } from '@/types/sections';
-// import { PaymentButton } from '@/components/mpanga/PaymentButton';
-import { useRouter } from 'next/navigation';
-
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5 }
-};
-
-const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
-};
-
-// const paymentMethods = [
-//   {
-//     id: 'mpesa',
-//     name: 'M-Pesa',
-//     icon: '/icons/mpesa.svg'
-//   }
-// ];
+import AutomatedDonationForm from './AutomatedDonationForm';
 
 const DonatePage: FC = () => {
-  const router = useRouter();
-  // const [selectedAmount, setSelectedAmount] = useState<number>(1000);
-  // const [isSubmitting, setIsSubmitting] = useState(false);
-  // const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-
-  const [isImpactHovered, setIsImpactHovered] = useState(false);
-  const [isFormHovered, setIsFormHovered] = useState(false);
-  const [isWhyDonateHovered, setIsWhyDonateHovered] = useState(false);
-  const [isOtherWaysHovered, setIsOtherWaysHovered] = useState(false);
-
-  // const predefinedAmounts = [
-  //   { value: 1000, label: 'KSH 1,000' },
-  //   { value: 2500, label: 'KSH 2,500' },
-  //   { value: 5000, label: 'KSH 5,000' },
-  //   { value: 10000, label: 'KSH 10,000' },
-  //   { value: 25000, label: 'KSH 25,000' },
-  //   { value: 50000, label: 'KSH 50,000' }
-  // ];
-
-  const impactAreas: ImpactStat[] = [
+  const impactAreas = [
     {
       title: 'Education Support',
       description: 'Provide school supplies, uniforms, and educational resources for children in need.',
-      image: '/images/WhatsApp Image 2025-05-28 at 00.00.07_cf18e7ef.jpg',
-      label: 'Education Support'
+      icon: '📚',
+      amount: '$25',
+      impact: 'Supplies for 1 student',
+      popular: false
     },
     {
       title: 'Library Development',
       description: 'Help maintain and expand our community library and e-learning center.',
-      image: '/images/WhatsApp Image 2025-05-28 at 00.00.06_ec93febf.jpg',
-      label: 'Library Development'
+      icon: '🏫',
+      amount: '$50',
+      impact: 'Buys 5 new books',
+      popular: false
     },
     {
       title: 'Youth Programs',
       description: 'Support leadership training and skills development programs for young people.',
-      image: '/images/WhatsApp Image 2025-05-28 at 00.00.06_920ea981.jpg',
-      label: 'Youth Programs'
+      icon: '🧑‍🎓',
+      amount: '$100',
+      impact: 'Sponsors a student for a month',
+      popular: true
     },
     {
       title: 'Community Outreach',
       description: 'Fund community engagement initiatives and social support programs.',
-      image: '/images/WhatsApp Image 2025-05-28 at 00.00.06_867be25a.jpg',
-      label: 'Community Outreach'
+      icon: '🤝',
+      amount: '$250',
+      impact: 'Supports a family for a month',
+      popular: false
     }
   ];
 
-  // const handlePaymentSuccess = (data: any) => {
-  //   setSubmitStatus('success');
-  //   // Redirect to thank you page after a short delay
-  //   setTimeout(() => {
-  //     router.push(`/donate/thank-you?reference=${data.donationId}`);
-  //   }, 2000);
-  // };
-
-  // const handlePaymentError = (error: any) => {
-  //   setSubmitStatus('error');
-  //   console.error('Payment error:', error);
-  // };
+  const otherWaysToHelp = [
+    {
+      title: 'Volunteer',
+      description: 'Donate your time and skills to support our programs and initiatives.',
+      link: '/volunteer',
+      linkText: 'Join Our Team'
+    },
+    {
+      title: 'Fundraise',
+      description: 'Start a fundraiser and encourage others to support our cause.',
+      link: '/fundraise',
+      linkText: 'Start Fundraising'
+    },
+    {
+      title: 'Partnerships',
+      description: 'Explore corporate partnerships and sponsorship opportunities.',
+      link: '/partnerships',
+      linkText: 'Partner With Us'
+    }
+  ];
 
   return (
-    <>
-
-      <Layout
-        showHero={true}
-        heroTitle="Make a Difference Today"
-        heroSubtitle="Your donation helps us continue our mission of empowering communities through education and support."
-        heroImage="/images/IMG-20250515-WA0053.jpg"
-      >
-        <div className="w-full flex flex-col items-center justify-center px-2 pt-8 pb-4 bg-white/95 border-b border-gray-200">
-          <div className="max-w-6xl w-full">
-            <section className="prose prose-lg max-w-none mb-8">
-              <h2 className="gradient-text mb-4">How to Donate via M-PESA</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg flex flex-col items-center">
-                  <Image src="/payment doc/paybill.jpg" alt="M-PESA Paybill" width={500} height={350} className="rounded-xl mb-4 object-contain" />
-                  <div className="font-semibold text-center">M-PESA Paybill (Hands of Help Childrens)</div>
+    <Layout
+      showHero={true}
+      heroTitle="Make a Difference"
+      heroSubtitle="Support our mission of empowering communities through education"
+      heroImage="/images/donate-hero.jpg"
+      heroHeight="h-64 sm:h-96"
+    >
+      <div className="py-10 sm:py-20 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-2">
+              {/* Left Column - Donation Form */}
+              <div className="p-6 sm:p-8 lg:border-r border-gray-100">
+                <h2 className="gradient-text text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Make a Donation</h2>
+                <p className="text-base sm:text-lg text-gray-700 mb-6 sm:mb-8">
+                  Your generous contribution will help us continue our mission of empowering communities through education and support.
+                </p>
+                
+                <div className="space-y-6">
+                  <AutomatedDonationForm />
                 </div>
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg flex flex-col items-center">
-                  <Image src="/payment doc/till.jpg" alt="M-PESA Buy Goods Till" width={500} height={350} className="rounded-xl mb-4 object-contain" />
-                  <div className="font-semibold text-center">M-PESA Buy Goods Till (Havens)</div>
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
-        <div className="absolute inset-0 -z-10 bg-gray-50" />
-        <Section className="py-20 md:py-28 space-y-16 md:space-y-24">
-          <Container>
-            <section className="prose prose-lg max-w-none mb-8">
-              <h2 className="gradient-text mb-4">Why Donate?</h2>
-              <p>
-                Your support provides education, healthcare, and hope to children and families in need. Every donation, big or small, makes a lasting impact.
-              </p>
-            </section>
-
-            <section className="prose prose-lg max-w-none mb-8">
-              <h2 className="gradient-text mb-4">Your Impact</h2>
-              <p className="text-gray-600 text-lg mb-4">
-                Here's how your donation will be used to make a difference
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {impactAreas.map((area, index) => (
-                  <div
-                    key={index}
-                    className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-primary-100 group"
-                  >
-                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 transition-colors duration-300 group-hover:bg-primary-200/30">
-                      {area.image ? (
-                        <div className="relative w-16 h-16 rounded-full overflow-hidden">
-                          <Image
-                            src={area.image}
-                            alt={area.title || area.label || 'Impact Area Image'}
-                            fill
-                            className="object-cover"
-                          />
+                
+                <div className="mt-8 bg-blue-50 p-5 sm:p-6 rounded-xl">
+                  <h3 className="text-lg sm:text-xl font-semibold mb-3">Other Ways to Give</h3>
+                  <div className="space-y-4">
+                    {otherWaysToHelp.map((item, index) => (
+                      <div key={index} className="flex items-start gap-3 sm:gap-4">
+                        <div className="mt-1 flex-shrink-0">
+                          <span className="text-primary text-lg sm:text-xl">•</span>
                         </div>
-                      ) : (
-                        <div className="text-4xl text-primary-600 group-hover:text-primary-800 transition-colors duration-300">{area.icon}</div>
-                      )}
-                    </div>
-                    <h3 className="text-xl font-bold mb-2 text-blue-600">{area.title}</h3>
-                    <p className="text-blue-600">{area.description}</p>
+                        <div>
+                          <h4 className="font-medium text-gray-900 text-base sm:text-inherit">{item.title}</h4>
+                          <p className="text-gray-600 text-xs sm:text-sm mt-1">{item.description}</p>
+                          <Link 
+                            href={item.link}
+                            className="inline-block text-primary hover:text-primary-dark font-medium text-xs sm:text-sm mt-1"
+                          >
+                            {item.linkText} →
+                          </Link>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </section>
-
-            <section className="prose prose-lg max-w-none mb-8">
-              <h2 className="gradient-text mb-4">Other Ways to Support</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-primary-100 group">
-                  <h3 className="text-xl font-bold mb-4">Volunteer With Us</h3>
-                  <p className="mb-4">
-                    Share your time and skills to make a difference in our community. We welcome volunteers in various areas.
-                  </p>
-                  <a
-                    href="/volunteer"
-                    className="inline-block bg-primary text-white px-8 py-4 rounded-xl font-medium hover:bg-primary-dark transition-all duration-300 hover:shadow-lg hover:shadow-primary-200/50"
-                  >
-                    Learn More →
-                  </a>
-                </div>
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-primary-100 group">
-                  <h3 className="text-xl font-bold mb-4">Corporate Partnership</h3>
-                  <p className="mb-4">
-                    Partner with us to create meaningful impact through corporate social responsibility initiatives.
-                  </p>
-                  <a
-                    href="/partners"
-                    className="inline-block bg-primary text-white px-8 py-4 rounded-xl font-medium hover:bg-primary-dark transition-all duration-300 hover:shadow-lg hover:shadow-primary-200/50"
-                  >
-                    Learn More →
-                  </a>
                 </div>
               </div>
-            </section>
 
+              {/* Right Column - Impact Areas */}
+              <div className="p-6 sm:p-8 bg-gradient-to-br from-primary/90 via-black/80 to-accent/80 text-white">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Your Impact</h2>
+                <p className="text-base sm:text-lg mb-6 sm:mb-8 text-white/90">
+                  See how your donation can make a difference in the lives of those we serve.
+                </p>
+                
+                <div className="space-y-4 sm:space-y-6">
+                  {impactAreas.map((item, index) => (
+                    <div 
+                      key={index}
+                      className={`p-4 sm:p-6 rounded-xl backdrop-blur-sm ${item.popular ? 'bg-white/20 border-2 border-accent' : 'bg-white/10'}`}
+                    >
+                      <div className="flex items-start gap-3 sm:gap-4">
+                        <div className="text-2xl sm:text-3xl flex-shrink-0">{item.icon}</div>
+                        <div className="min-w-0">
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-2">
+                            <h3 className="text-lg sm:text-xl font-semibold">{item.title}</h3>
+                            {item.popular && (
+                              <span className="bg-accent text-white text-[10px] sm:text-xs font-bold px-2 py-1 rounded-full w-fit">
+                                POPULAR
+                              </span>
+                            )}
+                          </div>
+                          <p className="mt-1 sm:mt-2 text-white/80 text-xs sm:text-sm">{item.description}</p>
+                          <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-white/10">
+                            <p className="text-base sm:text-lg font-bold">{item.amount}</p>
+                            <p className="text-xs sm:text-sm text-white/60">{item.impact}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="mt-6 sm:mt-8 p-5 sm:p-6 bg-white/10 rounded-xl backdrop-blur-sm">
+                  <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3">Need Help?</h3>
+                  <p className="mb-3 sm:mb-4 text-sm sm:text-base text-white/80">
+                    Have questions about donating? Our team is here to help.
+                  </p>
+                  <Link 
+                    href="/contact" 
+                    className="inline-block w-full sm:w-auto text-center bg-white text-primary px-4 sm:px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors text-sm sm:text-base"
+                  >
+                    Contact Us
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          </Container>
-        </Section>
-      </Layout>
-    </>
+        </div>
+      </div>
+    </Layout>
   );
 };
 

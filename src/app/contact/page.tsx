@@ -10,25 +10,25 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <Layout>
-      <div className="py-12">
+      <div className="py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
+          <div className="text-center mb-12">
             <h1 className="gradient-text text-4xl font-bold mb-4">Contact Us</h1>
             <p className="text-xl text-text-light">
               Have questions? We'd love to hear from you.
             </p>
           </div>
 
-          <div className="card overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-md overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-2">
               {/* Left Side - Contact Form */}
-              <div className="p-8 border-b lg:border-b-0 lg:border-r border-white/10">
+              <div className="p-8 border-b lg:border-b-0 lg:border-r border-gray-100 bg-gray-50">
                 <h2 className="gradient-text text-2xl font-semibold mb-6">Send us a Message</h2>
                 <ContactForm />
               </div>
 
               {/* Right Side - Contact Info */}
-              <div className="p-8 bg-black/30">
+              <div className="p-8 bg-gradient-to-br from-primary/80 via-black/80 to-accent/80">
                 <h2 className="text-2xl font-semibold text-white mb-6">Contact Information</h2>
                 
                 <div className="space-y-6">
@@ -74,7 +74,7 @@ export default function ContactPage() {
                       <h3 className="text-lg font-medium text-white mb-1">Address</h3>
                       <p className="text-white/80">
                         Kasabuni Village<br />
-                        Kilifi County<br />
+                        Nairobi County<br />
                         Kenya
                       </p>
                     </div>

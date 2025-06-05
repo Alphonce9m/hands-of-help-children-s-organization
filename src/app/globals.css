@@ -68,7 +68,10 @@
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(270deg, var(--gradient-start), var(--gradient-middle), var(--gradient-end), var(--gradient-start));
+    background-size: 200% 200%;
+    animation: gradientMove 4s linear infinite;
   }
 
   .text-shadow {
@@ -183,11 +186,13 @@
   }
 
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-white to-accent;
+    @apply bg-clip-text text-transparent live-gradient-text;
+    background-image: linear-gradient(270deg, var(--gradient-start), var(--gradient-middle), var(--gradient-end), var(--gradient-start));
   }
 
   .gradient-text-alt {
-    @apply bg-clip-text text-transparent bg-gradient-to-b from-primary via-white to-accent;
+    @apply bg-clip-text text-transparent bg-gradient-to-b from-primary via-white to-accent live-gradient-text;
+    background-image: linear-gradient(270deg, var(--gradient-start), var(--gradient-middle), var(--gradient-end), var(--gradient-start));
   }
 
   .gradient-text-hover {
@@ -239,19 +244,19 @@
   }
 
   .gradient-list li::before {
-    @apply content-[''] w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent mr-2;
+    @apply content-[''] w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent mr-2 live-gradient;
   }
 
   .gradient-divider {
-    @apply h-px bg-gradient-to-r from-primary via-black to-accent;
+    @apply h-px bg-gradient-to-r from-primary via-black to-accent live-gradient;
   }
 
   .gradient-badge {
-    @apply px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-primary to-accent text-white;
+    @apply px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-primary to-accent text-white live-gradient;
   }
 
   .gradient-badge-alt {
-    @apply px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-b from-primary to-accent text-white;
+    @apply px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-b from-primary to-accent text-white live-gradient;
   }
 
   .gradient-badge-hover {
@@ -319,7 +324,7 @@
   }
 
   .gradient-section {
-    @apply bg-gradient-to-r from-primary via-black to-accent text-white relative overflow-hidden;
+    @apply bg-gradient-to-r from-primary via-black to-accent text-white relative overflow-hidden live-gradient;
   }
 
   .gradient-section::before {
@@ -327,7 +332,7 @@
   }
 
   .gradient-section-alt {
-    @apply bg-gradient-to-r from-accent via-black to-primary text-white relative overflow-hidden;
+    @apply bg-gradient-to-r from-accent via-black to-primary text-white relative overflow-hidden live-gradient;
   }
 
   .gradient-section-alt::before {
@@ -335,7 +340,7 @@
   }
 
   .gradient-overlay-alt {
-    @apply absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-transparent;
+    @apply absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-transparent live-gradient;
   }
 
   .gradient-overlay-diagonal {
@@ -422,6 +427,132 @@
     @apply transition-all duration-300 hover:bg-gradient-to-br hover:from-primary hover:via-black hover:to-accent;
   }
 }
+
+/* Removed unused keyframes and stray braces */
+
+@keyframes liveGradientMove {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 0%;
+  }
+}
+
+/* Large, animated grain/noise overlay */
+.grain-overlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2"/></filter><rect width="120" height="120" filter="url(%23noise)" opacity="0.22"/></svg>');
+  background-size: 120px 120px;
+  opacity: 0.33;
+  mix-blend-mode: overlay;
+  animation: grainMoveLarge 2.5s steps(10) infinite;
+  will-change: background-position, opacity;
+}
+
+/* Fine, animated grain/noise overlay (layer with .grain-overlay for depth) */
+.grain-overlay-fine {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="4"/></filter><rect width="60" height="60" filter="url(%23noise)" opacity="0.13"/></svg>');
+  background-size: 60px 60px;
+  opacity: 0.18;
+  mix-blend-mode: overlay;
+  animation: grainMoveFine 3.8s steps(12) infinite reverse;
+  will-change: background-position, opacity;
+}
+
+@keyframes grainMoveLarge {
+  0% { background-position: 0 0; }
+  100% { background-position: 120px 60px; }
+}
+@keyframes grainMoveFine {
+  0% { background-position: 0 0; }
+  100% { background-position: 60px 30px; }
+}
+
+/* Animated light sweep overlay */
+.light-sweep {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: radial-gradient(ellipse at 30% 50%, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.02) 60%, transparent 100%);
+  filter: blur(30px);
+  opacity: 0.7;
+  animation: sweepMove 7s linear infinite alternate;
+  will-change: background-position, opacity;
+}
+@keyframes sweepMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* Animated color wash overlay */
+.color-wash {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: linear-gradient(120deg, rgba(0,170,255,0.07) 0%, rgba(255,255,255,0.02) 60%, rgba(255,180,52,0.09) 100%);
+  opacity: 0.5;
+  animation: washMove 11s ease-in-out infinite alternate;
+  will-change: background-position, opacity;
+}
+@keyframes washMove {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+/* Usage: Layer these overlays (grain-overlay, grain-overlay-fine, light-sweep, color-wash) as absolute children of a relative gradient section for a premium animated effect. */
+
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2"/></filter><rect width="120" height="120" filter="url(%23noise)" opacity="0.22"/></svg>');
+  background-size: 120px 120px;
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  animation: grainMoveLarge 2.5s steps(10) infinite;
+
+
+@keyframes grainMoveLarge {
+  0% { background-position: 0 0; }
+  100% { background-position: 120px 60px; }
+}
+
+/* Universal live animated gradient for backgrounds */
+.live-gradient {
+  background-size: 200% 100% !important;
+  background-position: 0% 0% !important;
+  animation: liveGradientMove 6s linear infinite alternate !important;
+}
+
+/* Universal live animated gradient for text */
+.live-gradient-text {
+  background-size: 200% 200% !important;
+  animation: liveGradientMove 6s linear infinite alternate !important;
+}
+
+.navbar-gradient, .footer-gradient {
+  background: linear-gradient(90deg, #162447 0%, #fbb034 100%);
+  background-size: 200% 100%;
+  background-position: 0% 0%;
+  animation: liveGradientMove 6s linear infinite;
+}
+
+
+
+
 
 @layer utilities {
   .animate-fade-in {

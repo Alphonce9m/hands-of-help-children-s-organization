@@ -3,33 +3,10 @@
 import { motion } from 'framer-motion';
 import Layout from '@/components/Layout';
 import Container from '@/components/Container';
-import Section from '@/components/Section';
-// import Image from 'next/image'; // No longer needed
 import Link from 'next/link';
-
-// Import the new ProgramsSection and ErrorBoundary
-import ProgramsSection from '@/components/sections/ProgramsSection';
-import ErrorBoundary from '@/components/ErrorBoundary';
 import { useState } from 'react';
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5 }
-};
-
-const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
-};
-
 export default function ProgramsPage() {
-  const [isImpactHovered, setIsImpactHovered] = useState(false);
-  const [isInvolvedHovered, setIsInvolvedHovered] = useState(false);
-
   return (
     <Layout
       showHero={true}
@@ -37,60 +14,82 @@ export default function ProgramsPage() {
       heroSubtitle="Empowering communities through education and support"
       heroImage="/gallery/IMG-20250604-WA0003.jpg"
     >
-      <Container>
-        <div className="py-16 space-y-12">
-          <section className="prose prose-lg max-w-none">
-            <h2 className="gradient-text">Education Programs</h2>
-            <p>
-              Our education programs focus on providing quality learning opportunities for children
-              and young adults in our community.
-            </p>
-          </section>
+      <div className="py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-2">
+              {/* Left Column - Education Programs */}
+              <div className="p-8 lg:border-r border-gray-100 bg-white">
+                <h2 className="gradient-text text-3xl font-bold mb-6">Education Programs</h2>
+                <p className="text-lg text-gray-700 mb-8">
+                  Our education programs focus on providing quality learning opportunities for children
+                  and young adults in our community.
+                </p>
+                
+                <div className="space-y-6">
+                  <div className="p-6 bg-gray-50 rounded-xl">
+                    <h3 className="gradient-text text-xl font-semibold mb-3">Community Library</h3>
+                    <p className="text-gray-600">
+                      A safe space for children to study, read, and access educational resources.
+                    </p>
+                  </div>
+                  
+                  <div className="p-6 bg-gray-50 rounded-xl">
+                    <h3 className="gradient-text text-xl font-semibold mb-3">E-Learning Center</h3>
+                    <p className="text-gray-600">
+                      Digital literacy programs and computer access for students.
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-          <section className="grid md:grid-cols-2 gap-8">
-            <div className="card p-6">
-              <h3 className="gradient-text mb-4">Community Library</h3>
-              <p>
-                A safe space for children to study, read, and access educational resources.
-              </p>
+              {/* Right Column - Community Support */}
+              <div className="p-8 bg-gradient-to-br from-primary/80 via-black/80 to-accent/80 text-white">
+                <h2 className="text-3xl font-bold mb-6">Community Support</h2>
+                <p className="text-lg mb-8 text-white/90">
+                  We provide various support programs to help families and individuals in need.
+                </p>
+                
+                <div className="space-y-6">
+                  <div className="p-6 bg-white/10 rounded-xl backdrop-blur-sm">
+                    <h3 className="text-xl font-semibold mb-3">Food Security</h3>
+                    <p className="text-white/80">
+                      Regular food distribution and nutrition programs.
+                    </p>
+                  </div>
+                  
+                  <div className="p-6 bg-white/10 rounded-xl backdrop-blur-sm">
+                    <h3 className="text-xl font-semibold mb-3">Healthcare</h3>
+                    <p className="text-white/80">
+                      Basic healthcare services and health education.
+                    </p>
+                  </div>
+                  
+                  <div className="p-6 bg-white/10 rounded-xl backdrop-blur-sm">
+                    <h3 className="text-xl font-semibold mb-3">Skills Training</h3>
+                    <p className="text-white/80">
+                      Vocational training and life skills development.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="mt-8 p-6 bg-white/10 rounded-xl backdrop-blur-sm">
+                  <h3 className="text-xl font-semibold mb-3">Get Involved</h3>
+                  <p className="mb-4 text-white/80">
+                    Join us in making a difference in our community through our various programs.
+                  </p>
+                  <Link 
+                    href="/contact" 
+                    className="inline-block bg-white text-primary px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors"
+                  >
+                    Contact Us
+                  </Link>
+                </div>
+              </div>
             </div>
-            <div className="card p-6">
-              <h3 className="gradient-text mb-4">E-Learning Center</h3>
-              <p>
-                Digital literacy programs and computer access for students.
-              </p>
-            </div>
-          </section>
-
-          <section className="prose prose-lg max-w-none">
-            <h2 className="gradient-text">Community Support</h2>
-            <p>
-              We provide various support programs to help families and individuals in need.
-            </p>
-          </section>
-
-          <section className="grid md:grid-cols-3 gap-8">
-            <div className="card p-6">
-              <h3 className="gradient-text mb-4">Food Security</h3>
-              <p>
-                Regular food distribution and nutrition programs.
-              </p>
-            </div>
-            <div className="card p-6">
-              <h3 className="gradient-text mb-4">Healthcare</h3>
-              <p>
-                Basic healthcare services and health education.
-              </p>
-            </div>
-            <div className="card p-6">
-              <h3 className="gradient-text mb-4">Skills Training</h3>
-              <p>
-                Vocational training and life skills development.
-              </p>
-            </div>
-          </section>
+          </div>
         </div>
-      </Container>
+      </div>
     </Layout>
   );
 } 

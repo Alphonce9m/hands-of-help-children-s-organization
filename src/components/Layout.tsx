@@ -13,6 +13,7 @@ interface LayoutProps {
   heroTitle?: string;
   heroSubtitle?: string;
   heroImage?: string;
+  heroHeight?: string;
   className?: string;
 }
 
@@ -71,6 +72,7 @@ const Layout: FC<LayoutProps> = ({
   heroTitle = 'Creating a Future of Opportunity',
   heroSubtitle = 'Empowering children and young adults through education, digital literacy, and community support',
   heroImage,
+  heroHeight = 'h-96',
   className = ''
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -198,33 +200,32 @@ const Layout: FC<LayoutProps> = ({
 
       {/* Hero Section */}
       {showHero && (
-        <div className="relative h-[60vh] bg-gradient-to-r from-primary via-black to-accent overflow-hidden">
+        <section className={`relative ${heroHeight} bg-gradient-to-r from-primary via-black to-accent overflow-hidden`}>
           <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-30"></div>
           {heroImage && (
-            <div className="gradient-overlay">
+            <div className="absolute inset-0">
               <Image
                 src={heroImage}
-                alt="Hero background"
+                alt=""
                 fill
-                className="object-cover"
+                className="object-cover opacity-30"
                 priority
               />
             </div>
           )}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Container>
-              <div className="text-center text-white">
-                <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-text-alt" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
-                  {heroTitle}
-                </h1>
-                {heroSubtitle && (
-                  <p className="text-xl md:text-2xl text-white/90 gradient-text-hover" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.5)' }}>{heroSubtitle}</p>
-                )}
-
-              </div>
-            </Container>
-          </div>
-        </div>
+          <Container className="relative h-full flex items-center">
+            <div className="text-center text-white max-w-4xl mx-auto">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+                {heroTitle}
+              </h1>
+              {heroSubtitle && (
+                <p className="text-lg sm:text-xl md:text-2xl text-white/90" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.5)' }}>
+                  {heroSubtitle}
+                </p>
+              )}
+            </div>
+          </Container>
+        </section>
       )}
 
       {/* Main Content */}

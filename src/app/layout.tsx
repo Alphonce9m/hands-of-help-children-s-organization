@@ -78,6 +78,8 @@ export const metadata: Metadata = {
   },
 }
 
+import ParticleBackground from '@/components/ParticleBackground';
+
 export default function RootLayout({
   children,
 }: {
@@ -86,6 +88,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className="min-h-screen flex flex-col bg-background text-text">
+        {/* Particle animated background (from CodePen) */}
+        <ParticleBackground />
+        {/* Optional: CSS overlays, uncomment to enable */}
+        {/* <div className="fixed inset-0 -z-50 live-gradient"></div> */}
+        {/* <div className="fixed inset-0 -z-40 grain-overlay"></div> */}
+        {/* <div className="fixed inset-0 -z-30 grain-overlay-fine"></div> */}
+        {/* <div className="fixed inset-0 -z-20 light-sweep"></div> */}
+        {/* <div className="fixed inset-0 -z-10 color-wash"></div> */}
         <AccessibilityProvider>
           <Toaster />
           {children}

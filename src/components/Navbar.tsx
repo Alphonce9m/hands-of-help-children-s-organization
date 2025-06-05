@@ -15,11 +15,12 @@ const Navbar = () => {
     { name: 'Programs', href: '/programs' },
     { name: 'Impact', href: '/impact' },
     { name: 'Contact', href: '/contact' },
+    { name: 'Newsletter', href: '/newsletter' },
   ];
 
   return (
-    <nav className="bg-white shadow-sm sticky top-0 z-50">
-      <div className="container mx-auto px-4">
+    <nav className="sticky top-0 z-50 group relative overflow-hidden navbar-gradient">
+      <div className="container mx-auto px-4 relative z-10">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">

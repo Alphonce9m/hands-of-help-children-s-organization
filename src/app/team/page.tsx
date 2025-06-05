@@ -1,17 +1,17 @@
 'use client';
 
 import Layout from '@/components/Layout';
-import Container from '@/components/Container';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface TeamMember {
   name: string;
   position: string;
   image: string;
-  bio?: string;
+  bio: string;
 }
 
-const teamMembers: TeamMember[] = [
+const leadershipTeam: TeamMember[] = [
   {
     name: 'Kennedy Otieno',
     position: 'Executive Director',
@@ -29,7 +29,10 @@ const teamMembers: TeamMember[] = [
     position: 'Head of Operations',
     image: '/LEADERS/CLARRIS.jpg',
     bio: 'Overseeing day-to-day operations and ensuring efficient program delivery across all initiatives.'
-  },
+  }
+];
+
+const managementTeam: TeamMember[] = [
   {
     name: 'Eden Mwikali',
     position: 'Head of Administration',
@@ -37,14 +40,14 @@ const teamMembers: TeamMember[] = [
     bio: 'Ensuring organizational effectiveness and smooth administrative operations across all departments.'
   },
   {
-    name: 'Alphonse Mudaki',
-    position: 'IT & Business Development Manager',
+    name: 'Alphonce Mdaki',
+    position: 'IT & Business Development',
     image: '/LEADERS/ALPHONCE.jpg',
     bio: 'Driving technological innovation and business growth strategies for sustainable impact.'
   },
   {
     name: 'Macy Tarus',
-    position: 'Assistant Operations Lead & Resource Mobilization',
+    position: 'Assistant Operations Lead',
     image: '/LEADERS/MACY.jpg',
     bio: 'Managing resource mobilization efforts and supporting operational excellence.'
   },
@@ -64,91 +67,85 @@ export default function TeamPage() {
       heroSubtitle="Meet the dedicated professionals driving our mission forward"
       heroImage="/images/IMG-20250515-WA0045.jpg"
     >
-      <Container>
-        <div className="py-16 relative">
-          <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary via-black to-accent opacity-80" />
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Meet Our Leadership
-            </h2>
-            <p className="text-lg text-white/80 max-w-3xl mx-auto">
-              Our diverse team of experienced professionals brings together expertise in community development, 
-              education, technology, and operations to create lasting impact in our communities.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {teamMembers.map((member) => (
-              <div
-                key={member.name}
-                className="bg-white/10 backdrop-blur-sm rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
-              >
-                <div className="relative h-64">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-1">
-                    {member.name}
-                  </h3>
-                  <p className="text-primary font-medium mb-3">
-                    {member.position}
-                  </p>
-                  {member.bio && (
-                    <p className="text-white/80 text-sm">
-                      {member.bio}
-                    </p>
-                  )}
-                  <div className="mt-4 flex gap-3">
-                    <a
-                      href={`mailto:${member.name.toLowerCase().replace(' ', '.')}@handsofhelp.org`}
-                      className="text-primary hover:text-primary-dark transition-colors"
-                    >
-                      Contact
-                    </a>
-                    <a
-                      href={`https://www.linkedin.com/in/${member.name.toLowerCase().replace(' ', '-')}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:text-primary-dark transition-colors"
-                    >
-                      LinkedIn
-                    </a>
-                  </div>
+      <div className="py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-2">
+              {/* Left Column - Leadership Team */}
+              <div className="p-8 lg:border-r border-gray-100 bg-white">
+                <h2 className="gradient-text text-3xl font-bold mb-6">Leadership Team</h2>
+                <p className="text-lg text-gray-700 mb-8">
+                  Our executive leadership brings together decades of experience in community development,
+                  non-profit management, and social impact initiatives to guide our organization's vision and strategy.
+                </p>
+                
+                <div className="space-y-6">
+                  {leadershipTeam.map((member) => (
+                    <div key={member.name} className="flex gap-6 items-start p-6 bg-gray-50 rounded-xl">
+                      <div className="relative w-24 h-24 flex-shrink-0 rounded-full overflow-hidden">
+                        <Image
+                          src={member.image}
+                          alt={member.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div>
+                        <h3 className="gradient-text text-xl font-semibold">{member.name}</h3>
+                        <p className="text-primary font-medium mb-2">{member.position}</p>
+                        <p className="text-gray-600 text-sm">{member.bio}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
 
-          <div className="text-center mt-16">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Join Our Team
-            </h3>
-            <p className="text-white/80 mb-6 max-w-2xl mx-auto">
-              We're always looking for passionate individuals who want to make a difference in our community.
-              Check out our current opportunities or send us your resume.
-            </p>
-            <div className="flex gap-4 justify-center">
-              <a
-                href="/careers"
-                className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition-colors"
-              >
-                View Open Positions
-              </a>
-              <a
-                href="/contact"
-                className="bg-white/10 backdrop-blur-sm text-white px-6 py-3 rounded-lg hover:bg-white/20 transition-colors"
-              >
-                Contact Us
-              </a>
+              {/* Right Column - Management Team */}
+              <div className="p-8 bg-gradient-to-br from-primary/80 via-black/80 to-accent/80 text-white">
+                <h2 className="text-3xl font-bold mb-6">Management Team</h2>
+                <p className="text-lg mb-8 text-white/90">
+                  Our management professionals oversee the day-to-day operations and program implementation,
+                  ensuring we deliver maximum impact in the communities we serve.
+                </p>
+                
+                <div className="space-y-6">
+                  {managementTeam.map((member) => (
+                    <div key={member.name} className="flex gap-4 items-start p-6 bg-white/10 rounded-xl backdrop-blur-sm">
+                      <div className="relative w-20 h-20 flex-shrink-0 rounded-full overflow-hidden border-2 border-white/20">
+                        <Image
+                          src={member.image}
+                          alt={member.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-semibold">{member.name}</h3>
+                        <p className="text-accent/80 font-medium mb-2">{member.position}</p>
+                        <p className="text-white/80 text-sm">{member.bio}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="mt-8 p-6 bg-white/10 rounded-xl backdrop-blur-sm">
+                  <h3 className="text-xl font-semibold mb-3">Join Our Team</h3>
+                  <p className="mb-4 text-white/80">
+                    Interested in joining our dedicated team? We're always looking for passionate individuals to help us make a difference.
+                  </p>
+                  <a
+                    href="/contact"
+                    className="inline-block bg-white text-primary px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors"
+                  >
+                    Contact Us
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </Container>
+      </div>
     </Layout>
   );
-} 
+}
+ 

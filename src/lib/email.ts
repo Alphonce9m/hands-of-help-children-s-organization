@@ -19,6 +19,15 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+export async function sendNewsletterEmail({ to, subject, html }: { to: string; subject: string; html: string }) {
+  await transporter.sendMail({
+    from: process.env.SMTP_FROM || process.env.SMTP_USER,
+    to,
+    subject,
+    html,
+  });
+}
+
 export async function sendContactFormEmail({
   to,
   from,
