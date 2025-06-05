@@ -6,7 +6,7 @@ import Layout from '@/components/Layout';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import Skeleton from '@/components/ui/Skeleton';
 import ScrollToTop from '@/components/ui/ScrollToTop';
-import { cn } from '@/lib/utils';
+import { cn } from '../lib/utils';
 
 // Dynamically import heavy components with improved loading states
 const HeroSection = dynamic(() => import('@/components/sections').then(mod => mod.HeroSection), {

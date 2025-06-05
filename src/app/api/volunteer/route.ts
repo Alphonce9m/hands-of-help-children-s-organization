@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import { ApiError, errorHandler } from '@/middleware/error-handler';
+import { ApiError, errorHandler } from '@/lib/imports';
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,

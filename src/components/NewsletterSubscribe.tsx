@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
-import { supabase } from '@/lib/supabaseClient';
-import { generateVerificationToken, getErrorMessage } from '@/lib/utils';
+import { supabase } from '../lib/supabaseClient';
+import { generateVerificationToken, getErrorMessage } from '../lib/utils';
 
 export default function NewsletterSubscribe() {
   const [email, setEmail] = useState('');

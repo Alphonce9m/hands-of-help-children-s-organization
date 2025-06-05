@@ -5,7 +5,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { Button } from '@/components/ui/button';
 import { Share2 } from 'lucide-react';
 import { ShareOptions } from '@/types/share';
-import { cn } from '@/lib/utils';
+import { cn } from '../lib/utils';
 
 interface ShareDialogProps {
   isOpen: boolean;

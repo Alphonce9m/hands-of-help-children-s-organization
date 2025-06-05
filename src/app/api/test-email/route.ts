@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { sendContactFormEmail } from '@/lib/email';
+import { sendContactFormEmail } from '@/lib/imports';
 
 export async function GET() {
   try {

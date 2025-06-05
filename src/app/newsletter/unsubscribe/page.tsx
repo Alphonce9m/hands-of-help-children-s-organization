@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { supabase } from '@/lib/supabaseClient';
-import { getErrorMessage } from '@/lib/utils';
+import { supabase } from '../../../../src/lib/supabaseClient';
+import { getErrorMessage } from '../../../lib/utils';
 
 export default function UnsubscribePage() {
   const searchParams = useSearchParams();

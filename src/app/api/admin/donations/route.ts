@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/imports';
 import { Donation, Donor, DonationStatus } from '@prisma/client';
 
 type DonationWithDonor = Donation & {

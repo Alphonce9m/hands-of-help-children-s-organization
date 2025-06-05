@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabaseClient';
+import { supabase } from '../../../../src/lib/supabaseClient';
 
 export default function NewsletterAdminPage() {
   const [title, setTitle] = useState('');
@@ -30,9 +30,19 @@ export default function NewsletterAdminPage() {
     setError('');
     setSuccess(false);
     // Upsert newsletter (always keep just one latest)
-    const { error } = await supabase.from('newsletters').upsert([
-      { title, body, updated_at: new Date().toISOString() }
-    ], { onConflict: ['title'] });
+    const { error } = await supabase
+      .from('newsletters')
+      .upsert(
+        { 
+          id: 'latest', // Use a constant ID to ensure we only keep one newsletter
+          title, 
+          body, 
+          updated_at: new Date().toISOString() 
+        },
+        { 
+          onConflict: 'id' // This ensures we only keep one newsletter
+        }
+      );
     setLoading(false);
     if (error) setError(error.message);
     else setSuccess(true);

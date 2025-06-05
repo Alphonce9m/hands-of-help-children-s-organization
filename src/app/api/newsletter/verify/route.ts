@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { prisma } from '@/lib/imports';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
