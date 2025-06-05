@@ -1,125 +1,147 @@
 'use client';
 
-import { FC, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { login, isAuthenticated } from '@/lib/session';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
 import Card from '@/components/Card';
 
-const AdminLoginPage: FC = () => {
+export const dynamic = 'force-dynamic';
+
+export default function AdminLoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+  const { data: session, status } = useSession();
 
-  // Check if user is already authenticated
+  // Set client-side only after mount
   useEffect(() => {
-    const checkAuth = async () => {
-      const isAuth = await isAuthenticated();
-      if (isAuth) {
-        router.push('/admin/dashboard');
-      } else {
-        setIsLoading(false);
-      }
-    };
+    setIsClient(true);
+  }, []);
 
-    checkAuth();
-  }, [router]);
+  // Handle redirect if already authenticated
+  useEffect(() => {
+    if (status === 'authenticated' && session?.user) {
+      router.push('/admin/dashboard');
+    }
+  }, [status, session, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Basic validation
-    if (!email || !password) {
-      setError('Please enter both email and password');
-      return;
-    }
-
     setError('');
     setIsLoading(true);
 
+    if (!email || !password) {
+      setError('Please enter both email and password');
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      // Use the session utility to handle login
-      await login(email.trim(), password.trim());
-      
-      // Redirect to dashboard on successful login
-      router.push('/admin/dashboard');
+      const result = await signIn('credentials', {
+        redirect: false,
+        email,
+        password,
+      });
+
+      if (result?.error) {
+        setError(result.error);
+      } else {
+        router.push('/admin/dashboard');
+      }
     } catch (err) {
+      setError('An error occurred during login');
       console.error('Login error:', err);
-      setError(err instanceof Error ? err.message : 'An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Show loading state while checking session
-  if (status === 'loading') {
+  if (!isClient || status === 'loading') {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse">
-          <div className="h-8 w-48 bg-gray-200 rounded"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+              Loading...
+            </span>
+          </div>
+          <p className="mt-2 text-sm text-gray-600">Loading login page...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <Section className="py-16">
-      <Container>
-        <div className="max-w-md mx-auto">
-          <Card className="p-8">
-            <h1 className="text-2xl font-bold text-center mb-8">Admin Login</h1>
-            
-            {error && (
-              <div className="mb-4 p-4 bg-red-50 text-red-600 rounded-md">
-                {error}
-              </div>
-            )}
+    <Section className="min-h-screen flex items-center justify-center bg-gray-50">
+      <Container className="max-w-md">
+        <Card className="p-8">
+          <div className="text-center mb-8">
+            <h1 className="text-2xl font-bold text-gray-900">Admin Login</h1>
+            <p className="mt-2 text-sm text-gray-600">Sign in to your admin account</p>
+          </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                  Email
-                </label>
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 text-red-700 text-sm rounded-md">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Email address
+              </label>
+              <div className="mt-1">
                 <input
-                  type="email"
                   id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary"
-                  required
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                  disabled={isLoading}
                 />
               </div>
+            </div>
 
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                  Password
-                </label>
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <div className="mt-1">
                 <input
-                  type="password"
                   id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary"
-                  required
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                  disabled={isLoading}
                 />
               </div>
+            </div>
 
+            <div>
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3 px-4 bg-primary text-white rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? 'Logging in...' : 'Login'}
+                {isLoading ? 'Signing in...' : 'Sign in'}
               </button>
-            </form>
-          </Card>
-        </div>
+            </div>
+          </form>
+        </Card>
       </Container>
     </Section>
   );
-};
-
-export default AdminLoginPage; 
+}

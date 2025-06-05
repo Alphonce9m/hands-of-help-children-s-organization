@@ -4,7 +4,8 @@ import { FC, ReactNode, useEffect, useState } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { isAuthenticated } from '@/lib/session';
+
+export const dynamic = 'force-dynamic';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -12,23 +13,27 @@ interface AdminLayoutProps {
 
 const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const [isClient, setIsClient] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Set client-side only after mount
   useEffect(() => {
-    const checkAuth = async () => {
-      const isAuth = await isAuthenticated();
-      if (!isAuth) {
-        router.push('/admin/login');
-      } else {
-        setIsLoading(false);
-      }
-    };
+    setIsClient(true);
+  }, []);
 
-    checkAuth();
-  }, [router]);
+  // Handle authentication state
+  useEffect(() => {
+    if (!isClient) return;
 
-  if (isLoading) {
+    if (status === 'unauthenticated' || !session?.user) {
+      router.push('/admin/login');
+    } else {
+      setIsLoading(false);
+    }
+  }, [status, session, router, isClient]);
+
+  if (status === 'loading' || isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">

@@ -5,13 +5,6 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
-// Extend the default session type to include the access token
-declare module 'next-auth' {
-  interface Session {
-    accessToken?: string;
-  }
-}
-
 // Define the stats type to match the Dashboard component's props
 interface DashboardStats {
   totalAmount: number;
@@ -50,26 +43,30 @@ function DashboardWrapper() {
   const router = useRouter();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Redirect to login if not authenticated
-    if (status === 'unauthenticated') {
-      router.push('/admin/login');
-      return;
-    }
+    // Handle authentication state and data fetching
+    const handleAuthAndData = async () => {
+      // Redirect to login if not authenticated
+      if (status === 'unauthenticated' || !session?.user) {
+        router.push('/admin/login');
+        return;
+      }
 
-    // Only fetch data if authenticated
-    if (status === 'authenticated') {
-      const fetchStats = async () => {
+      // Only fetch data if authenticated
+      if (status === 'authenticated' && session?.user) {
         try {
           setIsLoading(true);
           const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+          // Get the access token from the session
+          const accessToken = (session as any)?.accessToken || '';
+          
           const res = await fetch(`${baseUrl}/api/analytics`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${session?.accessToken}`
+              ...(accessToken ? { 'Authorization': `Bearer ${accessToken}` } : {})
             },
             cache: 'no-store',
           });
@@ -77,7 +74,6 @@ function DashboardWrapper() {
           if (!res.ok) {
             throw new Error(`Failed to fetch stats: ${res.status} ${res.statusText}`);
           }
-
 
           const data = await res.json();
           setStats(data);
@@ -87,11 +83,11 @@ function DashboardWrapper() {
         } finally {
           setIsLoading(false);
         }
-      };
+      }
+    };
 
-      fetchStats();
-    }
-  }, [status, router, session]);
+    handleAuthAndData();
+  }, [status, session, router]);
 
   // Show loading state while checking session or fetching data
   if (status === 'loading' || isLoading) {
