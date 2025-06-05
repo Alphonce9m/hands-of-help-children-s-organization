@@ -1,7 +1,7 @@
 'use client';
 
 import { FC, useState } from 'react';
-import Layout from '@/components/Layout';
+
 import Section from '@/components/Section';
 import Container from '@/components/Container';
 import { motion } from 'framer-motion';
@@ -153,12 +153,7 @@ const VolunteerPage: FC = () => {
   ];
 
   return (
-    <Layout
-      showHero={true}
-      heroTitle="Volunteer With Us"
-      heroSubtitle="Join our team of dedicated volunteers and make a difference in our community."
-      heroImage="/images/IMG-20250515-WA0047.jpg"
-    >
+    
       {/* Opportunities Section */}
       <Section 
         className="py-24 relative overflow-hidden bg-gradient-to-br from-primary-50 via-white to-primary-100"
@@ -555,7 +550,7 @@ const VolunteerPage: FC = () => {
           </div>
         </Container>
       </Section>
-    </Layout>
+    
   );
 };
 

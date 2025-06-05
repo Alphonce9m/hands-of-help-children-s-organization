@@ -1,19 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Layout from '@/components/Layout';
 import Container from '@/components/Container';
 import Link from 'next/link';
 import { useState } from 'react';
 
 export default function ProgramsPage() {
   return (
-    <Layout
-      showHero={true}
-      heroTitle="Our Programs"
-      heroSubtitle="Empowering communities through education and support"
-      heroImage="/gallery/IMG-20250604-WA0003.jpg"
-    >
+    
       <div className="py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-2xl shadow-md overflow-hidden">
@@ -90,6 +84,6 @@ export default function ProgramsPage() {
           </div>
         </div>
       </div>
-    </Layout>
+    
   );
 } 

@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import ContactForm from '@/components/ContactForm';
-import Layout from '@/components/Layout';
 
 export const metadata: Metadata = {
   title: 'Contact Us | Hands of Help',
@@ -9,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <Layout>
+    
       <div className="py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -102,6 +101,6 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
-    </Layout>
+    
   );
 } 

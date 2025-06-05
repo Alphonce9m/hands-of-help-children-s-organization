@@ -1,6 +1,5 @@
 'use client';
 
-import Layout from '@/components/Layout';
 import Container from '@/components/Container';
 import Image from 'next/image';
 
@@ -43,12 +42,7 @@ export default function GalleryPage() {
   ];
 
   return (
-    <Layout
-      showHero={true}
-      heroTitle="Our Gallery"
-      heroSubtitle="Capturing moments of impact and community growth"
-      heroImage="/images/IMG-20250515-WA0047.jpg"
-    >
+    
       <Container>
         <div className="py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -69,6 +63,6 @@ export default function GalleryPage() {
           </div>
         </div>
       </Container>
-    </Layout>
+    
   );
 } 

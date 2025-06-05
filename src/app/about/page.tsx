@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Layout from '@/components/Layout';
 import Container from '@/components/Container';
 import Section from '@/components/Section';
 import Image from 'next/image';
@@ -27,12 +26,7 @@ export default function AboutPage() {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <Layout
-      showHero={true}
-      heroTitle="About Hands of Help"
-      heroSubtitle="Empowering communities through education and support"
-      heroImage="/gallery/IMG-20250528-WA0018.jpg"
-    >
+    
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary via-black to-accent opacity-80" />
       <Container>
         <div className="py-20 space-y-16">
@@ -80,6 +74,6 @@ export default function AboutPage() {
 
         </div>
       </Container>
-    </Layout>
+    
   );
 } 

@@ -2,7 +2,6 @@
 
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
-import Layout from '@/components/Layout';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import Skeleton from '@/components/ui/Skeleton';
 import ScrollToTop from '@/components/ui/ScrollToTop';
@@ -99,7 +98,7 @@ const HomePage = () => {
   }
 
   return (
-    <Layout>
+    
       <ErrorBoundary fallback={<ErrorFallback componentName="HeroSection" />}>
         <HeroSection />
       </ErrorBoundary>
@@ -132,7 +131,7 @@ const HomePage = () => {
       </ErrorBoundary>
       
       <ScrollToTop />
-    </Layout>
+    
   );
 };
 

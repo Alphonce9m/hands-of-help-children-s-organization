@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import Layout from '@/components/Layout';
+
 import Container from '@/components/Container';
 import Section from '@/components/Section';
 import Image from 'next/image';
@@ -100,12 +100,7 @@ const BlogPage = () => {
   };
 
   return (
-    <Layout
-      showHero={true}
-      heroTitle="Our Blog"
-      heroSubtitle="Stories of impact and community growth"
-      heroImage="/images/WhatsApp Image 2025-05-28 at 00.00.04_4d4186bf.jpg"
-    >
+    
       <Container>
         <div className="py-16 space-y-12">
           {/* Search and Filter Section */}
@@ -162,7 +157,7 @@ const BlogPage = () => {
           </div>
         </div>
       </Container>
-    </Layout>
+    
   );
 };
 

@@ -1,6 +1,5 @@
 'use client';
 
-import Layout from '@/components/Layout';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -61,12 +60,7 @@ const managementTeam: TeamMember[] = [
 
 export default function TeamPage() {
   return (
-    <Layout
-      showHero={true}
-      heroTitle="Our Leadership Team"
-      heroSubtitle="Meet the dedicated professionals driving our mission forward"
-      heroImage="/images/IMG-20250515-WA0045.jpg"
-    >
+    
       <div className="py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-2xl shadow-md overflow-hidden">
@@ -145,7 +139,7 @@ export default function TeamPage() {
           </div>
         </div>
       </div>
-    </Layout>
+    
   );
 }
  

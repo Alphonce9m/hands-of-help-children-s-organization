@@ -1,10 +1,10 @@
 'use client';
 
 import { FC, useState } from 'react';
-import Layout from '@/components/Layout';
+
 import Section from '@/components/Section';
 import Container from '@/components/Container';
-import QuickNavigation from '@/components/QuickNavigation';
+
 import { motion, AnimatePresence } from 'framer-motion';
 
 const FAQPage: FC = () => {
@@ -99,12 +99,7 @@ const FAQPage: FC = () => {
   };
 
   return (
-    <Layout
-      showHero={true}
-      heroTitle="Frequently Asked Questions"
-      heroSubtitle="Find answers to common questions about our organization, programs, and how you can get involved."
-      heroImage="/faq-hero.jpg"
-    >
+    
       <QuickNavigation
         sections={sections}
         activeSection={activeSection}
@@ -192,7 +187,7 @@ const FAQPage: FC = () => {
           </div>
         </Container>
       </Section>
-    </Layout>
+    
   );
 };
 

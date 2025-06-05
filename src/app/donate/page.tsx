@@ -1,7 +1,6 @@
 'use client';
 
 import { FC } from 'react';
-import Layout from '@/components/Layout';
 import Container from '@/components/Container';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -65,13 +64,7 @@ const DonatePage: FC = () => {
   ];
 
   return (
-    <Layout
-      showHero={true}
-      heroTitle="Make a Difference"
-      heroSubtitle="Support our mission of empowering communities through education"
-      heroImage="/images/donate-hero.jpg"
-      heroHeight="h-64 sm:h-96"
-    >
+    
       <div className="py-10 sm:py-20 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="bg-white rounded-2xl shadow-md overflow-hidden">
@@ -164,7 +157,7 @@ const DonatePage: FC = () => {
 
         </div>
       </div>
-    </Layout>
+    
   );
 };
 

@@ -1,11 +1,11 @@
 'use client';
 
 import { FC, useState } from 'react';
-import Layout from '@/components/Layout';
+
 import Section from '@/components/Section';
 import Container from '@/components/Container';
 import Card from '@/components/Card';
-import QuickNavigation from '@/components/QuickNavigation';
+
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
@@ -98,12 +98,7 @@ const EventsPage: FC = () => {
   });
 
   return (
-    <Layout
-      showHero={true}
-      heroTitle="Events Calendar"
-      heroSubtitle="Join us for community events, workshops, and celebrations."
-      heroImage="/events-hero.jpg"
-    >
+    
       <QuickNavigation
         sections={sections}
         activeSection={activeSection}
@@ -270,7 +265,7 @@ const EventsPage: FC = () => {
           </Container>
         </Section>
       )}
-    </Layout>
+    
   );
 };
 
