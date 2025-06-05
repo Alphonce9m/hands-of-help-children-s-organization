@@ -1,1 +1,0 @@
-// This file is now empty as all Stripe-related code has been removed. 
