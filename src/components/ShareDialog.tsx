@@ -1,11 +1,12 @@
 'use client';
 
-import { FC, useState } from 'react';
-import * as Dialog from '@radix-ui/react-dialog';
+import { Dialog } from '@radix-ui/react-dialog';
 import { Button } from '@/components/ui/button';
 import { Share2 } from 'lucide-react';
 import { ShareOptions } from '@/types/share';
 import { cn } from '@/lib/utils';
+import { useState } from 'react';
+import type { ComponentType } from 'react';
 
 interface ShareDialogProps {
   isOpen: boolean;
@@ -14,7 +15,7 @@ interface ShareDialogProps {
   hashtags: string;
 }
 
-const ShareDialog: FC<ShareDialogProps> = ({ isOpen, onClose, message, hashtags }) => {
+const ShareDialog: ComponentType<ShareDialogProps> = ({ isOpen, onClose, message, hashtags }) => {
   const [selectedOption, setSelectedOption] = useState<ShareOptions>('copy');
 
   const handleShare = () => {
@@ -52,33 +53,36 @@ const ShareDialog: FC<ShareDialogProps> = ({ isOpen, onClose, message, hashtags 
             <div className="grid grid-cols-2 gap-4">
               <Button
                 className={cn(
-                  'w-full justify-center border rounded-md px-4 py-2 text-sm font-medium transition-colors',
+                  'w-full justify-center',
                   selectedOption === 'copy' ? 'bg-primary text-primary-foreground' : 'bg-background text-foreground hover:bg-muted'
                 )}
                 onClick={() => setSelectedOption('copy')}
                 variant="default"
+                size="default"
               >
                 <Share2 className="mr-2 h-4 w-4" />
                 Copy to Clipboard
               </Button>
               <Button
                 className={cn(
-                  'w-full justify-center border rounded-md px-4 py-2 text-sm font-medium transition-colors',
+                  'w-full justify-center',
                   selectedOption === 'whatsapp' ? 'bg-primary text-primary-foreground' : 'bg-background text-foreground hover:bg-muted'
                 )}
                 onClick={() => setSelectedOption('whatsapp')}
                 variant="default"
+                size="default"
               >
                 <Share2 className="mr-2 h-4 w-4" />
                 WhatsApp
               </Button>
               <Button
                 className={cn(
-                  'w-full justify-center border rounded-md px-4 py-2 text-sm font-medium transition-colors',
+                  'w-full justify-center',
                   selectedOption === 'twitter' ? 'bg-primary text-primary-foreground' : 'bg-background text-foreground hover:bg-muted'
                 )}
                 onClick={() => setSelectedOption('twitter')}
                 variant="default"
+                size="default"
               >
                 <Share2 className="mr-2 h-4 w-4" />
                 Twitter
@@ -86,7 +90,7 @@ const ShareDialog: FC<ShareDialogProps> = ({ isOpen, onClose, message, hashtags 
             </div>
           </div>
           <div className="mt-4 flex justify-end">
-            <Button onClick={handleShare}>Share</Button>
+            <Button onClick={handleShare} variant="default" size="default">Share</Button>
           </div>
         </Dialog.Content>
       </Dialog.Portal>

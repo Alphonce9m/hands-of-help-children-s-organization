@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState, useEffect } from 'react';
+import React from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
@@ -8,21 +8,21 @@ import Card from '@/components/Card';
 
 const CODE_TIMEOUT = 10 * 60; // 10 minutes in seconds
 
-const VerifyMFAPage: FC = () => {
+const VerifyMFAPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [code, setCode] = useState('');
-  const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isInitializing, setIsInitializing] = useState(true);
-  const [timeLeft, setTimeLeft] = useState(CODE_TIMEOUT);
-  const [canResend, setCanResend] = useState(false);
-  const [rememberDevice, setRememberDevice] = useState(false);
-  const [showBackupCode, setShowBackupCode] = useState(false);
+  const [code, setCode] = React.useState('');
+  const [error, setError] = React.useState('');
+  const [message, setMessage] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isInitializing, setIsInitializing] = React.useState(true);
+  const [timeLeft, setTimeLeft] = React.useState(CODE_TIMEOUT);
+  const [canResend, setCanResend] = React.useState(false);
+  const [rememberDevice, setRememberDevice] = React.useState(false);
+  const [showBackupCode, setShowBackupCode] = React.useState(false);
 
   // Initialize page and start timer
-  useEffect(() => {
+  React.useEffect(() => {
     const initializePage = async () => {
       try {
         const response = await fetch('/api/admin/verify-mfa', {
@@ -42,17 +42,17 @@ const VerifyMFAPage: FC = () => {
     };
 
     initializePage();
-  }, []);
+  }, [router, searchParams]);
 
   // Handle countdown timer
-  useEffect(() => {
+  React.useEffect(() => {
     if (timeLeft <= 0) {
       setCanResend(true);
       return;
     }
 
     const timer = setInterval(() => {
-      setTimeLeft((prev) => prev - 1);
+      setTimeLeft((prev: number) => prev - 1);
     }, 1000);
 
     return () => clearInterval(timer);

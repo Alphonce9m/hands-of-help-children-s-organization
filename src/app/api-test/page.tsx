@@ -1,18 +1,18 @@
 'use client';
 
-import { FC, useState, useEffect } from 'react';
+import React from 'react';
 import { testApiEndpoints } from '@/utils/api-test';
 import { testEnvironmentVariables } from '@/utils/env-test';
 
-const ApiTestPage: FC = () => {
-  const [results, setResults] = useState<{
+const ApiTestPage = () => {
+  const [results, setResults] = React.useState<{
     env: boolean;
     contact: boolean;
     volunteer: boolean;
     payment: boolean;
   } | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
 
   const runTests = async () => {
     setLoading(true);

@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
@@ -12,12 +12,12 @@ interface ResetPasswordPageProps {
   };
 }
 
-const ResetPasswordPage: FC<ResetPasswordPageProps> = ({ params }) => {
+const ResetPasswordPage = ({ params }: ResetPasswordPageProps) => {
   const router = useRouter();
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [password, setPassword] = React.useState('');
+  const [confirmPassword, setConfirmPassword] = React.useState('');
+  const [error, setError] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

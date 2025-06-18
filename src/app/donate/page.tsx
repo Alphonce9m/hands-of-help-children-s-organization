@@ -1,43 +1,59 @@
 'use client';
 
-import { FC } from 'react';
+import React from 'react';
 import Layout from '@/components/Layout';
 import Container from '@/components/Container';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import AutomatedDonationForm from './AutomatedDonationForm';
 
-const DonatePage: FC = () => {
+interface ImpactArea {
+  title: string;
+  description: string;
+  amount: string;
+  impact: string;
+  popular: boolean;
+  icon?: React.ReactNode;
+}
+
+interface DonatePageProps {
+  children?: React.ReactNode;
+}
+
+interface DonatePageProps {
+  children?: React.ReactNode;
+}
+
+const DonatePage: React.FunctionComponent = () => {
   const impactAreas = [
     {
       title: 'Education Support',
       description: 'Provide school supplies, uniforms, and educational resources for children in need.',
-      icon: '📚',
-      amount: '$25',
+
+      amount: 'KES 1,000',
       impact: 'Supplies for 1 student',
       popular: false
     },
     {
       title: 'Library Development',
       description: 'Help maintain and expand our community library and e-learning center.',
-      icon: '🏫',
-      amount: '$50',
+  
+      amount: 'KES 500',
       impact: 'Buys 5 new books',
       popular: false
     },
     {
       title: 'Youth Programs',
       description: 'Support leadership training and skills development programs for young people.',
-      icon: '🧑‍🎓',
-      amount: '$100',
+      amount: 'KES 1,000',
       impact: 'Sponsors a student for a month',
       popular: true
     },
     {
       title: 'Community Outreach',
       description: 'Fund community engagement initiatives and social support programs.',
-      icon: '🤝',
-      amount: '$250',
+  
+      amount: 'KES 20,000',
       impact: 'Supports a family for a month',
       popular: false
     }

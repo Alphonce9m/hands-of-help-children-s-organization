@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useRef, useState } from 'react';
+import React from 'react';
 
 interface AccessibilityContextType {
   announceMessage: (message: string) => void;
@@ -8,11 +8,15 @@ interface AccessibilityContextType {
   skipToMain: () => void;
 }
 
-const AccessibilityContext = createContext<AccessibilityContextType | undefined>(undefined);
+const AccessibilityContext = React.createContext<AccessibilityContextType | undefined>(undefined);
 
-export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [announcement, setAnnouncement] = useState('');
-  const mainContentRef = useRef<HTMLElement>(null);
+interface AccessibilityProviderProps {
+  children: React.ReactNode;
+}
+
+export function AccessibilityProvider({ children }: AccessibilityProviderProps) {
+  const [announcement, setAnnouncement] = React.useState<string>('');
+  const mainContentRef = React.useRef<HTMLElement | null>(null);
 
   const announceMessage = (message: string) => {
     setAnnouncement(message);
@@ -48,10 +52,10 @@ export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export const useAccessibility = () => {
-  const context = useContext(AccessibilityContext);
+export const useAccessibility = (): AccessibilityContextType => {
+  const context = React.useContext(AccessibilityContext);
   if (context === undefined) {
     throw new Error('useAccessibility must be used within an AccessibilityProvider');
   }
   return context;
-}; 
+};

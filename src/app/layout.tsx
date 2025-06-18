@@ -1,9 +1,11 @@
-import type { Metadata } from 'next'
+import { Metadata } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
 // import Layout from '@/components/Layout' // Remove this import
 import { Toaster } from 'react-hot-toast'
 import { AccessibilityProvider } from '@/contexts/AccessibilityContext'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -18,8 +20,8 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'Hands of Help - Making a Difference in Communities',
-  description: 'Join us in our mission to transform lives and empower communities through education, healthcare, and sustainable development initiatives.',
+  title: 'Hands of Help',
+  description: 'Making a difference in our communities through education, healthcare, and nutrition',
   keywords: 'charity, non-profit, community development, education, healthcare, volunteering, Kenya',
   authors: [{ name: 'Hands of Help' }],
   creator: 'Hands of Help',
@@ -30,10 +32,12 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
+    icon: '/icons/icon-192x192.png',
+    shortcut: '/icons/icon-192x192.png',
+    apple: '/icons/icon-192x192.png',
   },
-  manifest: '/site.webmanifest',
+  manifest: '/manifest.json',
+  themeColor: '#000000',
   openGraph: {
     title: 'Hands of Help - Making a Difference in Communities',
     description: 'Join us in our mission to transform lives and empower communities through education, healthcare, and sustainable development initiatives.',
@@ -57,10 +61,11 @@ export const metadata: Metadata = {
     creator: '@handsofhelp',
     images: ['/og-image.jpg'],
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Hands of Help',
   },
   robots: {
     index: true,
@@ -87,6 +92,32 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#000000" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Hands of Help" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js').then(
+                    function(registration) {
+                      console.log('ServiceWorker registration successful');
+                    },
+                    function(err) {
+                      console.log('ServiceWorker registration failed: ', err);
+                    }
+                  );
+                });
+              }
+            `,
+          }}
+        />
+      </head>
       <body className="min-h-screen flex flex-col bg-background text-text">
         {/* Particle animated background (from CodePen) */}
         <ParticleBackground />
@@ -100,6 +131,8 @@ export default function RootLayout({
           <Toaster />
           {children}
         </AccessibilityProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

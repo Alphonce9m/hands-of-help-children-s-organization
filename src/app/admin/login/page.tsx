@@ -1,18 +1,18 @@
 'use client';
 
-import { FC, useState } from 'react';
-import { signIn } from 'next-auth/react';
+import React from 'react';
+import NextAuth from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
 import Card from '@/components/Card';
 
-const AdminLoginPage: FC = () => {
+const AdminLoginPage = () => {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [error, setError] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +20,7 @@ const AdminLoginPage: FC = () => {
     setIsLoading(true);
 
     try {
-      const result = await signIn('credentials', {
+      const result = await NextAuth.signIn('credentials', {
         email,
         password,
         redirect: false,

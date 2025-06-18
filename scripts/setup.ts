@@ -28,7 +28,7 @@ async function setup() {
     // Create admin user
     console.log('Creating admin user...');
     const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD!, 10);
-    const admin = await prisma.admin.create({
+    void await prisma.admin.create({
       data: {
         email: process.env.ADMIN_EMAIL!,
         password: hashedPassword,

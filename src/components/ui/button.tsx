@@ -6,6 +6,9 @@ import { cn } from '@/lib/utils';
 interface ButtonProps extends React.ComponentProps<'button'> {
   variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
   size?: 'default' | 'sm' | 'lg' | 'icon';
+  children?: React.ReactNode;
+  className?: string;
+  onClick?: () => void;
 }
 
 export function Button({ className, variant = 'default', size = 'default', children, ...props }: ButtonProps) {

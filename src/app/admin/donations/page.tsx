@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useEffect, useState, useCallback } from 'react';
+import React from 'react';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
 import Card from '@/components/Card';
@@ -21,25 +21,25 @@ interface Donation {
 interface DonationStats {
   totalAmount: number;
   totalDonations: number;
-  completedDonations: number;
+  successfulDonations: number;
   pendingDonations: number;
   failedDonations: number;
 }
 
-const AdminDonationsPage: FC = () => {
-  const [donations, setDonations] = useState<Donation[]>([]);
-  const [stats, setStats] = useState<DonationStats>({
+const AdminDonationsPage = () => {
+  const [donations, setDonations] = React.useState<Donation[]>([]);
+  const [stats, setStats] = React.useState<DonationStats>({
     totalAmount: 0,
     totalDonations: 0,
-    completedDonations: 0,
+    successfulDonations: 0,
     pendingDonations: 0,
     failedDonations: 0,
   });
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [filter, setFilter] = useState<string>('all');
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
+  const [filter, setFilter] = React.useState<string>('all');
 
-  const fetchDonations = useCallback(async () => {
+  const fetchDonations = React.useCallback(async () => {
     try {
       const response = await fetch(`/api/admin/donations?filter=${filter}`);
       const data = await response.json();
@@ -58,7 +58,7 @@ const AdminDonationsPage: FC = () => {
     }
   }, [filter]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetchDonations();
   }, [fetchDonations]);
 
@@ -186,7 +186,7 @@ const AdminDonationsPage: FC = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {donations.map((donation) => (
+                  {donations.map((donation: Donation) => (
                     <tr key={donation.id}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         {donation.reference}

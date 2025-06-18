@@ -1,15 +1,15 @@
 'use client';
 
-import { FC, useState } from 'react';
+import React from 'react';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
 import Card from '@/components/Card';
 
-const ResetPasswordPage: FC = () => {
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+const ResetPasswordPage = () => {
+  const [email, setEmail] = React.useState('');
+  const [message, setMessage] = React.useState('');
+  const [error, setError] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

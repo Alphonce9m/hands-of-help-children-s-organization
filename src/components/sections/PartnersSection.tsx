@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 const partners = [
   {
@@ -18,7 +19,7 @@ export default function PartnersSection() {
           {partners.map((partner, idx) => (
             <div key={idx} className="flex flex-col items-center bg-white rounded-lg shadow p-6">
               {partner.logo && (
-                <img src={partner.logo} alt={partner.name} className="h-16 mb-4" />
+                <Image src={partner.logo} alt={partner.name} className="h-16 mb-4" width={64} height={64} />
               )}
               <div className="text-lg font-semibold">{partner.name}</div>
               <div className="text-gray-600 text-sm">{partner.address}</div>

@@ -1,31 +1,34 @@
 'use client';
 
-import { FC, ReactNode } from 'react';
-import { useSession, signOut } from 'next-auth/react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 
-interface AdminLayoutProps {
-  children: ReactNode;
+interface AdminLinkProps {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
 }
 
-const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
-  const { data: session, status } = useSession();
+const AdminLink = ({ href, children, className = '' }: AdminLinkProps) => {
   const router = useRouter();
+  
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    router.push(href);
+  };
 
-  if (status === 'loading') {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p>Loading...</p>
-      </div>
-    );
-  }
+  return (
+    <a href={href} onClick={handleClick} className={className}>
+      {children}
+    </a>
+  );
+};
 
-  if (status === 'unauthenticated') {
-    router.push('/admin/login');
-    return null;
-  }
+interface AdminLayoutProps {
+  children: React.ReactNode;
+}
 
+const AdminLayout = ({ children }: AdminLayoutProps) => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation Bar */}
@@ -34,42 +37,32 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
           <div className="flex justify-between h-16">
             <div className="flex">
               <div className="flex-shrink-0 flex items-center">
-                <Link href="/admin/dashboard" className="text-xl font-bold text-primary">
+                <AdminLink 
+                  href="/admin/dashboard" 
+                  className="text-xl font-bold text-primary"
+                >
                   Admin Dashboard
-                </Link>
+                </AdminLink>
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                <Link
+                <AdminLink
                   href="/admin/dashboard"
                   className="border-transparent text-gray-500 hover:border-primary hover:text-primary inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
                 >
                   Dashboard
-                </Link>
-                <Link
+                </AdminLink>
+                <AdminLink
                   href="/admin/donations"
                   className="border-transparent text-gray-500 hover:border-primary hover:text-primary inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
                 >
                   Donations
-                </Link>
-                <Link
+                </AdminLink>
+                <AdminLink
                   href="/admin/analytics"
                   className="border-transparent text-gray-500 hover:border-primary hover:text-primary inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
                 >
                   Analytics
-                </Link>
-              </div>
-            </div>
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <span className="text-sm text-gray-500 mr-4">
-                  Welcome, {session?.user?.name}
-                </span>
-                <button
-                  onClick={() => signOut({ callbackUrl: '/admin/login' })}
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-                >
-                  Logout
-                </button>
+                </AdminLink>
               </div>
             </div>
           </div>

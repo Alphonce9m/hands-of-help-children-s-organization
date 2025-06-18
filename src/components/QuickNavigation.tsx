@@ -1,126 +1,107 @@
 'use client';
 
-import { FC, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
 
+// Define types for the section items
 interface Section {
   id: string;
-  label: string;
-  href?: string;
+  name: string;
+  icon: React.ReactNode; // Using React namespace for ReactNode type
 }
 
+// Define props interface with proper TypeScript types
 interface QuickNavigationProps {
+  /**
+   * Array of section items to display in the navigation
+   */
   sections: Section[];
+  
+  /**
+   * Currently active section ID
+   */
   activeSection?: string;
+  
+  /**
+   * Callback function when a section is selected
+   * @param sectionId - The ID of the selected section
+   */
   onSectionChange?: (sectionId: string) => void;
+  
+  /**
+   * Whether to show the home button
+   * @default true
+   */
   showHomeButton?: boolean;
 }
 
-const QuickNavigation: FC<QuickNavigationProps> = ({
-  sections,
-  activeSection,
+// Component
+function QuickNavigation({
+  sections = [],
+  activeSection = '',
   onSectionChange,
-  showHomeButton = true
-}) => {
-  const [showQuickNav, setShowQuickNav] = useState(false);
+  showHomeButton = true,
+}: QuickNavigationProps) {
+  const [showQuickNav, setShowQuickNav] = React.useState<boolean>(false);
 
-  const navigateToSection = (sectionId: string) => {
-    const section = sections.find(s => s.id === sectionId);
-    if (section?.href) {
-      window.location.href = section.href;
-      return;
-    }
-    onSectionChange?.(sectionId);
-    setShowQuickNav(false);
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const toggleQuickNav = () => {
+    setShowQuickNav(!showQuickNav);
   };
 
-  return (
-    <>
-      {/* Quick Navigation Menu */}
-      <div className="fixed left-4 top-1/2 transform -translate-y-1/2 z-50 hidden md:block">
-        <motion.button
-          className="bg-white p-3 rounded-full shadow-lg text-primary hover:bg-primary hover:text-white transition-all duration-300 relative overflow-hidden group"
-          onClick={() => setShowQuickNav(!showQuickNav)}
-          whileHover={{ 
-            scale: 1.1,
-            boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
-          }}
-          whileTap={{ scale: 0.9 }}
-          transition={{ type: "spring", stiffness: 400, damping: 17 }}
-        >
-          <motion.span
-            className="absolute inset-0 bg-primary opacity-0 group-hover:opacity-10 transition-opacity duration-300"
-            initial={false}
-            animate={{ scale: showQuickNav ? 1.5 : 1 }}
-          />
-          <motion.span
-            className="relative z-10"
-            animate={{ rotate: showQuickNav ? 180 : 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            {showQuickNav ? 'Close' : 'Menu'}
-          </motion.span>
-        </motion.button>
-        
-        <AnimatePresence>
-          {showQuickNav && (
-            <motion.div
-              initial={{ opacity: 0, x: -20, scale: 0.95 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: -20, scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className="bg-white rounded-lg shadow-lg p-2 space-y-2 mt-2"
-            >
-              {sections.map((section, index) => (
-                <button
-                  key={section.id}
-                  onClick={() => onSectionChange && onSectionChange(section.id)}
-                  className={`px-4 py-2 rounded-full transition-colors ${
-                    activeSection === section.id
-                      ? 'bg-primary text-white'
-                      : 'bg-white text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  {section.label}
-                </button>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+  const handleSectionClick = React.useCallback((sectionId: string) => {
+    onSectionChange?.(sectionId);
+    setShowQuickNav(false);
+  }, [onSectionChange]);
 
-      {/* Home Button */}
-      {showHomeButton && (
-        <motion.button
-          className="fixed left-4 bottom-4 bg-white p-3 rounded-full shadow-lg text-primary hover:bg-primary hover:text-white transition-all duration-300 relative overflow-hidden group"
-          onClick={() => window.location.href = '/'}
-          whileHover={{ 
-            scale: 1.1,
-            boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
-          }}
-          whileTap={{ scale: 0.9 }}
-          transition={{ type: "spring", stiffness: 400, damping: 17 }}
-        >
-          <motion.span
-            className="absolute inset-0 bg-primary opacity-0 group-hover:opacity-10 transition-opacity duration-300"
-            initial={false}
-            whileHover={{ scale: 1.5 }}
-          />
-          <motion.span
-            className="relative z-10"
-            whileHover={{ rotate: 360 }}
-            transition={{ duration: 0.5 }}
-          >
-            Home
-          </motion.span>
-        </motion.button>
+  return (
+    <div className="fixed bottom-4 right-4 z-50">
+      <button
+        onClick={toggleQuickNav}
+        className="fixed right-4 bottom-4 z-50 p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        aria-label="Quick navigation menu"
+      >
+        {showQuickNav ? '×' : '☰'}
+      </button>
+
+      {showQuickNav && (
+        <div className="fixed right-4 bottom-20 z-50 w-64 bg-white rounded-lg shadow-xl overflow-hidden">
+          <div className="p-4 border-b border-gray-200">
+            <h3 className="text-lg font-medium text-gray-900">Quick Navigation</h3>
+          </div>
+
+          <div className="divide-y divide-gray-200">
+            {showHomeButton && (
+              <button
+                onClick={() => handleSectionClick('home')}
+                className={`w-full px-4 py-3 text-left text-sm font-medium ${
+                  activeSection === 'home' ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                <div className="flex items-center">
+                  <span className="mr-2">🏠</span>
+                  <span>Home</span>
+                </div>
+              </button>
+            )}
+
+            {sections.map((section) => (
+              <button
+                key={section.id}
+                onClick={() => handleSectionClick(section.id)}
+                className={`w-full px-4 py-3 text-left text-sm font-medium ${
+                  activeSection === section.id ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                <div className="flex items-center">
+                  <span className="mr-2">{section.icon}</span>
+                  <span>{section.name}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
       )}
-    </>
+    </div>
   );
 };
 
-export default QuickNavigation; 
+export default QuickNavigation;
