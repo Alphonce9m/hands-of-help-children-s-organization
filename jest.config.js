@@ -1,8 +1,15 @@
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/configuration
 
-/** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
+const nextJest = require('next/jest')
+
+const createJestConfig = nextJest({
+  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+  dir: './',
+})
+
+// Add any custom config to be passed to Jest
+const customJestConfig = {
   // Automatically clear mock calls, instances, contexts and results before every test
   clearMocks: true,
 
@@ -37,17 +44,17 @@ module.exports = {
   coverageReporters: ['json', 'text', 'lcov', 'clover', 'text-summary'],
 
   // The test environment that will be used for testing
-  testEnvironment: 'jsdom',
+  testEnvironment: 'jest-environment-jsdom',
 
   // The glob patterns Jest uses to detect test files
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[tj]s?(x)'],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  testPathIgnorePatterns: ['/node_modules/', '/.next/'],
+  testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],
 
   // A map from regular expressions to paths to transformers
   transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],
+    '^.+\\.(js|jsx|ts|tsx)$': ['@swc/jest'],
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
@@ -64,32 +71,9 @@ module.exports = {
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    // Handle CSS imports (with CSS modules)
-    // https://jestjs.io/docs/webpack#mocking-css-modules
-    '^\\.(css|less|sass|scss)$': 'identity-obj-proxy',
-
-    // Handle image imports
-    // https://jestjs.io/docs/webpack#handling-static-assets
-    '^\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__mocks__/fileMock.js',
-
-    // Handle module aliases
-    '^@/components/(.*)$': '<rootDir>/src/components/$1',
-    '^@/lib/(.*)$': '<rootDir>/src/lib/$1',
-    '^@/styles/(.*)$': '<rootDir>/src/styles/$1',
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
+}
 
-  // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-
-  // The paths to modules that run some code to configure or set up the testing environment before each test
-  // setupFiles: ['<rootDir>/jest.polyfills.js'],
-
-  // The test environment that will be used for testing
-  // testEnvironment: 'jest-environment-jsdom',
-
-  // A map from regular expressions to paths to transformers
-  // transform: {
-  //   '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],
-  // },
-
-};
+// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
+module.exports = createJestConfig(customJestConfig)

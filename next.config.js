@@ -1,23 +1,23 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  swcMinify: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
   images: {
-    domains: ['localhost', 'placehold.co'],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
+    domains: [
+      'images.unsplash.com',
+      'res.cloudinary.com',
+      'lh3.googleusercontent.com',
+      'avatars.githubusercontent.com',
+      'localhost',
+      ''
     ],
   },
-  webpack: (config, { isServer }) => {
-    // Exclude scripts directory from build
-    config.module.rules.push({
-      test: /scripts\/.*\.ts$/,
-      use: 'ignore-loader'
-    });
-    return config;
-  }
+  experimental: {
+    serverActions: true,
+  },
 }
 
 module.exports = nextConfig

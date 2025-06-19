@@ -26,6 +26,26 @@
     --warning: #fbbf24;
   }
 
+  body {
+    background: linear-gradient(
+      135deg,
+      var(--light-bg) 0%,
+      #e0e7ff 50%,
+      var(--light-bg) 100%
+    );
+    background-attachment: fixed;
+  }
+
+  .dark body {
+    background: linear-gradient(
+      135deg,
+      #0f172a 0%,
+      #1e293b 50%,
+      #0f172a 100%
+    );
+    background-attachment: fixed;
+  }
+
   html {
     scroll-behavior: smooth;
   }

@@ -112,13 +112,13 @@ function Layout({
             <Link href="/" className="flex items-center">
               <div className="relative w-10 h-10 mr-2">
                 <Image
-                  src="/logo.svg"
-                  alt="Hands of Hope Logo"
+                  src="C:\Users\HomePC\Desktop\ALPHONCE\public\IMG-20250514-WA0001.jpg"
+                  alt="Hands of Help"
                   fill
                   className="object-contain"
                 />
               </div>
-              <span className="text-xl font-bold text-white">Hands of Hope</span>
+              <span className="text-xl font-bold text-white">Hands of Help</span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -198,7 +198,7 @@ function Layout({
             <div>
               <h3 className="text-xl font-bold mb-4">About Us</h3>
               <p className="text-white/90">
-                Hands of Hope Children's Organization is dedicated to creating a
+                Hands of Help Children's Organization is dedicated to creating a
                 future of opportunity for children and young adults through
                 education, digital literacy, and community support.
               </p>
@@ -242,7 +242,7 @@ function Layout({
         {/* Copyright */}
         <div className="mt-8 pt-8 border-t border-white/10 text-center">
           <p className="text-white/70">
-            &copy; {new Date().getFullYear()} Hands of Hope Children's Organization. All rights reserved.
+            &copy; {new Date().getFullYear()} e Children's Organization. All rights reserved.
           </p>
         </div>
       </footer>

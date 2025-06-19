@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast'
 import { AccessibilityProvider } from '@/contexts/AccessibilityContext'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import ParticleBackground from '@/components/ParticleBackground'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -82,8 +83,6 @@ export const metadata: Metadata = {
     google: 'your-google-site-verification',
   },
 }
-
-import ParticleBackground from '@/components/ParticleBackground';
 
 export default function RootLayout({
   children,
