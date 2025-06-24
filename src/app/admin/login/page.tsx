@@ -1,21 +1,16 @@
 'use client';
 
-<<<<<<< HEAD
 import { useState, useEffect } from 'react';
-import { signIn, useSession } from 'next-auth/react';
-=======
-import React from 'react';
-import NextAuth from 'next-auth/react';
->>>>>>> main
+import { signIn } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
 import Card from '@/components/Card';
 
-<<<<<<< HEAD
 export const dynamic = 'force-dynamic';
 
-export default function AdminLoginPage() {
+const AdminLoginPage = (): JSX.Element => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,14 +30,6 @@ export default function AdminLoginPage() {
       router.push('/admin/dashboard');
     }
   }, [status, session, router]);
-=======
-const AdminLoginPage = () => {
-  const router = useRouter();
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [error, setError] = React.useState('');
-  const [isLoading, setIsLoading] = React.useState(false);
->>>>>>> main
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,12 +43,8 @@ const AdminLoginPage = () => {
     }
 
     try {
-<<<<<<< HEAD
       const result = await signIn('credentials', {
         redirect: false,
-=======
-      const result = await NextAuth.signIn('credentials', {
->>>>>>> main
         email,
         password,
       });
