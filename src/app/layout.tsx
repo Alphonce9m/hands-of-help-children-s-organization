@@ -3,20 +3,10 @@ import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import { AccessibilityProvider } from '@/contexts/AccessibilityContext'
-<<<<<<< HEAD
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-=======
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import dynamic from 'next/dynamic'
-
-// Dynamically import heavy components
-const ParticleBackground = dynamic(
-  () => import('@/components/ParticleBackground'),
-  { ssr: false }
-)
->>>>>>> main
 
 const inter = Inter({
   subsets: ['latin'],
@@ -125,20 +115,14 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col bg-background text-text">
         <AccessibilityProvider>
-<<<<<<< HEAD
-          <Toaster />
+          <Toaster position="top-right" />
           <Navbar />
           <main className="flex-grow">
             {children}
           </main>
           <Footer />
-=======
-          <ParticleBackground />
-          <Toaster position="top-right" />
-          {children}
           <Analytics />
           <SpeedInsights />
->>>>>>> main
         </AccessibilityProvider>
       </body>
     </html>
