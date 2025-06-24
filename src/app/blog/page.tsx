@@ -1,14 +1,8 @@
 'use client';
 
-<<<<<<< HEAD
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-
-=======
 import React from 'react';
 import Image from 'next/legacy/image';
 import Layout from '@/components/Layout';
->>>>>>> main
 import Container from '@/components/Container';
 
 // Type for the blog post
@@ -96,9 +90,6 @@ const BlogPage = () => {
   };
 
   return (
-<<<<<<< HEAD
-    
-=======
     <>
       <Layout
         showHero={true}
@@ -106,72 +97,67 @@ const BlogPage = () => {
         heroSubtitle="Stories of impact and community growth"
         heroImage="/images/WhatsApp Image 2025-05-28 at 00.00.04_4d4186bf.jpg"
       >
->>>>>>> main
-      <Container>
-        <div className="py-16 space-y-12">
-          {/* Search and Filter Section */}
-          <div className="flex flex-col md:flex-row gap-4 mb-8">
-            <input
-              type="text"
-              placeholder="Search posts..."
-              value={searchQuery}
-              onChange={handleSearchChange}
-              className="flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-white bg-black/50"
-            />
-            <div className="flex flex-wrap gap-2">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => handleCategoryClick(category)}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    selectedCategory === category
-                      ? 'bg-primary text-white'
-                      : 'bg-gray-100/10 text-white hover:bg-gray-200/20'
-                  }`}
-                >
-                  {category}
-                </button>
+        <Container>
+          <div className="py-16 space-y-12">
+            {/* Search and Filter Section */}
+            <div className="flex flex-col md:flex-row gap-4 mb-8">
+              <input
+                type="text"
+                placeholder="Search posts..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+                className="flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-white bg-black/50"
+              />
+              <div className="flex flex-wrap gap-2">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => handleCategoryClick(category)}
+                    className={`px-4 py-2 rounded-lg transition-colors ${
+                      selectedCategory === category
+                        ? 'bg-primary text-white'
+                        : 'bg-gray-100/10 text-white hover:bg-gray-200/20'
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredPosts.map((post: BlogPost, index: number) => (
+                <article key={index} className="card overflow-hidden">
+                  <div className="relative aspect-video">
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        layout="fill"
+                        objectFit="cover"
+                        className="absolute inset-0 w-full h-full"
+                      />
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                  </div>
+                  <div className="p-6">
+                    <time className="text-sm text-white/70">{post.date}</time>
+                    <h2 className="text-white text-xl font-bold mt-2 mb-4">{post.title}</h2>
+                    <p className="text-white/90">{post.excerpt}</p>
+                    <button 
+                      onClick={() => handleReadMore(post.title)}
+                      className="mt-4 text-white hover:text-white/80 transition-colors"
+                    >
+                      Read More →
+                    </button>
+                  </div>
+                </article>
               ))}
             </div>
           </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPosts.map((post: BlogPost, index: number) => (
-              <article key={index} className="card overflow-hidden">
-                <div className="relative aspect-video">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      layout="fill"
-                      objectFit="cover"
-                      className="absolute inset-0 w-full h-full"
-                    />
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                </div>
-                <div className="p-6">
-                  <time className="text-sm text-white/70">{post.date}</time>
-                  <h2 className="text-white text-xl font-bold mt-2 mb-4">{post.title}</h2>
-                  <p className="text-white/90">{post.excerpt}</p>
-                  <button 
-                    onClick={() => handleReadMore(post.title)}
-                    className="mt-4 text-white hover:text-white/80 transition-colors"
-                  >
-                    Read More →
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </Container>
-<<<<<<< HEAD
-    
-=======
+        </Container>
       </Layout>
     </>
->>>>>>> main
   );
 };
 
