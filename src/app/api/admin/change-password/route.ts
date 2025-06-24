@@ -1,6 +1,11 @@
 import { NextResponse } from 'next/server';
+<<<<<<< HEAD
 import { getServerSession } from 'next-auth';
 import { prisma } from '@/lib/imports';
+=======
+import { getServerSession } from 'next-auth/next';
+import { prisma } from '@/lib/prisma';
+>>>>>>> main
 import { compare, hash } from 'bcryptjs';
 
 export async function POST(req: Request) {

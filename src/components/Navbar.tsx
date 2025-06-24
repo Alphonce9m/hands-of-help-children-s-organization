@@ -1,15 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import * as React from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, HTMLMotionProps } from 'framer-motion';
 import Button from './Button';
-import Image from 'next/image';
+import Logo from './Logo';
 
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+interface MenuItem {
+  name: string;
+  href: string;
+}
 
-  const menuItems = [
+const Navbar: React.FC = () => {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const menuItems: MenuItem[] = [
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
     { name: 'Programs', href: '/programs' },
@@ -22,8 +27,8 @@ const Navbar = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <Image src="/logo.svg" alt="Hands of Help" width={48} height={48} className="h-12 w-auto" priority />
+          <Link href="/" className="flex items-center space-x-3">
+            <Logo />
             <span className="text-2xl font-bold text-primary">Hands of Help</span>
           </Link>
 
@@ -74,6 +79,7 @@ const Navbar = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             className="md:hidden"
+            as="div"
           >
             <div className="px-2 pt-2 pb-3 space-y-1 bg-white shadow-lg rounded-lg mt-2">
               {menuItems.map((item) => (

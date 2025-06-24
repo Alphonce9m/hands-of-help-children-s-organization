@@ -1,10 +1,14 @@
 'use client';
 
+<<<<<<< HEAD
 import { FC, ReactNode, useEffect, useState } from 'react';
 import { signOut, useSession } from 'next-auth/react';
+=======
+import React from 'react';
+>>>>>>> main
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 
+<<<<<<< HEAD
 export const dynamic = 'force-dynamic';
 
 interface AdminLayoutProps {
@@ -48,6 +52,34 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
     );
   }
 
+=======
+interface AdminLinkProps {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+}
+
+const AdminLink = ({ href, children, className = '' }: AdminLinkProps) => {
+  const router = useRouter();
+  
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    router.push(href);
+  };
+
+  return (
+    <a href={href} onClick={handleClick} className={className}>
+      {children}
+    </a>
+  );
+};
+
+interface AdminLayoutProps {
+  children: React.ReactNode;
+}
+
+const AdminLayout = ({ children }: AdminLayoutProps) => {
+>>>>>>> main
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation Bar */}
@@ -56,28 +88,32 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
           <div className="flex justify-between h-16">
             <div className="flex">
               <div className="flex-shrink-0 flex items-center">
-                <Link href="/admin/dashboard" className="text-xl font-bold text-primary">
+                <AdminLink 
+                  href="/admin/dashboard" 
+                  className="text-xl font-bold text-primary"
+                >
                   Admin Dashboard
-                </Link>
+                </AdminLink>
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                <Link
+                <AdminLink
                   href="/admin/dashboard"
                   className="border-transparent text-gray-500 hover:border-primary hover:text-primary inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
                 >
                   Dashboard
-                </Link>
-                <Link
+                </AdminLink>
+                <AdminLink
                   href="/admin/donations"
                   className="border-transparent text-gray-500 hover:border-primary hover:text-primary inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
                 >
                   Donations
-                </Link>
-                <Link
+                </AdminLink>
+                <AdminLink
                   href="/admin/analytics"
                   className="border-transparent text-gray-500 hover:border-primary hover:text-primary inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
                 >
                   Analytics
+<<<<<<< HEAD
                 </Link>
               </div>
             </div>
@@ -92,6 +128,9 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
                 >
                   Logout
                 </button>
+=======
+                </AdminLink>
+>>>>>>> main
               </div>
             </div>
           </div>

@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/handsofhelp
+      - NEXTAUTH_SECRET=your_secure_nextauth_secret
+      - NEXTAUTH_URL=http://localhost:3000
+      # Add other environment variables from your .env file
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: handsofhelp
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  # Uncomment and configure if you're using Redis for caching
+  # redis:
+  #   image: redis:alpine
+  #   restart: always
+  #   volumes:
+  #     - redis_data:/data
+  #   networks:
+  #     - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  # redis_data:

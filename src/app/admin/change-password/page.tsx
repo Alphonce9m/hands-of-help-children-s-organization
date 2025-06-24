@@ -1,19 +1,17 @@
 'use client';
 
-import { FC, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React from 'react';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
 import Card from '@/components/Card';
 
-const ChangePasswordPage: FC = () => {
-  const router = useRouter();
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+const ChangePasswordPage = () => {
+  const [currentPassword, setCurrentPassword] = React.useState('');
+  const [newPassword, setNewPassword] = React.useState('');
+  const [confirmPassword, setConfirmPassword] = React.useState('');
+  const [error, setError] = React.useState('');
+  const [message, setMessage] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

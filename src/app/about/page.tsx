@@ -1,10 +1,19 @@
 'use client';
 
+<<<<<<< HEAD
 import React from 'react';
 import Container from '@/components/Container';
 import Section from '@/components/Section';
 
 export default function AboutPage() {
+=======
+import Layout from '@/components/Layout';
+import Container from '@/components/Container';
+
+export default function AboutPage() {
+  
+
+>>>>>>> main
   return (
     <div className="relative min-h-screen">
       {/* Background gradient */}

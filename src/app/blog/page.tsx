@@ -1,40 +1,33 @@
 'use client';
 
+<<<<<<< HEAD
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
+=======
+import React from 'react';
+import Image from 'next/legacy/image';
+import Layout from '@/components/Layout';
+>>>>>>> main
 import Container from '@/components/Container';
-import Section from '@/components/Section';
-import Image from 'next/image';
-import Link from 'next/link';
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5 }
-};
-
-const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
+// Type for the blog post
+type BlogPost = {
+  id?: number;
+  title: string;
+  excerpt: string;
+  image: string;
+  date: string;
+  category: string;
 };
 
 const BlogPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = React.useState('All');
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   const categories = ['All', 'Education', 'Healthcare', 'Community', 'Events', 'Stories'];
 
-  const posts: {
-    title: string;
-    excerpt: string;
-    image: string;
-    date: string;
-    category: string;
-  }[] = [
+  const posts: BlogPost[] = [
     {
       title: 'Empowering Youth Through Education',
       excerpt: 'Discover how our education support program is transforming lives in the community through access to quality education and resources.',
@@ -79,12 +72,15 @@ const BlogPage = () => {
     }
   ];
 
-  const filteredPosts = posts.filter(post => {
-    const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
-    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  const filteredPosts = React.useMemo(() => 
+    posts.filter((post: BlogPost) => {
+      const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
+      const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    }),
+    [posts, selectedCategory, searchQuery]
+  );
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
@@ -100,7 +96,17 @@ const BlogPage = () => {
   };
 
   return (
+<<<<<<< HEAD
     
+=======
+    <>
+      <Layout
+        showHero={true}
+        heroTitle="Our Blog"
+        heroSubtitle="Stories of impact and community growth"
+        heroImage="/images/WhatsApp Image 2025-05-28 at 00.00.04_4d4186bf.jpg"
+      >
+>>>>>>> main
       <Container>
         <div className="py-16 space-y-12">
           {/* Search and Filter Section */}
@@ -130,15 +136,18 @@ const BlogPage = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPosts.map((post, index) => (
+            {filteredPosts.map((post: BlogPost, index: number) => (
               <article key={index} className="card overflow-hidden">
                 <div className="relative aspect-video">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
-                    className="object-cover"
-                  />
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      layout="fill"
+                      objectFit="cover"
+                      className="absolute inset-0 w-full h-full"
+                    />
+                  </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                 </div>
                 <div className="p-6">
@@ -157,7 +166,12 @@ const BlogPage = () => {
           </div>
         </div>
       </Container>
+<<<<<<< HEAD
     
+=======
+      </Layout>
+    </>
+>>>>>>> main
   );
 };
 

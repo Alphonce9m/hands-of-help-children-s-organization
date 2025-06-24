@@ -1,11 +1,22 @@
 import type { Metadata } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
-// import Layout from '@/components/Layout' // Remove this import
 import { Toaster } from 'react-hot-toast'
 import { AccessibilityProvider } from '@/contexts/AccessibilityContext'
+<<<<<<< HEAD
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+=======
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
+import dynamic from 'next/dynamic'
+
+// Dynamically import heavy components
+const ParticleBackground = dynamic(
+  () => import('@/components/ParticleBackground'),
+  { ssr: false }
+)
+>>>>>>> main
 
 const inter = Inter({
   subsets: ['latin'],
@@ -20,8 +31,8 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'Hands of Help - Making a Difference in Communities',
-  description: 'Join us in our mission to transform lives and empower communities through education, healthcare, and sustainable development initiatives.',
+  title: 'Hands of Help',
+  description: 'Making a difference in our communities through education, healthcare, and nutrition',
   keywords: 'charity, non-profit, community development, education, healthcare, volunteering, Kenya',
   authors: [{ name: 'Hands of Help' }],
   creator: 'Hands of Help',
@@ -32,10 +43,12 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
+    icon: '/icons/icon-192x192.png',
+    shortcut: '/icons/icon-192x192.png',
+    apple: '/icons/icon-192x192.png',
   },
-  manifest: '/site.webmanifest',
+  manifest: '/manifest.json',
+  themeColor: '#000000',
   openGraph: {
     title: 'Hands of Help - Making a Difference in Communities',
     description: 'Join us in our mission to transform lives and empower communities through education, healthcare, and sustainable development initiatives.',
@@ -59,10 +72,11 @@ export const metadata: Metadata = {
     creator: '@handsofhelp',
     images: ['/og-image.jpg'],
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Hands of Help',
   },
   robots: {
     index: true,
@@ -87,14 +101,44 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link
+          rel="icon"
+          href="/icon?<generated>"
+          type="image/<generated>"
+          sizes="<generated>"
+        />
+        <link
+          rel="apple-touch-icon"
+          href="/apple-icon?<generated>"
+          type="image/<generated>"
+          sizes="<generated>"
+        />
+        <meta name="theme-color" content="#000000" />
+        <meta name="color-scheme" content="light dark" />
+        <meta name="msapplication-TileColor" content="#000000" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body className="min-h-screen flex flex-col bg-background text-text">
         <AccessibilityProvider>
+<<<<<<< HEAD
           <Toaster />
           <Navbar />
           <main className="flex-grow">
             {children}
           </main>
           <Footer />
+=======
+          <ParticleBackground />
+          <Toaster position="top-right" />
+          {children}
+          <Analytics />
+          <SpeedInsights />
+>>>>>>> main
         </AccessibilityProvider>
       </body>
     </html>

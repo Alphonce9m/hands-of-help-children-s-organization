@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
+import React from 'react';
 import Section from '@/components/Section';
 import Container from '@/components/Container';
 import Card from '@/components/Card';
@@ -51,12 +51,12 @@ interface AnalyticsData {
   };
 }
 
-const AdminAnalyticsPage: FC = () => {
-  const [data, setData] = useState<AnalyticsData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+const AdminAnalyticsPage = () => {
+  const [data, setData] = React.useState<AnalyticsData | null>(null);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetchAnalytics();
   }, []);
 

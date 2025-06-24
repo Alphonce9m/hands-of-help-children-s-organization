@@ -1,22 +1,27 @@
 'use client';
 
-import { FC } from 'react';
-import Image from 'next/image';
-
 interface LogoProps {
   className?: string;
+  width?: number | string;
+  height?: number | string;
 }
 
-const Logo: FC<LogoProps> = ({ className = '' }) => {
+const Logo = ({ 
+  className = '', 
+  width = 48, 
+  height = 48 
+}: LogoProps) => {
   return (
-    <Image
-      src="/logo.svg"
-      alt="Hands of Help Logo"
-      width={40}
-      height={40}
-      className={className}
-      priority
-    />
+    <div className={`relative ${className}`} style={{ width, height }}>
+      <img
+        src="/IMG-20250514-WA0001.jpg"
+        alt="Hands of Help Logo"
+        width={width}
+        height={height}
+        className="w-full h-full rounded-full object-cover"
+        loading="eager"
+      />
+    </div>
   );
 };
 
