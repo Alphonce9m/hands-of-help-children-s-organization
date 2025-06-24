@@ -2,15 +2,24 @@
 
 interface LogoProps {
   className?: string;
+  width?: number | string;
+  height?: number | string;
 }
 
-const Logo = ({ className = '' }: LogoProps) => {
+const Logo = ({ 
+  className = '', 
+  width = 48, 
+  height = 48 
+}: LogoProps) => {
   return (
-    <div className={`w-12 h-12 rounded-full overflow-hidden ${className}`}>
+    <div className={`relative ${className}`} style={{ width, height }}>
       <img
         src="/IMG-20250514-WA0001.jpg"
         alt="Hands of Help Logo"
-        className="w-full h-full object-cover"
+        width={width}
+        height={height}
+        className="w-full h-full rounded-full object-cover"
+        loading="eager"
       />
     </div>
   );

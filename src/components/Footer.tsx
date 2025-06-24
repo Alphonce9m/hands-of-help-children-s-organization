@@ -1,4 +1,6 @@
 'use client';
+import React from 'react';
+import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from 'react-icons/fa';
 
 interface NavLinkProps {
   href: string;
@@ -86,6 +88,49 @@ const Footer: React.FC = () => {
               <li>Kasabuni, Nairobi</li>
               <li>Kenya</li>
             </ul>
+            
+            {/* Social Media Links */}
+            <div className="mt-6">
+              <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
+              <div className="flex space-x-4">
+                <a 
+                  href="https://www.facebook.com/hhcokenya/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white transition-colors"
+                  aria-label="Facebook"
+                >
+                  <FaFacebook size={24} className="inline-block" />
+                </a>
+                <a 
+                  href="https://www.instagram.com/handsofhelp_ke/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white transition-colors"
+                  aria-label="Instagram"
+                >
+                  <FaInstagram size={24} className="inline-block" />
+                </a>
+                <a 
+                  href="https://twitter.com/handsofhelp_ke" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white transition-colors"
+                  aria-label="Twitter"
+                >
+                  <FaTwitter size={24} className="inline-block" />
+                </a>
+                <a 
+                  href="https://www.linkedin.com/company/handsofhelp-kenya" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <FaLinkedin size={24} className="inline-block" />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
 
