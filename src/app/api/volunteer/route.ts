@@ -2,17 +2,39 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { ApiError, errorHandler } from '@/middleware/error-handler';
 
+interface VolunteerData {
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  availability: string;
+  experience: string;
+  [key: string]: any; // For any additional fields
+}
+
+// Type-safe environment variables access
+const getEnv = (key: string): string => {
+  const value = process.env[key];
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${key}`);
+  }
+  return value;
+};
+
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT),
+  host: getEnv('SMTP_HOST'),
+  port: Number(getEnv('SMTP_PORT')),
   secure: true,
   auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASSWORD,
+    user: getEnv('SMTP_USER'),
+    pass: getEnv('SMTP_PASSWORD'),
   },
 });
 
-const validateVolunteerData = (data: any) => {
+const SMTP_FROM = getEnv('SMTP_FROM');
+const VOLUNTEER_EMAIL = getEnv('VOLUNTEER_EMAIL');
+
+const validateVolunteerData = (data: Partial<VolunteerData>) => {
   if (!data.name || typeof data.name !== 'string' || data.name.length < 2) {
     throw new ApiError(400, 'Name is required and must be at least 2 characters long');
   }
@@ -35,13 +57,13 @@ const validateVolunteerData = (data: any) => {
 
 export async function POST(req: Request) {
   try {
-    const data = await req.json();
+    const data: VolunteerData = await req.json();
     validateVolunteerData(data);
 
     // Send email to admin
     await transporter.sendMail({
-      from: process.env.SMTP_FROM,
-      to: process.env.VOLUNTEER_EMAIL,
+      from: SMTP_FROM,
+      to: VOLUNTEER_EMAIL,
       subject: `New Volunteer Application: ${data.role}`,
       html: `
         <h2>New Volunteer Application</h2>
@@ -57,7 +79,7 @@ export async function POST(req: Request) {
 
     // Send confirmation email to volunteer
     await transporter.sendMail({
-      from: process.env.SMTP_FROM,
+      from: SMTP_FROM,
       to: data.email,
       subject: 'Thank you for your volunteer application',
       html: `

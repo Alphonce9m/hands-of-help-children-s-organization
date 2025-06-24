@@ -1,52 +1,48 @@
 'use client';
 
-import { Component, ErrorInfo, ReactNode } from 'react';
+import * as React from 'react';
 
-interface Props {
-  children: ReactNode;
-  fallback?: ReactNode;
+interface ErrorBoundaryProps {
+  children: React.ReactNode;
+  fallback?: React.ReactNode;
 }
 
-interface State {
-  hasError: boolean;
-  error?: Error;
-}
+export default function ErrorBoundary({ children, fallback }: ErrorBoundaryProps) {
+  const [hasError, setHasError] = React.useState(false);
+  const [error, setError] = React.useState<Error | null>(null);
 
-class ErrorBoundary extends Component<Props, State> {
-  public state: State = {
-    hasError: false
+  const handleCatch = (error: Error, errorInfo: React.ErrorInfo) => {
+    console.error('Uncaught error:', error, errorInfo);
+    setHasError(true);
+    setError(error);
   };
 
-  public static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error };
-  }
-
-  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Uncaught error:', error, errorInfo);
-  }
-
-  public render() {
-    if (this.state.hasError) {
-      return this.props.fallback || (
-        <div className="min-h-[400px] flex items-center justify-center">
-          <div className="text-center p-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Something went wrong</h2>
-            <p className="text-gray-600 mb-4">
-              We apologize for the inconvenience. Please try refreshing the page.
-            </p>
-            <button
-              onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
-            >
-              Refresh Page
-            </button>
-          </div>
+  if (hasError) {
+    return fallback || (
+      <div className="min-h-[400px] flex items-center justify-center">
+        <div className="text-center p-8">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">Something went wrong</h2>
+          <p className="text-gray-600 mb-4">
+            {error?.message || 'We apologize for the inconvenience. Please try refreshing the page.'}
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+          >
+            Refresh Page
+          </button>
         </div>
-      );
-    }
+      </div>
+    );
+  }
 
-    return this.props.children;
+  try {
+    return <>{children}</>;
+  } catch (e) {
+    handleCatch(e as Error, { componentStack: '' });
+    return null;
   }
 }
 
-export default ErrorBoundary; 
+// Add display name for better debugging
+ErrorBoundary.displayName = 'ErrorBoundary';

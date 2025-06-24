@@ -9,6 +9,23 @@ declare module 'next' {
   export { default } from 'next/types';
 }
 
+declare module 'next/dynamic' {
+  import { ComponentType } from 'react';
+  
+  interface DynamicOptions {
+    ssr?: boolean;
+    loading?: () => React.ReactNode | null;
+    loader?: () => Promise<ComponentType<any>>;
+  }
+  
+  const dynamic: <P = {}>(
+    loader: () => Promise<{ default: ComponentType<P> }>,
+    options?: DynamicOptions
+  ) => ComponentType<P>;
+  
+  export default dynamic;
+}
+
 declare module 'next/server' {
   export * from 'next/server';
   export { default } from 'next/server';

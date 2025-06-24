@@ -3,9 +3,6 @@
 import React from 'react';
 import Container from './Container';
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from 'react-icons/fa';
-import { usePathname } from 'next/navigation';
-import Image from 'next/image';
-import Link from 'next/link';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -32,66 +29,36 @@ const socialLinks: SocialLink[] = [
   {
     name: 'Facebook',
     url: 'https://www.facebook.com/hhcokenya/',
-    icon: <FaFacebook />,
+    icon: FaFacebook,
   },
   {
     name: 'Instagram',
-    url: 'https://www.instagram.com/hhcokenya/',
-    icon: <FaInstagram />,
+    url: 'https://www.instagram.com/handsofhelp_ke/',
+    icon: FaInstagram,
   },
   {
     name: 'Twitter',
-    url: 'https://twitter.com/hhcokenya',
-    icon: <FaTwitter />,
+    url: 'https://twitter.com/handsofhelp_ke',
+    icon: FaTwitter,
   },
   {
     name: 'LinkedIn',
-    url: 'https://www.linkedin.com/company/hands-of-help-children-s-organization/',
-    icon: <FaLinkedin />,
+    url: 'https://www.linkedin.com/company/handsofhelp-kenya',
+    icon: FaLinkedin,
   },
-  {
-    name: 'X',
-    url: 'https://x.com/hhcokenya',
-    icon: (
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-      </svg>
-    )
-  }
 ];
 
 const navigationLinks: NavigationLink[] = [
-  {
-    name: 'Home',
-    href: '/',
-  },
-  {
-    name: 'About',
-    href: '/about',
-  },
-  {
-    name: 'Team',
-    href: '/team',
-  },
-  {
-    name: 'Programs',
-    href: '/programs',
-  },
-  {
-    name: 'Gallery',
-    href: '/gallery',
-  },
-  {
-    name: 'Blog',
-    href: '/blog',
-  },
-  {
-    name: 'Contact',
-    href: '/contact',
-  }
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
+  { name: 'Team', href: '/team' },
+  { name: 'Programs', href: '/programs' },
+  { name: 'Gallery', href: '/gallery' },
+  { name: 'Blog', href: '/blog' },
+  { name: 'Contact', href: '/contact' },
 ];
 
-function Layout({
+const Layout = ({
   children,
   showHero = true,
   heroTitle = 'Creating a Future of Opportunity',
@@ -99,8 +66,9 @@ function Layout({
   heroImage,
   heroHeight = 'h-96',
   className = ''
-}: LayoutProps) {
-  const pathname = usePathname();
+}: LayoutProps) => {
+  // State for mobile menu (commented out for now as it's not being used)
+  // const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   return (
     <div className={`min-h-screen flex flex-col ${className}`}>
@@ -109,40 +77,39 @@ function Layout({
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
-            <Link href="/" className="flex items-center">
-              <div className="relative w-10 h-10 mr-2">
-                <Image
-                  src="C:\Users\HomePC\Desktop\ALPHONCE\public\IMG-20250514-WA0001.jpg"
-                  alt="Hands of Help"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-              <span className="text-xl font-bold text-white">Hands of Help</span>
-            </Link>
+            <div className="flex items-center">
+              <a href="/" className="flex items-center">
+                <div className="relative w-10 h-10 mr-2">
+                  <img
+                    src="/IMG-20250514-WA0001.jpg"
+                    alt="Hands of Help"
+                    className="w-10 h-10 object-contain"
+                  />
+                </div>
+                <span className="text-xl font-bold text-white">Hands of Help</span>
+              </a>
+            </div>
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex space-x-8">
-              {navigationLinks.map((link: NavigationLink) => (
-                <Link
+              {navigationLinks.map((link) => (
+                <a
                   key={link.href}
                   href={link.href}
-                  className={`text-white hover:text-primary transition-colors ${
-                    pathname === link.href ? 'font-bold' : ''
-                  }`}
+                  className="text-white hover:text-gray-200 px-3 py-2 text-sm font-medium transition-colors"
                 >
                   {link.name}
-                </Link>
+                </a>
               ))}
             </nav>
 
             {/* Donate Button */}
-            <Link
+            <a
               href="/donate"
-              className="hidden md:block bg-primary/90 hover:bg-primary text-white px-4 py-2 rounded-lg transition-colors"
+              className="hidden md:block bg-white text-primary hover:bg-gray-100 px-4 py-2 rounded-lg transition-colors"
             >
               Donate
-            </Link>
+            </a>
           </div>
         </div>
       </header>
@@ -151,11 +118,10 @@ function Layout({
       {showHero && (
         <section className={`relative ${heroHeight} overflow-hidden`}>
           {heroImage && (
-            <Image
+            <img
               src={heroImage}
               alt="Hero Image"
-              fill
-              className="object-cover"
+              className="w-full h-full object-cover"
             />
           )}
           <div className="absolute inset-0 bg-black/30 backdrop-blur-sm">
@@ -167,18 +133,18 @@ function Layout({
                 {heroSubtitle}
               </p>
               <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-                <Link
+                <a
                   href="/donate"
-                  className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg transition-colors"
+                  className="bg-white text-primary hover:bg-gray-100 px-4 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer"
                 >
                   Donate Now
-                </Link>
-                <Link
+                </a>
+                <a
                   href="/about"
-                  className="border border-white hover:bg-white hover:text-primary text-white px-6 py-3 rounded-lg transition-colors"
+                  className="border border-white hover:bg-white hover:text-primary text-white px-6 py-3 rounded-lg transition-colors cursor-pointer inline-block"
                 >
                   Learn More
-                </Link>
+                </a>
               </div>
             </div>
           </div>
@@ -208,14 +174,14 @@ function Layout({
             <div>
               <h3 className="text-xl font-bold mb-4">Quick Links</h3>
               <nav className="space-y-2">
-                {navigationLinks.map((link: NavigationLink) => (
-                  <Link
+                {navigationLinks.map((link) => (
+                  <a
                     key={link.href}
                     href={link.href}
-                    className="text-white/90 hover:text-white transition-colors"
+                    className="text-white hover:text-gray-200 px-3 py-2 text-sm font-medium transition-colors cursor-pointer"
                   >
                     {link.name}
-                  </Link>
+                  </a>
                 ))}
               </nav>
             </div>

@@ -19,23 +19,18 @@ interface ImpactStatsProps {
 // Default stats
 const defaultStats: ImpactStatsProps['stats'] = [
   {
-    number: '500+',
-    label: 'Children Educated',
-    image: '/images/impact/impact-1.jpg'
+    number: '10+',
+    label: 'Active Volunteers'
   },
   {
-    number: '500+',
-    label: 'Lives Impacted',
+    number: '5000+',
+    label: 'Hours Donated',
     image: '/images/impact/impact-2.jpg'
   },
   {
-    number: '5+',
-    label: 'Communities Served',
+    number: '1000+',
+    label: 'Lives Impacted',
     image: '/images/impact/impact-3.jpg'
-  },
-  {
-    number: '20+',
-    label: 'Active Volunteers'
   }
 ];
 
@@ -64,16 +59,16 @@ const ImpactStats = ({ stats = defaultStats, className = '' }: ImpactStatsProps)
             children: [
               _jsx("h2", {
                 className: "text-4xl md:text-5xl font-bold mb-6 text-white",
-                children: "Our Impact"
+                children: "Volunteer Impact"
               }),
               _jsx("p", {
                 className: "text-white/80 text-lg max-w-2xl mx-auto",
-                children: "Making a difference in communities across Kenya"
+                children: "See the difference our volunteers make in the community."
               })
             ]
           }),
           _jsx("div", {
-            className: "grid grid-cols-1 md:grid-cols-4 gap-8",
+            className: "grid grid-cols-1 md:grid-cols-3 gap-8",
             children: stats?.map((stat, index) => _jsx("div", {
               key: index,
               className: "group relative",

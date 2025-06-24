@@ -1,37 +1,36 @@
 'use client';
 
-import { FC } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import Container from './Container';
+interface NavLinkProps {
+  href: string;
+  label: string;
+  target?: string;
+  rel?: string;
+}
 
-const Footer: FC = () => {
-  const currentYear = new Date().getFullYear();
+const currentYear = new Date().getFullYear();
 
-  const footerLinks = {
-    'About Us': [
-      { name: 'Our Story', href: '/about' },
-      { name: 'Team', href: '/about#team' },
-      { name: 'Impact', href: '/impact' },
-    ],
-    'Programs': [
-      { name: 'Education', href: '/programs#education' },
-      { name: 'Healthcare', href: '/programs#healthcare' },
-      { name: 'Community Development', href: '/programs#community' },
-    ],
-    'Get Involved': [
-      { name: 'Donate', href: '/donate' },
-      { name: 'Volunteer', href: '/volunteer' },
-      { name: 'Partnerships', href: '/partnerships' },
-    ],
-  };
+const NAV_LINKS: NavLinkProps[] = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About Us' },
+  { href: '/team', label: 'Team' },
+  { href: '/programs', label: 'Programs' },
+  { href: '/gallery', label: 'Gallery' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/contact', label: 'Contact' },
+];
 
-  const socialLinks = [
-    { href: 'https://facebook.com/handsofhelp', label: 'Facebook' },
-    { href: 'https://twitter.com/handsofhelp', label: 'Twitter' },
-    { href: 'https://instagram.com/handsofhelp', label: 'Instagram' },
-    { href: 'https://linkedin.com/company/handsofhelp', label: 'LinkedIn' }
-  ];
+const Footer: React.FC = () => {
+  const renderNavLink = (link: NavLinkProps) => (
+    <a
+      key={link.href}
+      href={link.href}
+      className="text-gray-400 hover:text-white transition-colors"
+      target={link.target}
+      rel={link.rel}
+    >
+      {link.label}
+    </a>
+  );
 
   return (
     <footer className="pt-16 pb-8 text-white relative overflow-hidden group footer-gradient">
@@ -39,10 +38,20 @@ const Footer: FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center space-x-2 mb-4">
-              <Image src="/logo.svg" alt="Hands of Help Logo" width={40} height={40} />
-              <span className="text-2xl font-bold">Hands of Help</span>
-            </Link>
+            <div className="flex items-center space-x-2 mb-4">
+              <div className="flex items-center space-x-2">
+                <img 
+                  src="/logo.svg" 
+                  alt="Hands of Help Logo" 
+                  className="w-10 h-10"
+                  width={40}
+                  height={40}
+                />
+                <a href="/" className="text-2xl font-bold">
+                  Hands of Help
+                </a>
+              </div>
+            </div>
             <p className="text-gray-400 mb-4">
               Empowering children and young adults in Kasabuni, Nairobi through education, 
               digital literacy, and community support since 2015.
@@ -64,27 +73,8 @@ const Footer: FC = () => {
           {/* Quick Links */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/programs" className="text-gray-400 hover:text-white transition-colors">
-                  Programs
-                </Link>
-              </li>
-              <li>
-                <Link href="/volunteer" className="text-gray-400 hover:text-white transition-colors">
-                  Volunteer
-                </Link>
-              </li>
-              <li>
-                <Link href="/donate" className="text-gray-400 hover:text-white transition-colors">
-                  Donate
-                </Link>
-              </li>
+            <ul className="flex flex-col space-y-3">
+              {NAV_LINKS.map(renderNavLink)}
             </ul>
           </div>
 
@@ -101,7 +91,9 @@ const Footer: FC = () => {
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-          <p>&copy; {currentYear} Hands of Help. All rights reserved.</p>
+          <p className="text-gray-400">
+            &copy; {currentYear} Hands of Help Initiative. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
