@@ -60,3 +60,5 @@ temp/
 next-env.d.ts 
 # Local Netlify folder
 .netlify
+# Debugging scripts
+check-json.js
