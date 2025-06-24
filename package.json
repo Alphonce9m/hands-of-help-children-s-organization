@@ -15,7 +15,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:update": "jest --updateSnapshot",
-    "postinstall": "if not defined CI (prisma generate) else (echo Skipping Prisma generation in CI)",
+    "postinstall": "prisma generate",
     "setup:env": "node scripts/setup-env.js",
     "test:mpesa": "node scripts/test-mpesa.js",
     "test:db": "node scripts/test-db.js",

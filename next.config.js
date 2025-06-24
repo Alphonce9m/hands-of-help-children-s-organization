@@ -1,21 +1,26 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-<<<<<<< HEAD
-  // Enable production source maps for better error tracking
+  swcMinify: true,
+  output: 'standalone',
   productionBrowserSourceMaps: true,
-  // Configure image optimization
+  
+  // Image optimization
   images: {
-    domains: ['localhost', 'placehold.co'],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
+    domains: [
+      'localhost',
+      'placehold.co',
+      'images.unsplash.com',
+      'res.cloudinary.com',
+      'lh3.googleusercontent.com',
+      'avatars.githubusercontent.com'
     ],
-    // Disable image optimization in development
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    dangerouslyAllowSVG: true,
     unoptimized: process.env.NODE_ENV !== 'production',
   },
+
   // Webpack configuration
   webpack: (config, { isServer, dev }) => {
     // Exclude scripts directory from build
@@ -36,44 +41,14 @@ const nextConfig = {
 
     return config;
   },
-  // Add build optimizations
+
+  // Compiler optimizations
   compiler: {
-    // Enable React refresh in development
-    reactRemoveProperties: process.env.NODE_ENV === 'production',
-    // Remove console.log in production
     removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
+    reactRemoveProperties: process.env.NODE_ENV === 'production',
   },
-  // Enable experimental features if needed
-  experimental: {
-    // Enable server components
-    serverComponents: true,
-    // Enable concurrent features
-    workerThreads: true,
-    // Enable modern JS features
-    modern: true,
-  },
-  // Configure build output
-  output: 'standalone',
-=======
-  swcMinify: true,
-  compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
-  },
-  images: {
-    // Optimized image handling for Vercel
-    domains: [
-      'images.unsplash.com',
-      'res.cloudinary.com',
-      'lh3.googleusercontent.com',
-      'avatars.githubusercontent.com',
-      'localhost'
-    ],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-  },
-  // Experimental features configuration
+
+  // Experimental features
   experimental: {
     optimizePackageImports: ['@heroicons/react'],
     esmExternals: 'loose',
@@ -83,17 +58,18 @@ const nextConfig = {
         'node_modules/@swc/core-linux-x64-musl',
         'node_modules/@esbuild/linux-x64'
       ]
-    }
+    },
+    serverComponents: true,
+    workerThreads: true,
   },
-  // Enable TypeScript type checking in development
+
+  // TypeScript and ESLint
   typescript: {
     ignoreBuildErrors: false,
   },
-  // Enable ESLint in development
   eslint: {
     ignoreDuringBuilds: true,
   },
->>>>>>> main
 }
 
 module.exports = nextConfig
