@@ -59,7 +59,6 @@ const nextConfig = {
         'node_modules/@esbuild/linux-x64'
       ]
     },
-    serverComponents: true,
     workerThreads: true,
   },
 
