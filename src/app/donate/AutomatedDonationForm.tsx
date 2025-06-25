@@ -1,40 +1,24 @@
 "use client";
-import Image from 'next/image';
-
-import React from "react";
-import Image from "next/image";
 
 export default function AutomatedDonationForm() {
   const mchangaUrl = "https://www.mchanga.africa/fundraiser/116090";
 
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const target = e.target as HTMLImageElement;
+    target.style.display = 'none';
+  };
+
   return (
     <div className="max-w-lg mx-auto mb-12 p-8 bg-white rounded-xl shadow-2xl border border-primary-100 text-center">
-<<<<<<< HEAD
-      <div className="relative h-12 w-48 mx-auto mb-4">
-        <Image
+      <div className="h-12 flex items-center justify-center mb-4">
+        <img
           src="/mchanga-logo.png"
           alt="Mchanga Logo"
-          fill
-          className="object-contain"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.style.display = 'none';
-          }}
-          priority
+          className="h-full w-auto object-contain"
+          onError={handleImageError}
         />
       </div>
       <h2 className="text-2xl font-bold mb-3 text-primary">Donate via Mchanga</h2>
-=======
-      <Image
-        src="/mchanga-logo.png"
-        alt="Mchanga Logo"
-        className="h-12 w-auto mx-auto mb-4"
-        width={48}
-        height={48}
-        onError={(e: any) => (e.currentTarget.style.display = 'none')}
-      />
-      <h2 className="text-2xl font-bold mb-3 text-primary">Donate </h2>
->>>>>>> main
       <p className="mb-6 text-gray-700">
         Support our cause by making a secure donation through Mchanga.
       </p>

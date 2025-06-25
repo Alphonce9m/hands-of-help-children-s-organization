@@ -1,34 +1,20 @@
 'use client';
 
-<<<<<<< HEAD
-import { FC } from 'react';
-=======
-import React from 'react';
-import Layout from '@/components/Layout';
->>>>>>> main
-import Container from '@/components/Container';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
 import AutomatedDonationForm from './AutomatedDonationForm';
 
-interface ImpactArea {
+// Impact area type definition
+// Type for impact areas
+type ImpactArea = {
   title: string;
   description: string;
   amount: string;
   impact: string;
   popular: boolean;
-  icon?: React.ReactNode;
-}
+  link?: string;
+  linkText?: string;
+};
 
-interface DonatePageProps {
-  children?: React.ReactNode;
-}
-
-interface DonatePageProps {
-  children?: React.ReactNode;
-}
-
-const DonatePage: React.FunctionComponent = () => {
+const DonatePage = () => {
   const impactAreas = [
     {
       title: 'Education Support',
@@ -112,12 +98,16 @@ const DonatePage: React.FunctionComponent = () => {
                         <div>
                           <h4 className="font-medium text-gray-900 text-base sm:text-inherit">{item.title}</h4>
                           <p className="text-gray-600 text-xs sm:text-sm mt-1">{item.description}</p>
-                          <Link 
-                            href={item.link}
-                            className="inline-block text-primary hover:text-primary-dark font-medium text-xs sm:text-sm mt-1"
-                          >
-                            {item.linkText} →
-                          </Link>
+                          {item.linkText && (
+                            <div className="inline-block">
+                              <a 
+                                href={item.link || '#'}
+                                className="text-primary hover:text-primary-dark font-medium text-xs sm:text-sm mt-1"
+                              >
+                                {item.linkText} →
+                              </a>
+                            </div>
+                          )}
                         </div>
                       </div>
                     ))}
@@ -139,7 +129,7 @@ const DonatePage: React.FunctionComponent = () => {
                       className={`p-4 sm:p-6 rounded-xl backdrop-blur-sm ${item.popular ? 'bg-white/20 border-2 border-accent' : 'bg-white/10'}`}
                     >
                       <div className="flex items-start gap-3 sm:gap-4">
-                        <div className="text-2xl sm:text-3xl flex-shrink-0">{item.icon}</div>
+                        {/* Removed icon rendering */}
                         <div className="min-w-0">
                           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-2">
                             <h3 className="text-lg sm:text-xl font-semibold">{item.title}</h3>
@@ -165,12 +155,14 @@ const DonatePage: React.FunctionComponent = () => {
                   <p className="mb-3 sm:mb-4 text-sm sm:text-base text-white/80">
                     Have questions about donating? Our team is here to help.
                   </p>
-                  <Link 
-                    href="/contact" 
-                    className="inline-block w-full sm:w-auto text-center bg-white text-primary px-4 sm:px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors text-sm sm:text-base"
-                  >
-                    Contact Us
-                  </Link>
+                  <div className="w-full sm:w-auto">
+                    <a 
+                      href="/contact" 
+                      className="inline-block w-full text-center bg-white text-primary px-4 sm:px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors text-sm sm:text-base"
+                    >
+                      Contact Us
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
