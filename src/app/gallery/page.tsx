@@ -42,9 +42,16 @@ export default function GalleryPage() {
   ];
 
   return (
-    
+    <div className="min-h-screen bg-gradient-to-br from-primary/90 via-black/80 to-accent/80">
       <Container>
         <div className="py-16">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold mb-4 text-white">Our Gallery</h1>
+            <p className="text-xl text-white/90">
+              Capturing moments of impact and community growth
+            </p>
+          </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {images.map((image, index) => (
               <div key={index} className="card overflow-hidden">
@@ -56,13 +63,15 @@ export default function GalleryPage() {
                     className="object-cover hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute bottom-4 left-4 right-4 text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
+                    <p className="text-sm font-medium">{image.alt}</p>
+                  </div>
                 </div>
-
               </div>
             ))}
           </div>
         </div>
       </Container>
-    
+    </div>
   );
-} 
+}

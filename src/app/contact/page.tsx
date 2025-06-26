@@ -8,12 +8,12 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    
+    <div className="min-h-screen bg-gradient-to-br from-primary/90 via-black/80 to-accent/80">
       <div className="py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h1 className="gradient-text text-4xl font-bold mb-4">Contact Us</h1>
-            <p className="text-xl text-text-light">
+            <h1 className="text-4xl font-bold mb-4 text-white">Contact Us</h1>
+            <p className="text-xl text-white/90">
               Have questions? We'd love to hear from you.
             </p>
           </div>
@@ -22,7 +22,7 @@ export default function ContactPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2">
               {/* Left Side - Contact Form */}
               <div className="p-8 border-b lg:border-b-0 lg:border-r border-gray-100 bg-gray-50">
-                <h2 className="gradient-text text-2xl font-semibold mb-6">Send us a Message</h2>
+                <h2 className="text-2xl font-semibold mb-6 text-primary">Send us a Message</h2>
                 <ContactForm />
               </div>
 
@@ -101,6 +101,6 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
-    
+    </div>
   );
-} 
+}

@@ -33,9 +33,9 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    icon: '/icons/icon-192x192.png',
-    shortcut: '/icons/icon-192x192.png',
-    apple: '/icons/icon-192x192.png',
+    icon: '/logo.svg',
+    shortcut: '/logo.svg',
+    apple: '/logo.svg',
   },
   manifest: '/manifest.json',
   themeColor: '#000000',
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     siteName: 'Hands of Help',
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/images/WhatsApp Image 2025-05-28 at 00.00.04_4d4186bf.jpg',
         width: 1200,
         height: 630,
         alt: 'Hands of Help - Making a Difference'
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     title: 'Hands of Help - Making a Difference in Communities',
     description: 'Join us in our mission to transform lives and empower communities through education, healthcare, and sustainable development initiatives.',
     creator: '@handsofhelp',
-    images: ['/og-image.jpg'],
+    images: ['/images/WhatsApp Image 2025-05-28 at 00.00.04_4d4186bf.jpg'],
   },
   viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
   appleWebApp: {
@@ -92,23 +92,22 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/logo.svg" sizes="any" />
         <link
           rel="icon"
-          href="/icon?<generated>"
-          type="image/<generated>"
-          sizes="<generated>"
+          href="/logo.svg"
+          type="image/svg+xml"
+          sizes="any"
         />
         <link
           rel="apple-touch-icon"
-          href="/apple-icon?<generated>"
-          type="image/<generated>"
-          sizes="<generated>"
+          href="/logo.svg"
+          type="image/svg+xml"
+          sizes="any"
         />
         <meta name="theme-color" content="#000000" />
         <meta name="color-scheme" content="light dark" />
         <meta name="msapplication-TileColor" content="#000000" />
-        <meta name="msapplication-config" content="/browserconfig.xml" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

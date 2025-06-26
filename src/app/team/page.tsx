@@ -60,14 +60,21 @@ const managementTeam: TeamMember[] = [
 
 export default function TeamPage() {
   return (
-    
+    <div className="min-h-screen bg-gradient-to-br from-primary/90 via-black/80 to-accent/80">
       <div className="py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold mb-4 text-white">Our Team</h1>
+            <p className="text-xl text-white/90">
+              Meet the dedicated individuals driving our mission forward
+            </p>
+          </div>
+          
           <div className="bg-white rounded-2xl shadow-md overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-2">
               {/* Left Column - Leadership Team */}
               <div className="p-8 lg:border-r border-gray-100 bg-white">
-                <h2 className="gradient-text text-3xl font-bold mb-6">Leadership Team</h2>
+                <h2 className="text-3xl font-bold mb-6 text-primary">Leadership Team</h2>
                 <p className="text-lg text-gray-700 mb-8">
                   Our executive leadership brings together decades of experience in community development,
                   non-profit management, and social impact initiatives to guide our organization's vision and strategy.
@@ -85,7 +92,7 @@ export default function TeamPage() {
                         />
                       </div>
                       <div>
-                        <h3 className="gradient-text text-xl font-semibold">{member.name}</h3>
+                        <h3 className="text-xl font-semibold text-primary">{member.name}</h3>
                         <p className="text-primary font-medium mb-2">{member.position}</p>
                         <p className="text-gray-600 text-sm">{member.bio}</p>
                       </div>
@@ -139,7 +146,6 @@ export default function TeamPage() {
           </div>
         </div>
       </div>
-    
+    </div>
   );
 }
- 
